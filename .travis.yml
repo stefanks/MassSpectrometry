@@ -1,0 +1,8 @@
+language: csharp
+solution: MassSpectrometry.sln
+install:
+  - nuget restore MassSpectrometry.sln
+  - nuget install NUnit.Console -OutputDirectory testrunner
+script:
+  - xbuild MassSpectrometry.sln 
+  - mono ./testrunner/NUnit.ConsoleRunner.*/tools/nunit3-console.exe ./Test/bin/Debug/Test.dll
