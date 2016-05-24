@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("MassSpectrometry")]
-[assembly: AssemblyDescription("Library for Mass Spectrometry objects")]
+[assembly: AssemblyTitle("Spectra")]
+[assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Stefan Solntsev")]
-[assembly: AssemblyProduct("MassSpectrometry")]
-[assembly: AssemblyCopyright("Copyright 2016 Stefan Solntsev")]
+[assembly: AssemblyCompany("Microsoft")]
+[assembly: AssemblyProduct("Spectra")]
+[assembly: AssemblyCopyright("Copyright © Microsoft 2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -20,7 +20,7 @@ using System.Runtime.InteropServices;
 [assembly: ComVisible(false)]
 
 // The following GUID is for the ID of the typelib if this project is exposed to COM
-[assembly: Guid("9bf1f2fd-c17a-4151-861a-939fe342ec38")]
+[assembly: Guid("088e4fcb-d580-4bad-a811-a1796a7666d2")]
 
 // Version information for an assembly consists of the following four values:
 //
