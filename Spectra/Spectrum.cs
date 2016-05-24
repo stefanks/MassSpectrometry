@@ -1,19 +1,20 @@
 ﻿// Copyright 2012, 2013, 2014 Derek J. Bailey
+// Modified work copyright 2016 Stefan Solntsev
+//
+// This file (Spectrum.cs) is part of MassSpectrometry.
 // 
-// This file (Spectrum.cs) is part of CSMSL.
-// 
-// CSMSL is free software: you can redistribute it and/or modify it
+// MassSpectrometry is free software: you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
 // by the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 // 
-// CSMSL is distributed in the hope that it will be useful, but WITHOUT
+// MassSpectrometry is distributed in the hope that it will be useful, but WITHOUT
 // ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
 // FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
 // License for more details.
 // 
 // You should have received a copy of the GNU Lesser General Public
-// License along with CSMSL. If not, see <http://www.gnu.org/licenses/>.
+// License along with MassSpectrometry. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
 using System.Collections;
@@ -91,7 +92,7 @@ namespace Spectra
         /// Initializes a new spectrum from another spectrum
         /// </summary>
         /// <param name="spectrum">The spectrum to clone</param>
-        protected Spectrum(ISpectrum spectrum)
+        protected Spectrum(ISpectrum<TPeak> spectrum)
             : this(spectrum.GetMasses(), spectrum.GetIntensities())
         {
         }
@@ -353,50 +354,50 @@ namespace Spectra
 
         #region ISpectrum
 
-        MzPeak ISpectrum.GetClosestPeak(IRange<double> massRange)
-        {
-            return GetClosestPeak(massRange);
-        }
+        //MzPeak ISpectrum.GetClosestPeak(IRange<double> massRange)
+        //{
+        //    return GetClosestPeak(massRange);
+        //}
 
-        MzPeak ISpectrum.GetClosestPeak(double mean)
-        {
-            return GetClosestPeak(mean);
-        }
+        //MzPeak ISpectrum.GetClosestPeak(double mean)
+        //{
+        //    return GetClosestPeak(mean);
+        //}
 
-        ISpectrum ISpectrum.Extract(double minMZ, double maxMZ)
-        {
-            return Extract(minMZ, maxMZ);
-        }
+        //ISpectrum ISpectrum.Extract(double minMZ, double maxMZ)
+        //{
+        //    return Extract(minMZ, maxMZ);
+        //}
 
-        ISpectrum ISpectrum.Extract(IRange<double> mzRange)
-        {
-            return Extract(mzRange.Minimum, mzRange.Maximum);
-        }
+        //ISpectrum ISpectrum.Extract(IRange<double> mzRange)
+        //{
+        //    return Extract(mzRange.Minimum, mzRange.Maximum);
+        //}
 
-        ISpectrum ISpectrum.FilterByMZ(IEnumerable<IRange<double>> mzRanges)
-        {
-            return FilterByMZ(mzRanges);
-        }
+        //ISpectrum ISpectrum.FilterByMZ(IEnumerable<IRange<double>> mzRanges)
+        //{
+        //    return FilterByMZ(mzRanges);
+        //}
 
-        ISpectrum ISpectrum.FilterByMZ(IRange<double> mzRange)
-        {
-            return FilterByMZ(mzRange.Minimum, mzRange.Maximum);
-        }
+        //ISpectrum ISpectrum.FilterByMZ(IRange<double> mzRange)
+        //{
+        //    return FilterByMZ(mzRange.Minimum, mzRange.Maximum);
+        //}
 
-        ISpectrum ISpectrum.FilterByMZ(double minMZ, double maxMZ)
-        {
-            return FilterByMZ(minMZ, maxMZ);
-        }
+        //ISpectrum ISpectrum.FilterByMZ(double minMZ, double maxMZ)
+        //{
+        //    return FilterByMZ(minMZ, maxMZ);
+        //}
 
-        ISpectrum ISpectrum.FilterByIntensity(double minIntensity, double maxIntensity)
-        {
-            return FilterByIntensity(minIntensity, maxIntensity);
-        }
+        //ISpectrum ISpectrum.FilterByIntensity(double minIntensity, double maxIntensity)
+        //{
+        //    return FilterByIntensity(minIntensity, maxIntensity);
+        //}
 
-        ISpectrum ISpectrum.FilterByIntensity(IRange<double> intenistyRange)
-        {
-            return FilterByIntensity(intenistyRange.Minimum, intenistyRange.Maximum);
-        }
+        //ISpectrum ISpectrum.FilterByIntensity(IRange<double> intenistyRange)
+        //{
+        //    return FilterByIntensity(intenistyRange.Minimum, intenistyRange.Maximum);
+        //}
 
         #endregion
 
@@ -568,30 +569,35 @@ namespace Spectra
             return FilterByIntensity(intenistyRange);
         }
 
-        MzPeak ISpectrum.GetPeak(int index)
-        {
-            return GetPeak(index);
-        }
+        //MzPeak ISpectrum.GetPeak(int index)
+        //{
+        //    return GetPeak(index);
+        //}
 
-        IEnumerator<MzPeak> IEnumerable<MzPeak>.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        //IEnumerator<MzPeak> IEnumerable<MzPeak>.GetEnumerator()
+        //{
+        //    return GetEnumerator();
+        //}
 
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
+        //IEnumerator IEnumerable.GetEnumerator()
+        //{
+        //    return GetEnumerator();
+        //}
 
         ISpectrum<TPeak> ISpectrum<TPeak>.CorrectMasses(Func<double, double> convertor)
         {
             return CorrectMasses(convertor);
         }
 
-        ISpectrum ISpectrum.CorrectMasses(Func<double, double> convertor)
+        IEnumerator IEnumerable.GetEnumerator()
         {
-            return CorrectMasses(convertor);
+            throw new NotImplementedException();
         }
+
+        //ISpectrum ISpectrum.CorrectMasses(Func<double, double> convertor)
+        //{
+        //    return CorrectMasses(convertor);
+        //}
 
 
     }

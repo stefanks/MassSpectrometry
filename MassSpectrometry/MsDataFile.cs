@@ -1,20 +1,20 @@
 ﻿// Copyright 2012, 2013, 2014 Derek J. Bailey
 // Modified work Copyright 2016 Stefan Solntsev
 // 
-// This file (MsDataFile.cs) is part of CSMSL.
+// This file (MsDataFile.cs) is part of MassSpectrometry.
 // 
-// CSMSL is free software: you can redistribute it and/or modify it
+// MassSpectrometry is free software: you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
 // by the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 // 
-// CSMSL is distributed in the hope that it will be useful, but WITHOUT
+// MassSpectrometry is distributed in the hope that it will be useful, but WITHOUT
 // ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
 // FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
 // License for more details.
 // 
 // You should have received a copy of the GNU Lesser General Public
-// License along with CSMSL. If not, see <http://www.gnu.org/licenses/>.
+// License along with MassSpectrometry. If not, see <http://www.gnu.org/licenses/>.
 
 using MassSpectrometry.Enums;
 using Spectra;
@@ -29,7 +29,7 @@ namespace MassSpectrometry
     /// A data file for storing data collected from a Mass Spectrometer
     /// </summary>
     public abstract class MsDataFile<TSpectrum> : IMsDataFile<TSpectrum>
-        where TSpectrum : ISpectrum
+        where TSpectrum : ISpectrum<IPeak>
     {
         /// <summary>
         /// Defines if MS scans should be cached for quicker retrieval. Cached scans are held in an internal
@@ -338,7 +338,7 @@ namespace MassSpectrometry
             return GetEnumerator();
         }
 
-        ISpectrum IMsDataFile.GetSpectrum(int spectrumNumber)
+        ISpectrum<IPeak> IMsDataFile.GetSpectrum(int spectrumNumber)
         {
             return GetSpectrum(spectrumNumber);
         }

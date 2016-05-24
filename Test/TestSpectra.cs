@@ -1,22 +1,25 @@
 ﻿// Copyright 2012, 2013, 2014 Derek J. Bailey
 //
-// This file (SpectrumTestFixture.cs) is part of CSMSL.Tests.
+// This file (SpectrumTestFixture.cs) is part of MassSpectrometry.Tests.
 //
-// CSMSL.Tests is free software: you can redistribute it and/or modify it
+// MassSpectrometry.Tests is free software: you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
 // by the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// CSMSL.Tests is distributed in the hope that it will be useful, but WITHOUT
+// MassSpectrometry.Tests is distributed in the hope that it will be useful, but WITHOUT
 // ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
 // FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
 // License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public
-// License along with CSMSL.Tests. If not, see <http://www.gnu.org/licenses/>.
+// License along with MassSpectrometry.Tests. If not, see <http://www.gnu.org/licenses/>.
 
 using NUnit.Framework;
 using Spectra;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Test
 {
@@ -209,6 +212,17 @@ namespace Test
             var filteredMzSpectrum = _mzSpectrumA.FilterByIntensity(28604417, 28604419);
 
             Assert.AreEqual(1, filteredMzSpectrum.Count);
+        }
+
+        [Test]
+        public void SpectrumSelect()
+        {
+            Spectrum<MzPeak> v = _mzSpectrumA;
+            ISpectrum<IPeak> v2 = v;
+            IEnumerable<IPeak> v3 = v2;
+            v3.Take(4);
+            var v4 = v3.Select(b => b.X);
+            Assert.AreEqual(328.73795, v4.First());
         }
     }
 }

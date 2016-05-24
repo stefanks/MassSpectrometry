@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Spectra")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
+[assembly: AssemblyCompany("Stefan Solntsev")]
 [assembly: AssemblyProduct("Spectra")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2016")]
+[assembly: AssemblyCopyright("Copyright 2016 Stefan Solntsev")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
