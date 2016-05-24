@@ -1,30 +1,32 @@
 ﻿// Copyright 2012, 2013, 2014 Derek J. Bailey
+// Modified work copyright 2016 Stefan Solntsev
 //
-// This file (ISpectrum.cs) is part of CSMSL.
+// This file (ISpectrum.cs) is part of MassSpectrometry.
 //
-// CSMSL is free software: you can redistribute it and/or modify it
+// MassSpectrometry is free software: you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
 // by the Free Software Foundation, either version 3 of the License, or
 // (at your option) any later version.
 //
-// CSMSL is distributed in the hope that it will be useful, but WITHOUT
+// MassSpectrometry is distributed in the hope that it will be useful, but WITHOUT
 // ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
 // FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
 // License for more details.
 //
 // You should have received a copy of the GNU Lesser General Public
-// License along with CSMSL. If not, see <http://www.gnu.org/licenses/>.
+// License along with MassSpectrometry. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
 using System.Collections.Generic;
 
 namespace Spectra
 {
-    public interface ISpectrum : IEnumerable<MzPeak>
-    {
-        /// <summary>
-        /// The number of peaks in the spectrum
-        /// </summary>
+
+    public interface ISpectrum<out TPeak> : IEnumerable<TPeak>
+        where TPeak : IPeak
+    {        /// <summary>
+             /// The number of peaks in the spectrum
+             /// </summary>
         int Count { get; }
 
         /// <summary>
@@ -89,59 +91,32 @@ namespace Spectra
         bool ContainsPeak(double minMZ, double maxMZ);
 
         bool ContainsPeak(IRange<double> range);
-        
+
         bool ContainsPeak();
 
         double[,] ToArray();
 
-        MzPeak GetPeak(int index);
+        TPeak GetPeak(int index);
 
-        MzPeak GetClosestPeak(double mean);
+        TPeak GetClosestPeak(double mean);
 
-        MzPeak GetClosestPeak(IRange<double> rangeMZ);
+        TPeak GetClosestPeak(IRange<double> rangeMZ);
 
-        ISpectrum Extract(IRange<double> mzRange);
+        ISpectrum<TPeak> Extract(IRange<double> mzRange);
 
-        ISpectrum Extract(double minMZ, double maxMZ);
+        ISpectrum<TPeak> Extract(double minMZ, double maxMZ);
 
-        ISpectrum FilterByMZ(IEnumerable<IRange<double>> mzRanges);
+        ISpectrum<TPeak> FilterByMZ(IEnumerable<IRange<double>> mzRanges);
 
-        ISpectrum FilterByMZ(IRange<double> mzRange);
+        ISpectrum<TPeak> FilterByMZ(IRange<double> mzRange);
 
-        ISpectrum FilterByMZ(double minMZ, double maxMZ);
+        ISpectrum<TPeak> FilterByMZ(double minMZ, double maxMZ);
 
-        ISpectrum FilterByIntensity(double minIntensity, double maxIntensity);
+        ISpectrum<TPeak> FilterByIntensity(double minIntensity, double maxIntensity);
 
-        ISpectrum FilterByIntensity(IRange<double> intenistyRange);
+        ISpectrum<TPeak> FilterByIntensity(IRange<double> intenistyRange);
 
-        ISpectrum CorrectMasses(Func<double, double> convertor);
-        
-        }
-
-    public interface ISpectrum<out TPeak> : ISpectrum
-        where TPeak : IPeak
-    {
-        new TPeak GetPeak(int index);
-
-        new TPeak GetClosestPeak(double mean);
-
-        new TPeak GetClosestPeak(IRange<double> rangeMZ);
-
-        new ISpectrum<TPeak> Extract(IRange<double> mzRange);
-
-        new ISpectrum<TPeak> Extract(double minMZ, double maxMZ);
-
-        new ISpectrum<TPeak> FilterByMZ(IEnumerable<IRange<double>> mzRanges);
-
-        new ISpectrum<TPeak> FilterByMZ(IRange<double> mzRange);
-
-        new ISpectrum<TPeak> FilterByMZ(double minMZ, double maxMZ);
-
-        new ISpectrum<TPeak> FilterByIntensity(double minIntensity, double maxIntensity);
-
-        new ISpectrum<TPeak> FilterByIntensity(IRange<double> intenistyRange);
-
-        new ISpectrum<TPeak> CorrectMasses(Func<double, double> convertor);
+        ISpectrum<TPeak> CorrectMasses(Func<double, double> convertor);
 
         TPeak this[int index] { get; }
 
