@@ -23,8 +23,12 @@ namespace Spectra
     /// <summary>
     /// A peak in a mass spectrum that has a well defined m/z and intenisty value
     /// </summary>
+
     public class MzPeak : Peak
     {
+
+        #region properties
+
         public double Intensity {
             get
             {
@@ -48,17 +52,22 @@ namespace Spectra
             }
         }
 
-        public MzPeak(double mz = 0.0, double intensity = 0.0)
+        #endregion
+
+        #region constructors
+
+        public MzPeak(double mz, double intensity)
         {
             MZ = mz;
             Intensity = intensity;
         }
 
+        #endregion
+
         public override string ToString()
         {
             return string.Format("({0:F4},{1:G5})", MZ, Intensity);
         }
-        
         
         public override bool Equals(object obj)
         {
@@ -72,7 +81,6 @@ namespace Spectra
 
         public bool Equals(MzPeak other)
         {
-            // Odd to use mass equals on intensity, might have to make that more generic sometime
             return MZ.FuzzyEquals(other.MZ) && Intensity.FuzzyEquals(other.Intensity);
         }
     }
