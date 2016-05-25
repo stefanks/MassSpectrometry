@@ -23,7 +23,7 @@ namespace Spectra
     /// <summary>
     /// Represents a peak in a 2-dimensional spectra
     /// </summary>
-    public interface IPeak : IComparable<double>, IComparable<IPeak>, IComparable
+    public interface IPeak
     {
         /// <summary>
         /// The X value of this peak

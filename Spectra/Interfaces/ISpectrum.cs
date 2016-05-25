@@ -82,7 +82,6 @@ namespace Spectra
         /// <returns></returns>
         double GetTotalIonCurrent();
         
-
         byte[] ToBytes(bool zlibCompressed);
 
         bool ContainsPeak(double minMZ, double maxMZ);

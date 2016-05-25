@@ -23,14 +23,6 @@ namespace Spectra
     public class DoubleRange : Range<double>
     {
         /// <summary>
-        /// Creates a range from 0 to 0
-        /// </summary>
-        public DoubleRange()
-            : base(0, 0)
-        {
-        }
-
-        /// <summary>
         /// Creates a range from the minimum to maximum values
         /// </summary>
         /// <param name="minimum">The minimum value of the range</param>
