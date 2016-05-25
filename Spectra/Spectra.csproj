@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Peak\Peak.cs" />
+    <Compile Include="Spectrum\IHasMassSpectrum.cs" />
     <Compile Include="Util\ClassExtensions.cs" />
     <Compile Include="Range\DoubleRange.cs" />
     <Compile Include="Range\IRange.cs" />
