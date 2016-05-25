@@ -22,7 +22,7 @@ using MassSpectrometry.Enums;
 
 namespace MassSpectrometry
 {
-    public interface IMsDataFile : IEnumerable<IMsDataScan>, IDisposable, IEquatable<IMsDataFile>
+    public interface IMsDataFile : IEnumerable<IMsDataScan<ISpectrum<IPeak>>>, IDisposable, IEquatable<IMsDataFile>
     {
         void Open();
         string Name { get; }
@@ -36,10 +36,10 @@ namespace MassSpectrometry
         DissociationType GetDissociationType(int spectrumNumber, int msnOrder = 2);
         Polarity GetPolarity(int spectrumNumber);
         ISpectrum<IPeak> GetSpectrum(int spectrumNumber);
-        IMsDataScan this[int spectrumNumber] { get; }
+        IMsDataScan<ISpectrum<IPeak>> this[int spectrumNumber] { get; }
     }
 
-    public interface IMsDataFile<out TSpectrum> : IMsDataFile, IEnumerable<IMsDataScan<TSpectrum>>
+    public interface IMsDataFile<out TSpectrum> : IMsDataFile
         where TSpectrum : ISpectrum<IPeak>
     {
         new TSpectrum GetSpectrum(int spectrumNumber);
