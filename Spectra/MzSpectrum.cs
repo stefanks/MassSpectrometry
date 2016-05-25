@@ -421,7 +421,7 @@ namespace Spectra
 
         #endregion private Methods
 
-        public  string ToString()
+        public override string ToString()
         {
             return string.Format("{0} (Peaks {1})", GetMzRange(), Count);
         }
