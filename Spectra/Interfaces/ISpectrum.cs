@@ -21,12 +21,12 @@ using System.Collections.Generic;
 
 namespace Spectra
 {
-
     public interface ISpectrum<out TPeak> : IEnumerable<TPeak>
         where TPeak : IPeak
-    {        /// <summary>
-             /// The number of peaks in the spectrum
-             /// </summary>
+    {        
+        /// <summary>
+        /// The number of peaks in the spectrum
+        /// </summary>
         int Count { get; }
 
         /// <summary>
@@ -81,18 +81,15 @@ namespace Spectra
         /// </summary>
         /// <returns></returns>
         double GetTotalIonCurrent();
-
-        bool TryGetIntensities(double minMZ, double maxMZ, out double intensity);
-
-        bool TryGetIntensities(IRange<double> rangeMZ, out double intensity);
+        
 
         byte[] ToBytes(bool zlibCompressed);
 
         bool ContainsPeak(double minMZ, double maxMZ);
 
-        bool ContainsPeak(IRange<double> range);
+        bool ContainsAnyPeaksWithinRange(IRange<double> range);
 
-        bool ContainsPeak();
+        bool ContainsAnyPeaks();
 
         double[,] ToArray();
 
@@ -121,5 +118,4 @@ namespace Spectra
         TPeak this[int index] { get; }
 
     }
-
 }

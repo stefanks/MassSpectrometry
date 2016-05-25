@@ -56,7 +56,6 @@
     <Compile Include="MzSpectrum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Range.cs" />
-    <Compile Include="Spectrum.cs" />
     <Compile Include="Util\Tolerance.cs" />
     <Compile Include="Util\ToleranceType.cs" />
     <Compile Include="Util\ToleranceUnit.cs" />
