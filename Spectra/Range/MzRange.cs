@@ -20,10 +20,6 @@ namespace Spectra
 {
     public class MzRange : DoubleRange
     {
-        public MzRange()
-        {
-        }
-
         public MzRange(double minMZ, double maxMZ)
             : base(minMZ, maxMZ)
         {
