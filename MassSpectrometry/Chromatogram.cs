@@ -82,7 +82,7 @@ namespace MassSpectrometry
         }
     }
 
-    public abstract class Chromatogram<T> : IEnumerable<T> where T : IPeak
+    public abstract class Chromatogram<T> : IEnumerable<T> where T : Peak
     {
         protected readonly double[] _times;
         protected readonly double[] _intensities;

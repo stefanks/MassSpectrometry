@@ -46,14 +46,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Peak\Peak.cs" />
     <Compile Include="Util\ClassExtensions.cs" />
     <Compile Include="Range\DoubleRange.cs" />
-    <Compile Include="Peak\IPeak.cs" />
     <Compile Include="Range\IRange.cs" />
-    <Compile Include="Interfaces\ISpectrum.cs" />
+    <Compile Include="Spectrum\ISpectrum.cs" />
     <Compile Include="Peak\MzPeak.cs" />
     <Compile Include="Range\MzRange.cs" />
-    <Compile Include="MzSpectrum.cs" />
+    <Compile Include="Spectrum\MzSpectrum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Range\Range.cs" />
     <Compile Include="Util\Tolerance.cs" />

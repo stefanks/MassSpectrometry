@@ -23,11 +23,30 @@ namespace Spectra
     /// <summary>
     /// A peak in a mass spectrum that has a well defined m/z and intenisty value
     /// </summary>
-    public class MzPeak : IPeak, IEquatable<MzPeak>
+    public class MzPeak : Peak
     {
-        public double Intensity { get; private set; }
+        public double Intensity {
+            get
+            {
+                return Y;
+            }
+            private set
+            {
+                Y = value;
+            }
+        }
 
-        public double MZ { get; private set; }
+        public double MZ
+        {
+            get
+            {
+                return X;
+            }
+            private set
+            {
+                X = value;
+            }
+        }
 
         public MzPeak(double mz = 0.0, double intensity = 0.0)
         {
@@ -35,59 +54,12 @@ namespace Spectra
             Intensity = intensity;
         }
 
-        public bool Equals(IPeak other)
-        {
-            if (ReferenceEquals(this, other)) return true;
-            return MZ.FuzzyEquals(other.X) && Intensity.FuzzyEquals(other.Y);
-        }
-
         public override string ToString()
         {
             return string.Format("({0:F4},{1:G5})", MZ, Intensity);
         }
-
-        public int CompareTo(double other)
-        {
-            return MZ.CompareTo(other);
-        }
-
-        public int CompareTo(IPeak other)
-        {
-            if (other == null)
-                return 1;
-            return MZ.CompareTo(other.X);
-        }
-
-        public int CompareTo(object other)
-        {
-            if (other is double)
-                return MZ.CompareTo((double) other);
-            var peak = other as IPeak;
-            if (peak != null)
-                return CompareTo(peak);
-            throw new InvalidOperationException("Unable to compare types");
-        }
-
-        protected double X
-        {
-            get { return MZ; }
-        }
-
-        protected double Y
-        {
-            get { return Intensity; }
-        }
-
-        double IPeak.X
-        {
-            get { return X; }
-        }
-
-        double IPeak.Y
-        {
-            get { return Y; }
-        }
-
+        
+        
         public override bool Equals(object obj)
         {
             return obj is MzPeak && Equals((MzPeak) obj);
