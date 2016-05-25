@@ -26,7 +26,7 @@ namespace Test
     [TestFixture, Category("Spectral")]
     public sealed class SpectrumTestFixture
     {
-        private MZSpectrum _mzSpectrumA;
+        private MZSpectrum<MzPeak> _mzSpectrumA;
 
         [SetUp]
         public void Setup()
@@ -34,7 +34,7 @@ namespace Test
             double[] mz = { 328.73795, 329.23935, 447.73849, 448.23987, 482.23792, 482.57089, 482.90393, 500.95358, 501.28732, 501.62131, 611.99377, 612.32806, 612.66187, 722.85217, 723.35345 };
             double[] intensities = { 81007096.0, 28604418.0, 78353512.0, 39291696.0, 122781408.0, 94147520.0, 44238040.0, 71198680.0, 54184096.0, 21975364.0, 44514172.0, 43061628.0, 23599424.0, 56022696.0, 41019144.0 };
 
-            _mzSpectrumA = new MZSpectrum(mz, intensities);
+            _mzSpectrumA = new MZSpectrum<MzPeak>(mz, intensities);
         }
         
 
