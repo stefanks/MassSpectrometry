@@ -28,8 +28,7 @@ namespace MassSpectrometry
     /// <summary>
     /// A data file for storing data collected from a Mass Spectrometer
     /// </summary>
-    public abstract class MsDataFile<TSpectrum> : IMsDataFile<TSpectrum>
-        where TSpectrum : ISpectrum<IPeak>
+    public abstract class MsDataFile : IMsDataFile<ISpectrum<IPeak>>
     {
         /// <summary>
         /// Defines if MS scans should be cached for quicker retrieval. Cached scans are held in an internal
@@ -38,7 +37,7 @@ namespace MassSpectrometry
         /// </summary>
         public static bool CacheScans;
 
-        internal MsDataScan<TSpectrum>[] Scans = null;
+        internal MsDataScan<ISpectrum<IPeak>>[] Scans = null;
 
         private string _filePath;
 
@@ -112,12 +111,22 @@ namespace MassSpectrometry
             get { return _name; }
         }
 
-        IMsDataScan IMsDataFile.this[int spectrumNumber]
+        IMsDataScan<ISpectrum<IPeak>> IMsDataFile<ISpectrum<IPeak>>.this[int spectrumNumber]
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+        
+
+        IMsDataScan<ISpectrum<IPeak>> IMsDataFile.this[int spectrumNumber]
         {
             get { return GetMsScan(spectrumNumber); }
         }
+        
 
-        public IMsDataScan<TSpectrum> this[int spectrumNumber]
+        public MsDataScan<ISpectrum<IPeak>> this[int spectrumNumber]
         {
             get { return GetMsScan(spectrumNumber); }
         }
@@ -153,13 +162,13 @@ namespace MassSpectrometry
             _isDisposed = true;
         }
 
-        public bool Equals(MsDataFile<TSpectrum> other)
+        public bool Equals(MsDataFile other)
         {
             if (ReferenceEquals(this, other)) return true;
             return FilePath.Equals(other.FilePath);
         }
 
-        public IEnumerator<IMsDataScan<TSpectrum>> GetEnumerator()
+        public IEnumerator<IMsDataScan<ISpectrum<IPeak>>> GetEnumerator()
         {
             return GetMsScans().GetEnumerator();
         }
@@ -191,14 +200,14 @@ namespace MassSpectrometry
         /// </summary>
         /// <param name="spectrumNumber">The spectrum number to get the MS Scan at</param>
         /// <returns></returns>
-        public virtual MsDataScan<TSpectrum> GetMsScan(int spectrumNumber)
+        public virtual MsDataScan<ISpectrum<IPeak>> GetMsScan(int spectrumNumber)
         {
             if (!CacheScans)
                 return GetMsDataScan(spectrumNumber);
 
             if (Scans == null)
             {
-                Scans = new MsDataScan<TSpectrum>[LastSpectrumNumber + 1];
+                Scans = new MsDataScan<ISpectrum<IPeak>>[LastSpectrumNumber + 1];
             }
 
             if (Scans[spectrumNumber] == null)
@@ -220,7 +229,7 @@ namespace MassSpectrometry
 
             if (Scans == null)
             {
-                Scans = new MsDataScan<TSpectrum>[LastSpectrumNumber + 1];
+                Scans = new MsDataScan<ISpectrum<IPeak>>[LastSpectrumNumber + 1];
             }
 
             for (int spectrumNumber = FirstSpectrumNumber; spectrumNumber < LastSpectrumNumber; spectrumNumber++)
@@ -241,11 +250,11 @@ namespace MassSpectrometry
             Array.Clear(Scans, 0, Scans.Length);
         }
 
-        protected virtual MsDataScan<TSpectrum> GetMsDataScan(int spectrumNumber)
+        protected virtual MsDataScan<ISpectrum<IPeak>> GetMsDataScan(int spectrumNumber)
         {
             int msn = GetMsnOrder(spectrumNumber);
 
-            MsDataScan<TSpectrum> scan = msn > 1 ? new MsDataScan<TSpectrum>(spectrumNumber, msn, this) : new MsDataScan<TSpectrum>(spectrumNumber, msn, this);
+            MsDataScan<ISpectrum<IPeak>> scan = msn > 1 ? new MsDataScan<ISpectrum<IPeak>>(spectrumNumber, msn, this) : new MsDataScan<ISpectrum<IPeak>>(spectrumNumber, msn, this);
 
             return scan;
         }
@@ -269,25 +278,25 @@ namespace MassSpectrometry
 
         public abstract double GetPrecursorIsolationIntensity(int spectrumNumber);
 
-        public virtual IEnumerable<MsDataScan<TSpectrum>> GetMsScans()
+        public virtual IEnumerable<MsDataScan<ISpectrum<IPeak>>> GetMsScans()
         {
             return GetMsScans(FirstSpectrumNumber, LastSpectrumNumber);
         }
 
-        public virtual IEnumerable<MsDataScan<TSpectrum>> GetMsScans(int firstSpectrumNumber, int lastSpectrumNumber)
+        public virtual IEnumerable<MsDataScan<ISpectrum<IPeak>>> GetMsScans(int FirstSpectrumNumber, int LastSpectrumNumber)
         {
-            for (int spectrumNumber = firstSpectrumNumber; spectrumNumber <= lastSpectrumNumber; spectrumNumber++)
+            for (int spectrumNumber = FirstSpectrumNumber; spectrumNumber <= LastSpectrumNumber; spectrumNumber++)
             {
                 yield return GetMsScan(spectrumNumber);
             }
         }
 
-        public virtual IEnumerable<MsDataScan<TSpectrum>> GetMsScans(double firstRT, double lastRT)
+        public virtual IEnumerable<MsDataScan<ISpectrum<IPeak>>> GetMsScans(double firstRT, double lastRT)
         {
             int spectrumNumber = GetSpectrumNumber(firstRT - 0.0000001);
             while (spectrumNumber <= LastSpectrumNumber)
             {
-                MsDataScan<TSpectrum> scan = GetMsScan(spectrumNumber++);
+                MsDataScan<ISpectrum<IPeak>> scan = GetMsScan(spectrumNumber++);
                 double rt = scan.RetentionTime;
                 if (rt < firstRT)
                     continue;
@@ -297,14 +306,14 @@ namespace MassSpectrometry
             }
         }
 
-        public virtual IEnumerable<MsDataScan<TSpectrum>> GetMsScans(IRange<int> range)
+        public virtual IEnumerable<MsDataScan<ISpectrum<IPeak>>> GetMsScans(IRange<int> range)
         {
             return GetMsScans(range.Minimum, range.Maximum);
         }
 
         public abstract MZAnalyzerType GetMzAnalyzer(int spectrumNumber);
 
-        public abstract TSpectrum GetSpectrum(int spectrumNumber);
+        public abstract ISpectrum<IPeak> GetSpectrum(int spectrumNumber);
 
         public abstract Polarity GetPolarity(int spectrumNumber);
 
@@ -333,11 +342,6 @@ namespace MassSpectrometry
 
         protected abstract int GetLastSpectrumNumber();
 
-        IEnumerator<IMsDataScan> IEnumerable<IMsDataScan>.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-
         ISpectrum<IPeak> IMsDataFile.GetSpectrum(int spectrumNumber)
         {
             return GetSpectrum(spectrumNumber);
@@ -346,6 +350,16 @@ namespace MassSpectrometry
         public bool Equals(IMsDataFile other)
         {
             return Name.Equals(other.Name);
+        }
+
+        IEnumerator<IMsDataScan<ISpectrum<IPeak>>> IEnumerable<IMsDataScan<ISpectrum<IPeak>>>.GetEnumerator()
+        {
+            throw new NotImplementedException();
+        }
+
+        ISpectrum<IPeak> IMsDataFile<ISpectrum<IPeak>>.GetSpectrum(int spectrumNumber)
+        {
+            throw new NotImplementedException();
         }
     }
 }

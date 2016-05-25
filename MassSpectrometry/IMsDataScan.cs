@@ -21,7 +21,9 @@ using Spectra;
 
 namespace MassSpectrometry
 {
-    public interface IMsDataScan : IHasMassSpectrum
+
+    public interface IMsDataScan<out TSpectrum> : IHasMassSpectrum
+        where TSpectrum : ISpectrum<IPeak>
     {
         int SpectrumNumber { get; }
         int MsnOrder { get; }
@@ -32,12 +34,6 @@ namespace MassSpectrometry
         string ScanFilter { get; }
         string id { get; }
         bool isCentroid { get; }
-    }
-
-    public interface IMsDataScan<out TSpectrum> : IMsDataScan
-        where TSpectrum : ISpectrum<IPeak>
-    {
-        new TSpectrum MassSpectrum { get; }
         string PrecursorID { get; }
         int SelectedIonChargeState { get; }
         double SelectedIonIsolationIntensity { get; }
