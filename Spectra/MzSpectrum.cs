@@ -27,7 +27,8 @@ namespace Spectra
     [Serializable]
     // Represents the standard m/z spectrum, with intensity on the y-axis and m/z on the x-axis.
     // Needs Masses Intensities and Count
-    public class MZSpectrum : ISpectrum<MzPeak> 
+    public class MZSpectrum<TPeak> : ISpectrum<TPeak>
+        where TPeak : MzPeak
     {
         /// <summary>
         /// The m/z of this spectrum in ascending order
@@ -68,7 +69,7 @@ namespace Spectra
             get { return GetTotalIonCurrent(); }
         }
 
-        MzPeak ISpectrum<MzPeak>.this[int index]
+        TPeak ISpectrum<TPeak>.this[int index]
         {
             get
             {
@@ -96,7 +97,7 @@ namespace Spectra
         /// Initializes a new spectrum from another spectrum
         /// </summary>
         /// <param name="MZSpectrum">The spectrum to clone</param>
-        public MZSpectrum(MZSpectrum MZSpectrum)
+        public MZSpectrum(MZSpectrum<TPeak> MZSpectrum)
             : this(MZSpectrum.Masses, MZSpectrum.Intensities)
         {
         }
@@ -149,9 +150,9 @@ namespace Spectra
 
         #endregion
         
-        public MzPeak GetPeak(int index)
+        public TPeak GetPeak(int index)
         {
-            return new MzPeak(Masses[index], Intensities[index]);
+            return (TPeak)new MzPeak(Masses[index], Intensities[index]);
         }
 
         /// <summary>
@@ -271,18 +272,18 @@ namespace Spectra
             return index < Count && Masses[index] <= maxMZ;
         }
 
-        public MzPeak GetBasePeak()
+        public TPeak GetBasePeak()
         {
             return GetPeak(Intensities.MaxIndex());
         }
 
-        public MzPeak GetClosestPeak(IRange<double> massRange)
+        public TPeak GetClosestPeak(IRange<double> massRange)
         {
             double mean = (massRange.Maximum + massRange.Minimum) / 2.0;
             return GetClosestPeak(mean);
         }
 
-        public MzPeak GetClosestPeak(double mean)
+        public TPeak GetClosestPeak(double mean)
         {
             int index = GetClosestPeakIndex(mean);
             return GetPeak(index);
@@ -298,9 +299,9 @@ namespace Spectra
             return ToBytes(zlibCompressed, Masses, Intensities);
         }
 
-        public MZSpectrum Clone()
+        public MZSpectrum<TPeak> Clone()
         {
-            return new MZSpectrum(this);
+            return new MZSpectrum<TPeak>(this);
         }
 
         /// <summary>
@@ -308,9 +309,9 @@ namespace Spectra
         /// </summary>
         /// <param name="convertor">The function to convert each mass by</param>
         /// <returns>A cloned spectrum with masses corrected</returns>
-        public MZSpectrum CorrectMasses(Func<double, double> convertor)
+        public MZSpectrum<TPeak> CorrectMasses(Func<double, double> convertor)
         {
-            MZSpectrum newSpectrum = Clone();
+            MZSpectrum<TPeak> newSpectrum = Clone();
             for (int i = 0; i < newSpectrum.Count; i++)
                 newSpectrum.Masses[i] = convertor(newSpectrum.Masses[i]);
             return newSpectrum;
@@ -425,7 +426,7 @@ namespace Spectra
             return string.Format("{0} (Peaks {1})", GetMzRange(), Count);
         }
 
-        public IEnumerator<MzPeak> GetEnumerator()
+        public IEnumerator<TPeak> GetEnumerator()
         {
             for (int i = 0; i < Count; i++)
             {
@@ -435,7 +436,7 @@ namespace Spectra
 
         
         
-        public  MZSpectrum Extract(double minMZ, double maxMZ)
+        public  MZSpectrum<TPeak> Extract(double minMZ, double maxMZ)
         {
 
             int index = GetPeakIndex(minMZ);
@@ -456,11 +457,11 @@ namespace Spectra
 
             Array.Resize(ref mz, j);
             Array.Resize(ref intensity, j);
-            return new MZSpectrum(mz, intensity, false);
+            return new MZSpectrum<TPeak>(mz, intensity, false);
         }
 
 
-        public MZSpectrum FilterByIntensity(double minIntensity = 0, double maxIntensity = double.MaxValue)
+        public MZSpectrum<TPeak> FilterByIntensity(double minIntensity = 0, double maxIntensity = double.MaxValue)
         {
 
             int count = Count;
@@ -485,10 +486,10 @@ namespace Spectra
                 Array.Resize(ref intensities, j);
             }
 
-            return new MZSpectrum(mz, intensities, false);
+            return new MZSpectrum<TPeak>(mz, intensities, false);
         }
 
-        public  MZSpectrum FilterByNumberOfMostIntense(int topNPeaks)
+        public  MZSpectrum<TPeak> FilterByNumberOfMostIntense(int topNPeaks)
         {
             double[] mz = new double[topNPeaks];
             double[] intensities = new double[topNPeaks];
@@ -500,14 +501,14 @@ namespace Spectra
             mz = Masses.SubArray(0, topNPeaks);
             intensities = Intensities.SubArray(0, topNPeaks);
 
-            return new MZSpectrum(mz, intensities, false);
+            return new MZSpectrum<TPeak>(mz, intensities, false);
 
         }
 
-        public  MZSpectrum FilterByMZ(IEnumerable<IRange<double>> mzRanges)
+        public  MZSpectrum<TPeak> FilterByMZ(IEnumerable<IRange<double>> mzRanges)
         {
             if (Count == 0)
-                return new MZSpectrum();
+                return new MZSpectrum<TPeak>();
 
             int count = Count;
 
@@ -535,7 +536,7 @@ namespace Spectra
             int cleanCount = count - indiciesToRemove.Count;
 
             if (cleanCount == 0)
-                return new MZSpectrum();
+                return new MZSpectrum<TPeak>();
 
             // Create the storage for the cleaned spectrum
             double[] mz = new double[cleanCount];
@@ -553,13 +554,13 @@ namespace Spectra
             }
 
             // Return a new spectrum, don't bother recopying the arrays
-            return new MZSpectrum(mz, intensities, false);
+            return new MZSpectrum<TPeak>(mz, intensities, false);
         }
 
-        public  MZSpectrum FilterByMZ(double minMZ, double maxMZ)
+        public  MZSpectrum<TPeak> FilterByMZ(double minMZ, double maxMZ)
         {
             if (Count == 0)
-                return new MZSpectrum();
+                return new MZSpectrum<TPeak>();
 
             int count = Count;
 
@@ -581,7 +582,7 @@ namespace Spectra
             int cleanCount = count - indiciesToRemove.Count;
 
             if (cleanCount == 0)
-                return new MZSpectrum();
+                return new MZSpectrum<TPeak>();
 
             // Create the storage for the cleaned spectrum
             double[] mz = new double[cleanCount];
@@ -599,46 +600,46 @@ namespace Spectra
             }
 
             // Return a new spectrum, don't bother recopying the arrays
-            return new MZSpectrum(mz, intensities, false);
+            return new MZSpectrum<TPeak>(mz, intensities, false);
         }
         
 
-        public ISpectrum<MzPeak> Extract(IRange<double> mzRange)
+        public ISpectrum<TPeak> Extract(IRange<double> mzRange)
         {
             return Extract(mzRange.Minimum, mzRange.Maximum);
         }
 
-        ISpectrum<MzPeak> ISpectrum<MzPeak>.Extract(double minMZ, double maxMZ)
+        ISpectrum<TPeak> ISpectrum<TPeak>.Extract(double minMZ, double maxMZ)
         {
             return Extract(minMZ, maxMZ);
         }
 
-        ISpectrum<MzPeak> ISpectrum<MzPeak>.FilterByMZ(IEnumerable<IRange<double>> mzRanges)
+        ISpectrum<TPeak> ISpectrum<TPeak>.FilterByMZ(IEnumerable<IRange<double>> mzRanges)
         {
             return FilterByMZ(mzRanges);
         }
 
-        public ISpectrum<MzPeak> FilterByMZ(IRange<double> mzRange)
+        public ISpectrum<TPeak> FilterByMZ(IRange<double> mzRange)
         {
             return FilterByMZ(mzRange.Minimum, mzRange.Maximum);
         }
 
-        ISpectrum<MzPeak> ISpectrum<MzPeak>.FilterByMZ(double minMZ, double maxMZ)
+        ISpectrum<TPeak> ISpectrum<TPeak>.FilterByMZ(double minMZ, double maxMZ)
         {
             return FilterByMZ(minMZ, maxMZ);
         }
 
-        ISpectrum<MzPeak> ISpectrum<MzPeak>.FilterByIntensity(double minIntensity, double maxIntensity)
+        ISpectrum<TPeak> ISpectrum<TPeak>.FilterByIntensity(double minIntensity, double maxIntensity)
         {
             return FilterByIntensity(minIntensity, maxIntensity);
         }
 
-        public ISpectrum<MzPeak> FilterByIntensity(IRange<double> intenistyRange)
+        public ISpectrum<TPeak> FilterByIntensity(IRange<double> intenistyRange)
         {
             return FilterByIntensity(intenistyRange.Minimum, intenistyRange.Maximum);
         }
 
-        ISpectrum<MzPeak> ISpectrum<MzPeak>.CorrectMasses(Func<double, double> convertor)
+        ISpectrum<TPeak> ISpectrum<TPeak>.CorrectMasses(Func<double, double> convertor)
         {
             return CorrectMasses(convertor);
         }
