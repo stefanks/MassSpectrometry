@@ -43,7 +43,7 @@ namespace Spectra
         /// <summary>
         /// The number of peaks in this spectrum
         /// </summary>
-        public int Count { get; private set; }
+        public int Count { get; protected set; }
 
         /// <summary>
         /// The first m/z of this spectrum
@@ -102,7 +102,7 @@ namespace Spectra
         {
         }
 
-        private MZSpectrum()
+        protected MZSpectrum()
         {
             Count = 0;
             Masses = new double[0];
@@ -331,7 +331,7 @@ namespace Spectra
             return outArray;
         }
 
-        private byte[] ToBytes(bool zlibCompressed, params double[][] arrays)
+        protected byte[] ToBytes(bool zlibCompressed, params double[][] arrays)
         {
             int length = Count * sizeof(double);
             int arrayCount = arrays.Length;
@@ -356,7 +356,7 @@ namespace Spectra
         /// <typeparam name="TArray"></typeparam>
         /// <param name="sourceArray">The source array to copy from</param>
         /// <param name="deepCopy">If true, a new array will be generate, else references are copied</param>
-        private TArray[] CopyData<TArray>(TArray[] sourceArray, bool deepCopy = true) where TArray : struct
+        protected TArray[] CopyData<TArray>(TArray[] sourceArray, bool deepCopy = true) where TArray : struct
         {
             if (sourceArray == null)
                 return null;
@@ -409,7 +409,7 @@ namespace Spectra
             return indexm1;
         }
 
-        private int GetPeakIndex(double mz)
+        protected int GetPeakIndex(double mz)
         {
             int index = Array.BinarySearch(Masses, mz);
 
@@ -436,7 +436,7 @@ namespace Spectra
 
         
         
-        public  MZSpectrum<TPeak> Extract(double minMZ, double maxMZ)
+        public virtual MZSpectrum<TPeak> Extract(double minMZ, double maxMZ)
         {
 
             int index = GetPeakIndex(minMZ);
