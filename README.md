@@ -1,5 +1,6 @@
 # MassSpectrometry 
 [![Build Status](https://travis-ci.org/stefanks/MassSpectrometry.svg?branch=master)](https://travis-ci.org/stefanks/MassSpectrometry)
+[![Build status](https://ci.appveyor.com/api/projects/status/6c1e8em3iqecl8of/branch/master?svg=true)](https://ci.appveyor.com/project/stefanks/massspectrometry/branch/master)
 
 Library for Mass Spectrometry objects. 
 
