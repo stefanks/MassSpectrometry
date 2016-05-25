@@ -33,12 +33,12 @@ namespace Spectra
         /// <summary>
         /// The m/z of this spectrum in ascending order
         /// </summary>
-        private double[] Masses;
+        protected double[] Masses;
 
         /// <summary>
         /// The intensity of this spectrum, linked to their m/z by index in the array
         /// </summary>
-        private double[] Intensities;
+        protected double[] Intensities;
 
         /// <summary>
         /// The number of peaks in this spectrum
@@ -127,7 +127,7 @@ namespace Spectra
         {
         }
 
-        private MZSpectrum(double[,] mzintensities, int count)
+        protected MZSpectrum(double[,] mzintensities, int count)
         {
             int length = mzintensities.GetLength(1);
 
@@ -150,7 +150,7 @@ namespace Spectra
 
         #endregion
         
-        public TPeak GetPeak(int index)
+        public virtual TPeak GetPeak(int index)
         {
             return (TPeak)new MzPeak(Masses[index], Intensities[index]);
         }
@@ -195,7 +195,7 @@ namespace Spectra
         /// Converts the spectrum into a multi-dimensional array of doubles
         /// </summary>
         /// <returns></returns>
-        public double[,] ToArray()
+        public virtual double[,] ToArray()
         {
             double[,] data = new double[2, Count];
             const int size = sizeof(double);
@@ -294,12 +294,12 @@ namespace Spectra
             return Convert.ToBase64String(ToBytes(zlibCompressed));
         }
 
-        public byte[] ToBytes(bool zlibCompressed = false)
+        public virtual byte[] ToBytes(bool zlibCompressed = false)
         {
             return ToBytes(zlibCompressed, Masses, Intensities);
         }
 
-        public MZSpectrum<TPeak> Clone()
+        public virtual MZSpectrum<TPeak> Clone()
         {
             return new MZSpectrum<TPeak>(this);
         }
@@ -489,7 +489,7 @@ namespace Spectra
             return new MZSpectrum<TPeak>(mz, intensities, false);
         }
 
-        public  MZSpectrum<TPeak> FilterByNumberOfMostIntense(int topNPeaks)
+        public virtual MZSpectrum<TPeak> FilterByNumberOfMostIntense(int topNPeaks)
         {
             double[] mz = new double[topNPeaks];
             double[] intensities = new double[topNPeaks];
@@ -505,7 +505,7 @@ namespace Spectra
 
         }
 
-        public  MZSpectrum<TPeak> FilterByMZ(IEnumerable<IRange<double>> mzRanges)
+        public virtual MZSpectrum<TPeak> FilterByMZ(IEnumerable<IRange<double>> mzRanges)
         {
             if (Count == 0)
                 return new MZSpectrum<TPeak>();
@@ -557,7 +557,7 @@ namespace Spectra
             return new MZSpectrum<TPeak>(mz, intensities, false);
         }
 
-        public  MZSpectrum<TPeak> FilterByMZ(double minMZ, double maxMZ)
+        public virtual MZSpectrum<TPeak> FilterByMZ(double minMZ, double maxMZ)
         {
             if (Count == 0)
                 return new MZSpectrum<TPeak>();
