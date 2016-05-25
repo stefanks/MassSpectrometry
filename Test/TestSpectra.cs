@@ -205,8 +205,8 @@ namespace Test
         [Test]
         public void SpectrumSelect()
         {
-            ISpectrum<IPeak> v2 = _mzSpectrumA;
-            IEnumerable<IPeak> v3 = v2;
+            ISpectrum<Peak> v2 = _mzSpectrumA;
+            IEnumerable<Peak> v3 = v2;
             v3.Take(4);
             var v4 = v3.Select(b => b.X);
             Assert.AreEqual(328.73795, v4.First());

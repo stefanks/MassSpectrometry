@@ -24,6 +24,6 @@ namespace MassSpectrometry
     /// </summary>
     public interface IHasMassSpectrum
     {
-        ISpectrum<IPeak> MassSpectrum { get; }
+        ISpectrum<Peak> MassSpectrum { get; }
     }
 }

@@ -113,7 +113,7 @@ namespace Spectra
         /// Initializes a new spectrum from another spectrum
         /// </summary>
         /// <param name="spectrum">The spectrum to clone</param>
-        private MZSpectrum(ISpectrum<IPeak> spectrum)
+        private MZSpectrum(ISpectrum<Peak> spectrum)
             : this(spectrum.GetMasses(), spectrum.GetIntensities())
         {
         }

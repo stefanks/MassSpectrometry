@@ -23,7 +23,7 @@ namespace MassSpectrometry
 {
 
     public interface IMsDataScan<out TSpectrum> : IHasMassSpectrum
-        where TSpectrum : ISpectrum<IPeak>
+        where TSpectrum : ISpectrum<Peak>
     {
         int SpectrumNumber { get; }
         int MsnOrder { get; }

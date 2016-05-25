@@ -19,11 +19,32 @@ using Spectra;
 
 namespace MassSpectrometry
 {
-    public sealed class ChromatographicPeak : IPeak
+    public sealed class ChromatographicPeak : Peak
     {
-        public double Time { get; private set; }
+        public double Intensity
+        {
+            get
+            {
+                return Y;
+            }
+            private set
+            {
+                Y = value;
+            }
+        }
 
-        public double Intensity { get; private set; }
+        public double Time
+        {
+            get
+            {
+                return X;
+            }
+            private set
+            {
+                X = value;
+            }
+        }
+
 
         public ChromatographicPeak(double time, double intensity)
         {
@@ -41,7 +62,7 @@ namespace MassSpectrometry
             return Time.CompareTo(time);
         }
 
-        public int CompareTo(IPeak other)
+        public int CompareTo(Peak other)
         {
             return Time.CompareTo(other.X);
         }
@@ -54,16 +75,6 @@ namespace MassSpectrometry
         public int CompareTo(object other)
         {
             return 0;
-        }
-
-        double IPeak.X
-        {
-            get { return Time; }
-        }
-
-        double IPeak.Y
-        {
-            get { return Intensity; }
         }
     }
 }
