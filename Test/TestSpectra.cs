@@ -210,6 +210,10 @@ namespace Test
             v3.Take(4);
             var v4 = v3.Select(b => b.X);
             Assert.AreEqual(328.73795, v4.First());
+
+            var bn = v2[0];
+
+            var bsrg = _mzSpectrumA[0];
         }
     }
 }

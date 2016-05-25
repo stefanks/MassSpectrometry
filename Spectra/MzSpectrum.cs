@@ -69,17 +69,17 @@ namespace Spectra
             get { return GetTotalIonCurrent(); }
         }
 
-        TPeak ISpectrum<TPeak>.this[int index]
+        public TPeak this[int index]
         {
             get
             {
-                throw new NotImplementedException();
+                return GetPeak(index);
             }
         }
 
         #region constructors
 
-        
+
         /// <summary>
         /// Initializes a new spectrum
         /// </summary>
@@ -127,7 +127,7 @@ namespace Spectra
         {
         }
 
-        protected MZSpectrum(double[,] mzintensities, int count)
+        public MZSpectrum(double[,] mzintensities, int count)
         {
             int length = mzintensities.GetLength(1);
 
@@ -461,7 +461,7 @@ namespace Spectra
         }
 
 
-        public MZSpectrum<TPeak> FilterByIntensity(double minIntensity = 0, double maxIntensity = double.MaxValue)
+        public virtual MZSpectrum<TPeak> FilterByIntensity(double minIntensity = 0, double maxIntensity = double.MaxValue)
         {
 
             int count = Count;
