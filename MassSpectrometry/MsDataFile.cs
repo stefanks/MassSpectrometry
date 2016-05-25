@@ -115,7 +115,7 @@ namespace MassSpectrometry
         {
             get
             {
-                throw new NotImplementedException();
+                return GetMsScan(spectrumNumber);
             }
         }
         
@@ -354,12 +354,12 @@ namespace MassSpectrometry
 
         IEnumerator<IMsDataScan<ISpectrum<IPeak>>> IEnumerable<IMsDataScan<ISpectrum<IPeak>>>.GetEnumerator()
         {
-            throw new NotImplementedException();
+            return GetEnumerator();
         }
 
         ISpectrum<IPeak> IMsDataFile<ISpectrum<IPeak>>.GetSpectrum(int spectrumNumber)
         {
-            throw new NotImplementedException();
+            return GetSpectrum(spectrumNumber);
         }
     }
 }
