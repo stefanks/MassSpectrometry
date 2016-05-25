@@ -36,12 +36,7 @@ namespace Test
 
             _mzSpectrumA = new MZSpectrum(mz, intensities);
         }
-
-        [Test]
-        public void EmptySpectrumCountIsZero()
-        {
-            Assert.AreEqual(0, MZSpectrum.Empty.Count);
-        }
+        
 
         #region Properties
 
@@ -149,7 +144,7 @@ namespace Test
         [Test]
         public void SpectrumContainsPeak()
         {
-            Assert.IsTrue(_mzSpectrumA.ContainsPeak());
+            Assert.IsTrue(_mzSpectrumA.ContainsAnyPeaks());
         }
 
         [Test]
@@ -197,14 +192,7 @@ namespace Test
 
             Assert.AreEqual(range, _mzSpectrumA.GetMzRange());
         }
-
-        [Test]
-        public void SpectrumFilterEmpty()
-        {
-            var filteredMzSpectrum = _mzSpectrumA.FilterByIntensity(0, 50);
-
-            Assert.AreEqual(MZSpectrum.Empty, filteredMzSpectrum);
-        }
+        
 
         [Test]
         public void SpectrumFilterCount()
@@ -217,8 +205,7 @@ namespace Test
         [Test]
         public void SpectrumSelect()
         {
-            Spectrum<MzPeak> v = _mzSpectrumA;
-            ISpectrum<IPeak> v2 = v;
+            ISpectrum<IPeak> v2 = _mzSpectrumA;
             IEnumerable<IPeak> v3 = v2;
             v3.Take(4);
             var v4 = v3.Select(b => b.X);
