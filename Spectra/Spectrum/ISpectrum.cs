@@ -98,6 +98,8 @@ namespace Spectra
 
         TPeak GetClosestPeak(IRange<double> rangeMZ);
 
+        TPeak this[int index] { get; }
+
         ISpectrum<TPeak> Extract(IRange<double> mzRange);
 
         ISpectrum<TPeak> Extract(double minMZ, double maxMZ);
@@ -113,8 +115,5 @@ namespace Spectra
         ISpectrum<TPeak> FilterByIntensity(IRange<double> intenistyRange);
 
         ISpectrum<TPeak> CorrectMasses(Func<double, double> convertor);
-
-        TPeak this[int index] { get; }
-
     }
 }
