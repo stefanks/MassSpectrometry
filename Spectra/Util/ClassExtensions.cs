@@ -1,6 +1,7 @@
-﻿// Copyright 2016 Stefan Solntsev
+﻿// Copyright 2012, 2013, 2014 Derek J. Bailey
+// Modified work copyright 2016 Stefan Solntsev
 // 
-// This file (Tolerance.cs) is part of MassSpectrometry.
+// This file (ClassExtensions.cs) is part of MassSpectrometry.
 // 
 // MassSpectrometry is free software: you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published

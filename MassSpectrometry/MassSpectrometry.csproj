@@ -46,9 +46,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Chromatogram.cs" />
-    <Compile Include="ChromatographicElutionProfile.cs" />
-    <Compile Include="ChromatographicPeak.cs" />
+    <Compile Include="Chromatogram\Chromatogram.cs" />
+    <Compile Include="Chromatogram\ChromatographicElutionProfile.cs" />
+    <Compile Include="Chromatogram\ChromatographicPeak.cs" />
     <Compile Include="Util\ClassExtensions.cs" />
     <Compile Include="Enums\DissociationType.cs" />
     <Compile Include="IMsDataFile.cs" />

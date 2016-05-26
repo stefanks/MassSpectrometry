@@ -16,7 +16,6 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with MassSpectrometry. If not, see <http://www.gnu.org/licenses/>.
 
-using MassSpectrometry.Enums;
 using Spectra;
 using System;
 
@@ -47,12 +46,7 @@ namespace MassSpectrometry
             }
             internal set { _massMzSpectrum = value; }
         }
-
-        IMzSpectrum<MzPeak> IHasMzSpectrum.MassSpectrum
-        {
-            get { return MassSpectrum; }
-        }
-
+        
         public int SpectrumNumber { get; protected set; }
 
         private double _resolution = double.NaN;
