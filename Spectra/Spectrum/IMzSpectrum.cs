@@ -115,5 +115,9 @@ namespace Spectra
         IMzSpectrum<TPeak> FilterByIntensity(IRange<double> intenistyRange);
 
         IMzSpectrum<TPeak> CorrectMasses(Func<double, double> convertor);
+
+        MzRange GetMzRange();
+
+        TPeak GetBasePeak();
     }
 }

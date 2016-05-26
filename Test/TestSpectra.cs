@@ -206,11 +206,12 @@ namespace Test
         [Test]
         public void SpectrumSelect()
         {
-            IMzSpectrum<MzPeak> v2 = _mzSpectrumA;
-            IEnumerable<Peak> v3 = v2;
+            MzSpectrum<MzPeak, DefaultMzSpectrum> v2 = _mzSpectrumA;
+            IMzSpectrum<MzPeak> v3 = v2;
+            IEnumerable<Peak> v4 = v3;
             v3.Take(4);
-            var v4 = v3.Select(b => b.X);
-            Assert.AreEqual(328.73795, v4.First());
+            var v5 = v3.Select(b => b.X);
+            Assert.AreEqual(328.73795, v5.First());
 
             var bn = v2[0];
 
