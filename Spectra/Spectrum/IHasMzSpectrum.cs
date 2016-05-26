@@ -20,8 +20,8 @@ namespace Spectra
     /// <summary>
     /// An object that contains a mass spectrum
     /// </summary>
-    public interface IHasMassSpectrum
+    public interface IHasMzSpectrum
     {
-        ISpectrum<Peak> MassSpectrum { get; }
+        IMzSpectrum<MzPeak> MassSpectrum { get; }
     }
 }
