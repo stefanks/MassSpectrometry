@@ -250,7 +250,7 @@ namespace Spectra
         /// <returns></returns>
         public bool ContainsAnyPeaksWithinRange(IRange<double> range)
         {
-            return ContainsPeak(range.Minimum, range.Maximum);
+            return ContainsAnyPeaksWithinRange(range.Minimum, range.Maximum);
         }
 
         /// <summary>
@@ -259,7 +259,7 @@ namespace Spectra
         /// <param name="minMZ">The minimum m/z (inclusive)</param>
         /// <param name="maxMZ">The maximum m/z (inclusive)</param>
         /// <returns></returns>
-        public bool ContainsPeak(double minMZ, double maxMZ)
+        public bool ContainsAnyPeaksWithinRange(double minMZ, double maxMZ)
         {
             if (Count == 0)
                 return false;
