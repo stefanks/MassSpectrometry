@@ -20,13 +20,87 @@ using Spectra;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System;
 
 namespace Test
 {
-    [TestFixture, Category("Spectral")]
+    internal class TestMzSpectrumClass : MZSpectrum<MzPeak, TestMzSpectrumClass>
+    {
+        public TestMzSpectrumClass():base()
+        {
+        }
+
+        public TestMzSpectrumClass(TestMzSpectrumClass MZSpectrum) : base(MZSpectrum)
+        {
+        }
+
+        public TestMzSpectrumClass(double[] mz, double[] intensities, bool shouldCopy = true) : base(mz, intensities, shouldCopy)
+        {
+        }
+
+        public override TestMzSpectrumClass Clone()
+        {
+            return new TestMzSpectrumClass(this);
+        }
+
+        public override TestMzSpectrumClass CorrectMasses(Func<double, double> convertor)
+        {
+            TestMzSpectrumClass newSpectrum = Clone();
+            for (int i = 0; i < newSpectrum.Count; i++)
+                newSpectrum.Masses[i] = convertor(newSpectrum.Masses[i]);
+            return newSpectrum;
+        }
+
+        public override TestMzSpectrumClass Extract(double minMZ, double maxMZ)
+        {
+            double[] mz;
+            double[] intensity;
+            ExtractProtected(minMZ, maxMZ, out mz, out intensity);
+            return new TestMzSpectrumClass(mz, intensity, false);
+        }
+
+        public override TestMzSpectrumClass FilterByIntensity(double minIntensity = 0, double maxIntensity = double.MaxValue)
+        {
+            double[] mz;
+            double[] intensity;
+            FilterByIntensityProtected(minIntensity ,maxIntensity, out mz, out intensity);
+            return new TestMzSpectrumClass(mz, intensity, false);
+        }
+
+        public override TestMzSpectrumClass FilterByMZ(IEnumerable<IRange<double>> mzRanges)
+        {
+            double[] mz;
+            double[] intensity;
+            FilterByMZProtected(mzRanges, out mz, out intensity);
+            return new TestMzSpectrumClass(mz, intensity, false);
+        }
+        
+        public override TestMzSpectrumClass FilterByMZ(double minMZ, double maxMZ)
+        {
+            double[] mz;
+            double[] intensities;
+            FilterByMZProtected(minMZ, maxMZ, out mz, out intensities);
+            return new TestMzSpectrumClass(mz, intensities, false);
+        }
+
+        public override TestMzSpectrumClass FilterByNumberOfMostIntense(int topNPeaks)
+        {
+            double[] mz;
+            double[] intensities;
+            FilterByNumberOfMostIntenseProtected(topNPeaks, out mz, out intensities);
+            return new TestMzSpectrumClass(mz, intensities, false);
+        }
+
+        public override MzPeak GetPeak(int index)
+        {
+            return new MzPeak(Masses[index], Intensities[index]);
+        }
+    }
+
+    [TestFixture]
     public sealed class SpectrumTestFixture
     {
-        private MZSpectrum<MzPeak> _mzSpectrumA;
+        private TestMzSpectrumClass _mzSpectrumA;
 
         [SetUp]
         public void Setup()
@@ -34,7 +108,7 @@ namespace Test
             double[] mz = { 328.73795, 329.23935, 447.73849, 448.23987, 482.23792, 482.57089, 482.90393, 500.95358, 501.28732, 501.62131, 611.99377, 612.32806, 612.66187, 722.85217, 723.35345 };
             double[] intensities = { 81007096.0, 28604418.0, 78353512.0, 39291696.0, 122781408.0, 94147520.0, 44238040.0, 71198680.0, 54184096.0, 21975364.0, 44514172.0, 43061628.0, 23599424.0, 56022696.0, 41019144.0 };
 
-            _mzSpectrumA = new MZSpectrum<MzPeak>(mz, intensities);
+            _mzSpectrumA = new TestMzSpectrumClass(mz, intensities);
         }
         
 
