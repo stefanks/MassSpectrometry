@@ -49,6 +49,7 @@
     <Compile Include="Peak\Peak.cs" />
     <Compile Include="Spectrum\IHasMzSpectrum.cs" />
     <Compile Include="Spectrum\DefaultMzSpectrum.cs" />
+    <Compile Include="Spectrum\ISpectrum.cs" />
     <Compile Include="Util\ClassExtensions.cs" />
     <Compile Include="Range\DoubleRange.cs" />
     <Compile Include="Range\IRange.cs" />
