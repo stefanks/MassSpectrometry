@@ -23,10 +23,8 @@ namespace Spectra
     /// <summary>
     /// A peak in a mass spectrum that has a well defined m/z and intenisty value
     /// </summary>
-
     public class MzPeak : Peak
     {
-
         #region properties
 
         public double Intensity {

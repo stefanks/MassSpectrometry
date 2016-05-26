@@ -47,15 +47,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Peak\Peak.cs" />
-    <Compile Include="Spectrum\IHasMassSpectrum.cs" />
-    <Compile Include="Spectrum\MzSpectrum.cs" />
+    <Compile Include="Spectrum\IHasMzSpectrum.cs" />
+    <Compile Include="Spectrum\DefaultMzSpectrum.cs" />
     <Compile Include="Util\ClassExtensions.cs" />
     <Compile Include="Range\DoubleRange.cs" />
     <Compile Include="Range\IRange.cs" />
-    <Compile Include="Spectrum\ISpectrum.cs" />
+    <Compile Include="Spectrum\IMzSpectrum.cs" />
     <Compile Include="Peak\MzPeak.cs" />
     <Compile Include="Range\MzRange.cs" />
-    <Compile Include="Spectrum\Spectrum.cs" />
+    <Compile Include="Spectrum\MzSpectrum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Range\Range.cs" />
     <Compile Include="Util\Tolerance.cs" />

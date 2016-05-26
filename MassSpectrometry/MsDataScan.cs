@@ -23,16 +23,16 @@ using System;
 namespace MassSpectrometry
 {
     public class MsDataScan<TSpectrum> : IMsDataScan<TSpectrum>, IEquatable<MsDataScan<TSpectrum>> 
-        where TSpectrum : ISpectrum<Peak>
+        where TSpectrum : IMzSpectrum<MzPeak>
     {
         public MsDataFile ParentFile { get; private set; }
 
-        private ISpectrum<Peak> _massMzSpectrum;
+        private IMzSpectrum<MzPeak> _massMzSpectrum;
 
         /// <summary>
         /// The mass spectrum associated with the scan
         /// </summary>
-        public ISpectrum<Peak> MassSpectrum
+        public IMzSpectrum<MzPeak> MassSpectrum
         {
             get
             {
@@ -48,7 +48,7 @@ namespace MassSpectrometry
             internal set { _massMzSpectrum = value; }
         }
 
-        ISpectrum<Peak> IHasMassSpectrum.MassSpectrum
+        IMzSpectrum<MzPeak> IHasMzSpectrum.MassSpectrum
         {
             get { return MassSpectrum; }
         }

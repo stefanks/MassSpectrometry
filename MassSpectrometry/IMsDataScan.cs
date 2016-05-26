@@ -22,8 +22,8 @@ using Spectra;
 namespace MassSpectrometry
 {
 
-    public interface IMsDataScan<out TSpectrum> : IHasMassSpectrum
-        where TSpectrum : ISpectrum<Peak>
+    public interface IMsDataScan<out TSpectrum> : IHasMzSpectrum
+        where TSpectrum : IMzSpectrum<MzPeak>
     {
         int SpectrumNumber { get; }
         int MsnOrder { get; }

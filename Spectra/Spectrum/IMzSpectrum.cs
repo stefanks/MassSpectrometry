@@ -21,8 +21,8 @@ using System.Collections.Generic;
 
 namespace Spectra
 {
-    public interface ISpectrum<out TPeak> : IEnumerable<TPeak>
-        where TPeak : Peak
+    public interface IMzSpectrum<out TPeak> : IEnumerable<TPeak>
+        where TPeak : MzPeak
     {        
         /// <summary>
         /// The number of peaks in the spectrum
@@ -100,20 +100,20 @@ namespace Spectra
 
         TPeak this[int index] { get; }
 
-        ISpectrum<TPeak> Extract(IRange<double> mzRange);
+        IMzSpectrum<TPeak> Extract(IRange<double> mzRange);
 
-        ISpectrum<TPeak> Extract(double minMZ, double maxMZ);
+        IMzSpectrum<TPeak> Extract(double minMZ, double maxMZ);
 
-        ISpectrum<TPeak> FilterByMZ(IEnumerable<IRange<double>> mzRanges);
+        IMzSpectrum<TPeak> FilterByMZ(IEnumerable<IRange<double>> mzRanges);
 
-        ISpectrum<TPeak> FilterByMZ(IRange<double> mzRange);
+        IMzSpectrum<TPeak> FilterByMZ(IRange<double> mzRange);
 
-        ISpectrum<TPeak> FilterByMZ(double minMZ, double maxMZ);
+        IMzSpectrum<TPeak> FilterByMZ(double minMZ, double maxMZ);
 
-        ISpectrum<TPeak> FilterByIntensity(double minIntensity, double maxIntensity);
+        IMzSpectrum<TPeak> FilterByIntensity(double minIntensity, double maxIntensity);
 
-        ISpectrum<TPeak> FilterByIntensity(IRange<double> intenistyRange);
+        IMzSpectrum<TPeak> FilterByIntensity(IRange<double> intenistyRange);
 
-        ISpectrum<TPeak> CorrectMasses(Func<double, double> convertor);
+        IMzSpectrum<TPeak> CorrectMasses(Func<double, double> convertor);
     }
 }
