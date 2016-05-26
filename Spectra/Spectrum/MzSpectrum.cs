@@ -28,6 +28,8 @@ namespace Spectra
         where TPeak : MzPeak
         where TSpectrum : MzSpectrum<TPeak, TSpectrum>
     {
+
+        #region protected fields
         /// <summary>
         /// The m/z of this spectrum in ascending order
         /// </summary>
@@ -38,10 +40,19 @@ namespace Spectra
         /// </summary>
         protected double[] Intensities;
 
+
+        #endregion
+
+        #region public properties
         /// <summary>
         /// The number of peaks in this spectrum
         /// </summary>
-        public int Count { get; protected set; }
+        public int Count {
+            get
+            {
+                return Masses.Count();
+            }
+        }
 
         /// <summary>
         /// The first m/z of this spectrum
@@ -59,14 +70,6 @@ namespace Spectra
             get { return Masses[Count - 1]; }
         }
 
-        /// <summary>
-        /// The total ion current of this spectrum
-        /// </summary>
-        public double TotalIonCurrent
-        {
-            get { return GetTotalIonCurrent(); }
-        }
-
         public TPeak this[int index]
         {
             get
@@ -75,9 +78,10 @@ namespace Spectra
             }
         }
 
+        #endregion
+
         #region constructors
-
-
+        
         /// <summary>
         /// Initializes a new spectrum
         /// </summary>
@@ -86,7 +90,6 @@ namespace Spectra
         /// <param name="shouldCopy">Indicates whether the input arrays should be copied to new ones</param>
         public MzSpectrum(double[] mz, double[] intensities, bool shouldCopy = true)
         {
-            Count = mz.Length;
             Masses = CopyData(mz, shouldCopy);
             Intensities = CopyData(intensities, shouldCopy);
         }
@@ -102,7 +105,6 @@ namespace Spectra
 
         protected MzSpectrum()
         {
-            Count = 0;
             Masses = new double[0];
             Intensities = new double[0];
         }
@@ -133,23 +135,39 @@ namespace Spectra
             Intensities = new double[count];
             Buffer.BlockCopy(mzintensities, 0, Masses, 0, sizeof(double) * count);
             Buffer.BlockCopy(mzintensities, sizeof(double) * length, Intensities, 0, sizeof(double) * count);
-            Count = count;
         }
 
         private MzSpectrum(byte[] mzintensities)
         {
-            Count = mzintensities.Length / (sizeof(double) * 2);
-            int size = sizeof(double) * Count;
-            Masses = new double[Count];
-            Intensities = new double[Count];
+            int size = sizeof(double) * mzintensities.Length / (sizeof(double) * 2);
+            Masses = new double[mzintensities.Length / (sizeof(double) * 2)];
+            Intensities = new double[mzintensities.Length / (sizeof(double) * 2)];
             Buffer.BlockCopy(mzintensities, 0, Masses, 0, size);
             Buffer.BlockCopy(mzintensities, size, Intensities, 0, size);
         }
 
         #endregion
 
-        public abstract TPeak GetPeak(int index);
+        #region abstract methods
 
+        public abstract TPeak GetPeak(int index);
+        public abstract TSpectrum Extract(double minMZ, double maxMZ);
+        public abstract TSpectrum FilterByIntensity(double minIntensity = 0, double maxIntensity = double.MaxValue);
+        public abstract TSpectrum FilterByNumberOfMostIntense(int topNPeaks);
+        public abstract TSpectrum FilterByMZ(IEnumerable<IRange<double>> mzRanges);
+        public abstract TSpectrum FilterByMZ(double minMZ, double maxMZ);
+        public abstract TSpectrum Clone();
+
+        /// <summary>
+        /// Creates a clone of this spectrum with each mass transformed by some function
+        /// </summary>
+        /// <param name="convertor">The function to convert each mass by</param>
+        /// <returns>A cloned spectrum with masses corrected</returns>
+        public abstract TSpectrum CorrectMasses(Func<double, double> convertor);
+
+        #endregion
+
+        #region public methods
         /// <summary>
         /// Finds the largest intensity value in this spectrum
         /// </summary>
@@ -186,18 +204,6 @@ namespace Spectra
             return CopyData(Intensities);
         }
 
-        /// <summary>
-        /// Converts the spectrum into a multi-dimensional array of doubles
-        /// </summary>
-        /// <returns></returns>
-        public virtual double[,] ToArray()
-        {
-            double[,] data = new double[2, Count];
-            const int size = sizeof(double);
-            Buffer.BlockCopy(Masses, 0, data, 0, size * Count);
-            Buffer.BlockCopy(Intensities, 0, data, size * Count, size * Count);
-            return data;
-        }
 
         /// <summary>
         /// Calculates the total ion current of this spectrum
@@ -289,30 +295,59 @@ namespace Spectra
             return Convert.ToBase64String(ToBytes(zlibCompressed));
         }
 
+
+        public override string ToString()
+        {
+            return string.Format("{0} (Peaks {1})", GetMzRange(), Count);
+        }
+        
+        public TSpectrum Extract(IRange<double> mzRange)
+        {
+            return Extract(mzRange.Minimum, mzRange.Maximum);
+        }
+
+        public TSpectrum FilterByMZ(IRange<double> mzRange)
+        {
+            return FilterByMZ(mzRange.Minimum, mzRange.Maximum);
+        }
+
+        public TSpectrum FilterByIntensity(IRange<double> intenistyRange)
+        {
+            return FilterByIntensity(intenistyRange.Minimum, intenistyRange.Maximum);
+        }
+
+        #endregion
+
+        #region virtual methods
+        /// <summary>
+        /// Converts the spectrum into a multi-dimensional array of doubles
+        /// </summary>
+        /// <returns></returns>
+        public virtual double[,] ToArray()
+        {
+            double[,] data = new double[2, Count];
+            const int size = sizeof(double);
+            Buffer.BlockCopy(Masses, 0, data, 0, size * Count);
+            Buffer.BlockCopy(Intensities, 0, data, size * Count, size * Count);
+            return data;
+        }
+
+
         public virtual byte[] ToBytes(bool zlibCompressed = false)
         {
             return ToBytes(zlibCompressed, Masses, Intensities);
         }
 
-        public abstract TSpectrum Clone();
+        #endregion
 
-        /// <summary>
-        /// Creates a clone of this spectrum with each mass transformed by some function
-        /// </summary>
-        /// <param name="convertor">The function to convert each mass by</param>
-        /// <returns>A cloned spectrum with masses corrected</returns>
-        public abstract TSpectrum CorrectMasses(Func<double, double> convertor);
-
-
-        #region private Methods
+        #region private and protected Methods
 
         private double[] FromBytes(byte[] data, int index)
         {
             if (data.IsCompressed())
                 data = data.Decompress();
-            Count = data.Length / (sizeof(double) * 2);
-            int size = sizeof(double) * Count;
-            double[] outArray = new double[Count];
+            int size = sizeof(double) * data.Length / (sizeof(double) * 2);
+            double[] outArray = new double[data.Length / (sizeof(double) * 2)];
             Buffer.BlockCopy(data, index * size, outArray, 0, size);
             return outArray;
         }
@@ -344,16 +379,12 @@ namespace Spectra
         /// <param name="deepCopy">If true, a new array will be generate, else references are copied</param>
         protected TArray[] CopyData<TArray>(TArray[] sourceArray, bool deepCopy = true) where TArray : struct
         {
-            if (sourceArray == null)
-                return null;
-            if (sourceArray.Length != Count)
-                throw new ArgumentException("Mismatched array size");
             if (!deepCopy)
             {
                 return sourceArray;
             }
             int count = sourceArray.Length;
-            TArray[] dstArray = new TArray[Count];
+            TArray[] dstArray = new TArray[count];
             Type type = typeof(TArray);
             Buffer.BlockCopy(sourceArray, 0, dstArray, 0, count * Marshal.SizeOf(type));
             return dstArray;
@@ -403,21 +434,6 @@ namespace Spectra
                 return index;
 
             return ~index;
-        }
-
-        #endregion private Methods
-
-        public override string ToString()
-        {
-            return string.Format("{0} (Peaks {1})", GetMzRange(), Count);
-        }
-
-        public IEnumerator<TPeak> GetEnumerator()
-        {
-            for (int i = 0; i < Count; i++)
-            {
-                yield return GetPeak(i);
-            }
         }
 
         protected void ExtractProtected(double minMZ, double maxMZ, out double[] mz, out double[] intensity)
@@ -563,36 +579,11 @@ namespace Spectra
 
         }
 
-        public abstract TSpectrum Extract(double minMZ, double maxMZ);
+        #endregion
 
-        public abstract TSpectrum FilterByIntensity(double minIntensity = 0, double maxIntensity = double.MaxValue);
-
-        public abstract TSpectrum FilterByNumberOfMostIntense(int topNPeaks);
-
-        public abstract TSpectrum FilterByMZ(IEnumerable<IRange<double>> mzRanges);
-
-        public abstract TSpectrum FilterByMZ(double minMZ, double maxMZ);
-
-        public TSpectrum Extract(IRange<double> mzRange)
-        {
-            return Extract(mzRange.Minimum, mzRange.Maximum);
-        }
-
-        public TSpectrum FilterByMZ(IRange<double> mzRange)
-        {
-            return FilterByMZ(mzRange.Minimum, mzRange.Maximum);
-        }
-
-        public TSpectrum FilterByIntensity(IRange<double> intenistyRange)
-        {
-            return FilterByIntensity(intenistyRange.Minimum, intenistyRange.Maximum);
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-
+        #region Explicit implementation of IMzSpectrum
+        // These methods are implemented explicitly in order to have the option of returning TSpectrum instead of IMzSpectrum<TPeak>
+        
         IMzSpectrum<TPeak> IMzSpectrum<TPeak>.Extract(IRange<double> mzRange)
         {
             return Extract(mzRange);
@@ -633,10 +624,29 @@ namespace Spectra
             return CorrectMasses(convertor);
         }
 
+        #endregion
+
+        #region Enumeration
+
         IEnumerator<TPeak> IEnumerable<TPeak>.GetEnumerator()
         {
             return GetEnumerator();
         }
+
+        IEnumerator IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
+        }
+
+        public IEnumerator<TPeak> GetEnumerator()
+        {
+            for (int i = 0; i < Count; i++)
+            {
+                yield return GetPeak(i);
+            }
+        }
+
+        #endregion
     }
 
     internal class ReverseComparer : IComparer<double>

@@ -38,12 +38,7 @@ namespace Spectra
         /// The last m/z of the spectrum
         /// </summary>
         double LastMZ { get; }
-
-        /// <summary>
-        /// The total ion current of the spectrum
-        /// </summary>
-        double TotalIonCurrent { get; }
-
+        
         /// <summary>
         /// Gets the m/z at a particular index
         /// </summary>
@@ -100,6 +95,8 @@ namespace Spectra
 
         TPeak this[int index] { get; }
 
+        TPeak GetBasePeak();
+
         IMzSpectrum<TPeak> Extract(IRange<double> mzRange);
 
         IMzSpectrum<TPeak> Extract(double minMZ, double maxMZ);
@@ -117,7 +114,5 @@ namespace Spectra
         IMzSpectrum<TPeak> CorrectMasses(Func<double, double> convertor);
 
         MzRange GetMzRange();
-
-        TPeak GetBasePeak();
     }
 }

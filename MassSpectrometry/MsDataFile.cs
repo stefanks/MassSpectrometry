@@ -120,12 +120,6 @@ namespace MassSpectrometry
         }
         
 
-        IMsDataScan<IMzSpectrum<MzPeak>> IMsDataFile.this[int spectrumNumber]
-        {
-            get { return GetMsScan(spectrumNumber); }
-        }
-        
-
         public MsDataScan<IMzSpectrum<MzPeak>> this[int spectrumNumber]
         {
             get { return GetMsScan(spectrumNumber); }
@@ -341,16 +335,7 @@ namespace MassSpectrometry
         protected abstract int GetFirstSpectrumNumber();
 
         protected abstract int GetLastSpectrumNumber();
-
-        IMzSpectrum<MzPeak> IMsDataFile.GetSpectrum(int spectrumNumber)
-        {
-            return GetSpectrum(spectrumNumber);
-        }
-
-        public bool Equals(IMsDataFile other)
-        {
-            return Name.Equals(other.Name);
-        }
+        
 
         IEnumerator<IMsDataScan<IMzSpectrum<MzPeak>>> IEnumerable<IMsDataScan<IMzSpectrum<MzPeak>>>.GetEnumerator()
         {

@@ -8,6 +8,9 @@ namespace Spectra
 {
     public class DefaultMzSpectrum : MzSpectrum<MzPeak, DefaultMzSpectrum>
     {
+
+        #region constructors
+
         public DefaultMzSpectrum() : base()
         {
         }
@@ -19,6 +22,10 @@ namespace Spectra
         public DefaultMzSpectrum(double[] mz, double[] intensities, bool shouldCopy = true) : base(mz, intensities, shouldCopy)
         {
         }
+
+        #endregion
+
+        #region overriding methods
 
         public override DefaultMzSpectrum Clone()
         {
@@ -77,5 +84,8 @@ namespace Spectra
         {
             return new MzPeak(Masses[index], Intensities[index]);
         }
+
+        #endregion
+
     }
 }

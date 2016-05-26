@@ -22,8 +22,12 @@ using MassSpectrometry.Enums;
 
 namespace MassSpectrometry
 {
-    public interface IMsDataFile : IEnumerable<IMsDataScan<IMzSpectrum<MzPeak>>>, IDisposable, IEquatable<IMsDataFile>
+
+    public interface IMsDataFile<out TSpectrum> : IEnumerable<IMsDataScan<IMzSpectrum<MzPeak>>>, IDisposable
+        where TSpectrum : IMzSpectrum<MzPeak>
     {
+        TSpectrum GetSpectrum(int spectrumNumber);
+        IMsDataScan<TSpectrum> this[int spectrumNumber] { get; }
         void Open();
         string Name { get; }
         bool IsOpen { get; }
@@ -35,14 +39,5 @@ namespace MassSpectrometry
         double GetRetentionTime(int spectrumNumber);
         DissociationType GetDissociationType(int spectrumNumber, int msnOrder = 2);
         Polarity GetPolarity(int spectrumNumber);
-        IMzSpectrum<MzPeak> GetSpectrum(int spectrumNumber);
-        IMsDataScan<IMzSpectrum<MzPeak>> this[int spectrumNumber] { get; }
-    }
-
-    public interface IMsDataFile<out TSpectrum> : IMsDataFile
-        where TSpectrum : IMzSpectrum<MzPeak>
-    {
-        new TSpectrum GetSpectrum(int spectrumNumber);
-        new IMsDataScan<TSpectrum> this[int spectrumNumber] { get; }
     }
 }
