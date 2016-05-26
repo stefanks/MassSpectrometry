@@ -37,5 +37,6 @@ namespace MassSpectrometry
         int SelectedIonChargeState { get; }
         double SelectedIonIsolationIntensity { get; }
         double SelectedIonMonoisotopicMZ { get; }
+        TSpectrum MassSpectrum { get; }
     }
 }

@@ -24,14 +24,14 @@ namespace MassSpectrometry
     public class MsDataScan<TSpectrum> : IMsDataScan<TSpectrum>, IEquatable<MsDataScan<TSpectrum>> 
         where TSpectrum : IMzSpectrum<MzPeak>
     {
-        public MsDataFile ParentFile { get; private set; }
+        public MsDataFile<TSpectrum> ParentFile { get; private set; }
 
-        private IMzSpectrum<MzPeak> _massMzSpectrum;
+        private TSpectrum _massMzSpectrum;
 
         /// <summary>
         /// The mass spectrum associated with the scan
         /// </summary>
-        public IMzSpectrum<MzPeak> MassSpectrum
+        public TSpectrum MassSpectrum
         {
             get
             {
@@ -282,7 +282,7 @@ namespace MassSpectrometry
             MsnOrder = -1;
         }
 
-        public MsDataScan(int spectrumNumber, int msnOrder = 1, MsDataFile parentFile = null)
+        public MsDataScan(int spectrumNumber, int msnOrder = 1, MsDataFile<TSpectrum> parentFile = null)
         {
             SpectrumNumber = spectrumNumber;
             MsnOrder = msnOrder;
