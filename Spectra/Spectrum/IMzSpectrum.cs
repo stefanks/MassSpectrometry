@@ -1,7 +1,7 @@
 ﻿// Copyright 2012, 2013, 2014 Derek J. Bailey
 // Modified work copyright 2016 Stefan Solntsev
 //
-// This file (ISpectrum.cs) is part of MassSpectrometry.
+// This file (IMzSpectrum.cs) is part of MassSpectrometry.
 //
 // MassSpectrometry is free software: you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -21,14 +21,9 @@ using System.Collections.Generic;
 
 namespace Spectra
 {
-    public interface IMzSpectrum<out TPeak> : IEnumerable<TPeak>
+    public interface IMzSpectrum<out TPeak> : ISpectrum<TPeak>
         where TPeak : MzPeak
     {        
-        /// <summary>
-        /// The number of peaks in the spectrum
-        /// </summary>
-        int Count { get; }
-
         /// <summary>
         /// The first m/z of the spectrum
         /// </summary>
@@ -78,13 +73,7 @@ namespace Spectra
         double GetTotalIonCurrent();
         
         byte[] ToBytes(bool zlibCompressed);
-
-        bool ContainsPeak(double minMZ, double maxMZ);
-
-        bool ContainsAnyPeaksWithinRange(IRange<double> range);
-
-        bool ContainsAnyPeaks();
-
+        
         double[,] ToArray();
 
         TPeak GetPeak(int index);

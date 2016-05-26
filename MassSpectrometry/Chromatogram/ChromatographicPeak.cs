@@ -1,4 +1,5 @@
 ﻿// Copyright 2012, 2013, 2014 Derek J. Bailey
+// Modified work Copyright 2016 Stefan Solntsev
 // 
 // This file (ChromatographicPeak.cs) is part of MassSpectrometry.
 // 

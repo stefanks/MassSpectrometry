@@ -1,7 +1,7 @@
 ﻿// Copyright 2012, 2013, 2014 Derek J. Bailey
 // Modified work copyright 2016 Stefan Solntsev
 // 
-// This file (MZSpectrum.cs) is part of MassSpectrometry.
+// This file (MzSpectrum.cs) is part of MassSpectrometry.
 // 
 // MassSpectrometry is free software: you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -250,7 +250,7 @@ namespace Spectra
         /// <returns></returns>
         public bool ContainsAnyPeaksWithinRange(IRange<double> range)
         {
-            return ContainsPeak(range.Minimum, range.Maximum);
+            return ContainsAnyPeaksWithinRange(range.Minimum, range.Maximum);
         }
 
         /// <summary>
@@ -259,7 +259,7 @@ namespace Spectra
         /// <param name="minMZ">The minimum m/z (inclusive)</param>
         /// <param name="maxMZ">The maximum m/z (inclusive)</param>
         /// <returns></returns>
-        public bool ContainsPeak(double minMZ, double maxMZ)
+        public bool ContainsAnyPeaksWithinRange(double minMZ, double maxMZ)
         {
             if (Count == 0)
                 return false;

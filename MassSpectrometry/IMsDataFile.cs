@@ -1,4 +1,5 @@
 ﻿// Copyright 2012, 2013, 2014 Derek J. Bailey
+// Modified work Copyright 2016 Stefan Solntsev
 // 
 // This file (IMsDataFile.cs) is part of MassSpectrometry.
 // 
@@ -15,10 +16,9 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with MassSpectrometry. If not, see <http://www.gnu.org/licenses/>.
 
+using Spectra;
 using System;
 using System.Collections.Generic;
-using Spectra;
-using MassSpectrometry.Enums;
 
 namespace MassSpectrometry
 {

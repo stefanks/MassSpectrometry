@@ -1,6 +1,7 @@
 ﻿// Copyright 2012, 2013, 2014 Derek J. Bailey
+// Modified work Copyright 2016 Stefan Solntsev
 //
-// This file (SpectrumTestFixture.cs) is part of MassSpectrometry.Tests.
+// This file (TestSpectra.cs) is part of MassSpectrometry.Tests.
 //
 // MassSpectrometry.Tests is free software: you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -151,37 +152,37 @@ namespace Test
         [Test]
         public void SpectrumContainsPeakInRange()
         {
-            Assert.IsTrue(_mzSpectrumA.ContainsPeak(448.23987 - 0.001, 448.23987 + 0.001));
+            Assert.IsTrue(_mzSpectrumA.ContainsAnyPeaksWithinRange(448.23987 - 0.001, 448.23987 + 0.001));
         }
 
         [Test]
         public void SpectrumContainsPeakInRangeEnd()
         {
-            Assert.IsTrue(_mzSpectrumA.ContainsPeak(448.23987 - 0.001, 448.23987));
+            Assert.IsTrue(_mzSpectrumA.ContainsAnyPeaksWithinRange(448.23987 - 0.001, 448.23987));
         }
 
         [Test]
         public void SpectrumContainsPeakInRangeStart()
         {
-            Assert.IsTrue(_mzSpectrumA.ContainsPeak(448.23987, 448.23987 + 0.001));
+            Assert.IsTrue(_mzSpectrumA.ContainsAnyPeaksWithinRange(448.23987, 448.23987 + 0.001));
         }
 
         [Test]
         public void SpectrumContainsPeakInRangeStartEnd()
         {
-            Assert.IsTrue(_mzSpectrumA.ContainsPeak(448.23987, 448.23987));
+            Assert.IsTrue(_mzSpectrumA.ContainsAnyPeaksWithinRange(448.23987, 448.23987));
         }
 
         [Test]
         public void SpectrumContainsPeakInRangeBackwards()
         {
-            Assert.IsFalse(_mzSpectrumA.ContainsPeak(448.23987 + 0.001, 448.23987 - 0.001));
+            Assert.IsFalse(_mzSpectrumA.ContainsAnyPeaksWithinRange(448.23987 + 0.001, 448.23987 - 0.001));
         }
 
         [Test]
         public void SpectrumDoesntContainPeakInRange()
         {
-            Assert.IsFalse(_mzSpectrumA.ContainsPeak(603.4243 - 0.001, 603.4243 + 0.001));
+            Assert.IsFalse(_mzSpectrumA.ContainsAnyPeaksWithinRange(603.4243 - 0.001, 603.4243 + 0.001));
         }
 
         #endregion Contains Peak

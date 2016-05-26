@@ -1,4 +1,5 @@
 ﻿// Copyright 2012, 2013, 2014 Derek J. Bailey
+// Modified work Copyright 2016 Stefan Solntsev
 // 
 // This file (Chromatogram.cs) is part of MassSpectrometry.
 // 
@@ -15,7 +16,6 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with MassSpectrometry. If not, see <http://www.gnu.org/licenses/>.
 
-using MassSpectrometry.Enums;
 using Spectra;
 using System;
 using System.Collections;
@@ -82,7 +82,8 @@ namespace MassSpectrometry
         }
     }
 
-    public abstract class Chromatogram<T> : IEnumerable<T> where T : Peak
+    public abstract class Chromatogram<TPeak> : ISpectrum<TPeak> 
+        where TPeak : Peak
     {
         protected readonly double[] _times;
         protected readonly double[] _intensities;
@@ -136,12 +137,12 @@ namespace MassSpectrometry
             Buffer.BlockCopy(timeintensities, size, _intensities, 0, size);
         }
 
-        protected Chromatogram(Chromatogram<T> other)
+        protected Chromatogram(Chromatogram<TPeak> other)
             : this(other._times, other._intensities)
         {
         }
 
-        public abstract T GetPeak(int index);
+        public abstract TPeak GetPeak(int index);
 
         public abstract byte[] ToBytes(bool zlibCompressed);
 
@@ -169,12 +170,12 @@ namespace MassSpectrometry
             return _intensities[index];
         }
 
-        public virtual T GetApex(IRange<double> timeRange)
+        public virtual TPeak GetApex(IRange<double> timeRange)
         {
             return GetApex(timeRange.Minimum, timeRange.Maximum);
         }
 
-        public virtual T GetApex(double mintime, double maxTime)
+        public virtual TPeak GetApex(double mintime, double maxTime)
         {
             int index = Array.BinarySearch(_times, mintime);
             if (index < 0)
@@ -200,24 +201,24 @@ namespace MassSpectrometry
             return GetPeak(apexIndex);
         }
 
-        public virtual ChromatographicElutionProfile<T> GetElutionProfile(IRange<double> timeRange)
+        public virtual ChromatographicElutionProfile<TPeak> GetElutionProfile(IRange<double> timeRange)
         {
             return GetElutionProfile(timeRange.Minimum, timeRange.Maximum);
         }
 
-        public virtual ChromatographicElutionProfile<T> GetElutionProfile(double mintime, double maxTime)
+        public virtual ChromatographicElutionProfile<TPeak> GetElutionProfile(double mintime, double maxTime)
         {
             int index = Array.BinarySearch(_times, mintime);
             if (index < 0)
                 index = ~index;
 
-            List<T> peaks = new List<T>();
+            List<TPeak> peaks = new List<TPeak>();
             while (index < Count && _times[index] <= maxTime)
             {
                 peaks.Add(GetPeak(index));
                 index++;
             }
-            return new ChromatographicElutionProfile<T>(peaks);
+            return new ChromatographicElutionProfile<TPeak>(peaks);
         }
 
         public virtual bool ContainsPeak(IRange<double> timeRange)
@@ -255,13 +256,13 @@ namespace MassSpectrometry
             return maxIntensity >= 1.4 * maxEndPointIntensity;
         }
         
-        public virtual T GetApex()
+        public virtual TPeak GetApex()
         {
             int index = _intensities.MaxIndex();
             return GetPeak(index);
         }
 
-        public T FindNearestApex(double rt, int skipablePts = 1)
+        public TPeak FindNearestApex(double rt, int skipablePts = 1)
         {
             if (Count == 1)
                 return GetPeak(0);
@@ -395,7 +396,7 @@ namespace MassSpectrometry
             return string.Format("Count = {0:N0} TIC = {1:G4}", Count, _intensities.Sum());
         }
 
-        public IEnumerator<T> GetEnumerator()
+        public IEnumerator<TPeak> GetEnumerator()
         {
             for (int i = 0; i < Count; i++)
             {
@@ -406,6 +407,26 @@ namespace MassSpectrometry
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        public bool ContainsAnyPeaksWithinRange(double minX, double maxX)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool ContainsAnyPeaksWithinRange(IRange<double> range)
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool ContainsAnyPeaks()
+        {
+            throw new NotImplementedException();
+        }
+
+        IEnumerator<TPeak> IEnumerable<TPeak>.GetEnumerator()
+        {
+            throw new NotImplementedException();
         }
     }
 }
