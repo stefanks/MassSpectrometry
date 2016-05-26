@@ -80,5 +80,10 @@ namespace Spectra
         {
             return MZ.FuzzyEquals(other.MZ) && Intensity.FuzzyEquals(other.Intensity);
         }
+
+        public void AddIntensity(double additionalIntensity)
+        {
+            Y += additionalIntensity;
+        }
     }
 }
