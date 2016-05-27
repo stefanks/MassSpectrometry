@@ -184,6 +184,8 @@ namespace MassSpectrometry
         {
             if (!CacheScans)
                 return GetMsDataScanFromFile(scanNumber);
+            if (Scans == null)
+                Scans = new MsDataScan<TSpectrum>[LastSpectrumNumber - FirstSpectrumNumber + 1];
 
             if (Scans[scanNumber - FirstSpectrumNumber] == null)
             {
