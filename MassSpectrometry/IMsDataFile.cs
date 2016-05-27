@@ -27,7 +27,7 @@ namespace MassSpectrometry
         where TSpectrum : IMzSpectrum<MzPeak>
     {
         TSpectrum GetSpectrum(int spectrumNumber);
-        IMsDataScan<TSpectrum> this[int spectrumNumber] { get; }
+        IMsDataScan<TSpectrum> GetScan(int scanNumber);
         void Open();
         string Name { get; }
         bool IsOpen { get; }

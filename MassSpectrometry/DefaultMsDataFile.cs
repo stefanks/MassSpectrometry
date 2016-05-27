@@ -120,7 +120,7 @@ namespace MassSpectrometry
 
         protected override int GetFirstSpectrumNumber()
         {
-            throw new NotImplementedException();
+            return 1;
         }
 
         protected override int GetLastSpectrumNumber()

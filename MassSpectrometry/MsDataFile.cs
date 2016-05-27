@@ -111,14 +111,6 @@ namespace MassSpectrometry
             get { return _name; }
         }
 
-        IMsDataScan<TSpectrum> IMsDataFile<TSpectrum>.this[int spectrumNumber]
-        {
-            get
-            {
-                return GetMsScan(spectrumNumber);
-            }
-        }
-        
         IEnumerator IEnumerable.GetEnumerator()
         {
             return GetEnumerator();
@@ -186,24 +178,19 @@ namespace MassSpectrometry
         /// <summary>
         /// Get the MS Scan at the specific spectrum number.
         /// </summary>
-        /// <param name="spectrumNumber">The spectrum number to get the MS Scan at</param>
+        /// <param name="scanNumber">The spectrum number to get the MS Scan at</param>
         /// <returns></returns>
-        public virtual MsDataScan<TSpectrum> GetMsScan(int spectrumNumber)
+        public virtual MsDataScan<TSpectrum> GetMsScan(int scanNumber)
         {
             if (!CacheScans)
-                return GetMsDataScan(spectrumNumber);
+                return GetMsDataScanFromFile(scanNumber);
 
-            if (Scans == null)
+            if (Scans[scanNumber - FirstSpectrumNumber] == null)
             {
-                Scans = new MsDataScan<TSpectrum>[LastSpectrumNumber + 1];
+                Scans[scanNumber - FirstSpectrumNumber] = GetMsDataScanFromFile(scanNumber);
             }
 
-            if (Scans[spectrumNumber] == null)
-            {
-                return Scans[spectrumNumber] = GetMsDataScan(spectrumNumber);
-            }
-
-            return Scans[spectrumNumber];
+            return Scans[scanNumber-FirstSpectrumNumber];
         }
 
         public abstract bool GetIsCentroid(int spectrumNumber);
@@ -217,14 +204,14 @@ namespace MassSpectrometry
 
             if (Scans == null)
             {
-                Scans = new MsDataScan<TSpectrum>[LastSpectrumNumber + 1];
+                Scans = new MsDataScan<TSpectrum>[LastSpectrumNumber - FirstSpectrumNumber + 1];
             }
 
-            for (int spectrumNumber = FirstSpectrumNumber; spectrumNumber < LastSpectrumNumber; spectrumNumber++)
+            for (int scanNumber = FirstSpectrumNumber; scanNumber <= LastSpectrumNumber; scanNumber++)
             {
-                if (Scans[spectrumNumber] == null)
+                if (Scans[scanNumber - FirstSpectrumNumber] == null)
                 {
-                    Scans[spectrumNumber] = GetMsDataScan(spectrumNumber);
+                    Scans[scanNumber - FirstSpectrumNumber] = GetMsDataScanFromFile(scanNumber);
                 }
             }
         }
@@ -238,13 +225,9 @@ namespace MassSpectrometry
             Array.Clear(Scans, 0, Scans.Length);
         }
 
-        protected virtual MsDataScan<TSpectrum> GetMsDataScan(int spectrumNumber)
+        protected virtual MsDataScan<TSpectrum> GetMsDataScanFromFile(int spectrumNumber)
         {
-            int msn = GetMsnOrder(spectrumNumber);
-
-            MsDataScan<TSpectrum> scan = msn > 1 ? new MsDataScan<TSpectrum>(spectrumNumber, msn, this) : new MsDataScan<TSpectrum>(spectrumNumber, msn, this);
-
-            return scan;
+            throw new NotImplementedException();
         }
 
         public abstract int GetPrecusorCharge(int spectrumNumber, int msnOrder = 2);
@@ -338,6 +321,11 @@ namespace MassSpectrometry
         IEnumerator<IMsDataScan<TSpectrum>> IEnumerable<IMsDataScan<TSpectrum>>.GetEnumerator()
         {
             return GetEnumerator();
+        }
+
+        public IMsDataScan<TSpectrum> GetScan(int scanNumber)
+        {
+            return GetMsScan(scanNumber);
         }
     }
 }
