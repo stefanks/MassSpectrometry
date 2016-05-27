@@ -105,7 +105,7 @@ namespace MassSpectrometry
 
         public override DefaultMzSpectrum GetSpectrum(int spectrumNumber)
         {
-            throw new NotImplementedException();
+            return Scans[spectrumNumber - 1].MassSpectrum;
         }
 
         public override string GetSpectrumID(int spectrumNumber)
