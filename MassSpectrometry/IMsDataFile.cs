@@ -39,5 +39,7 @@ namespace MassSpectrometry
         double GetRetentionTime(int spectrumNumber);
         DissociationType GetDissociationType(int spectrumNumber, int msnOrder = 2);
         Polarity GetPolarity(int spectrumNumber);
+        string FilePath { get;}
+        
     }
 }
