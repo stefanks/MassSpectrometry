@@ -26,11 +26,10 @@ namespace MassSpectrometry
     {
         public MsDataFile<TSpectrum> ParentFile { get; private set; }
 
-        private TSpectrum _massMzSpectrum;
-
         /// <summary>
         /// The mass spectrum associated with the scan
         /// </summary>
+        private TSpectrum _massMzSpectrum;
         public TSpectrum MassSpectrum
         {
             get
@@ -88,7 +87,6 @@ namespace MassSpectrometry
         }
 
         private double _retentionTime = double.NaN;
-
         public double RetentionTime
         {
             get
@@ -106,7 +104,6 @@ namespace MassSpectrometry
         }
 
         private Polarity _polarity = Polarity.Neutral;
-
         public Polarity Polarity
         {
             get
@@ -197,6 +194,8 @@ namespace MassSpectrometry
         {
             get
             {
+                if (ParentFile == null)
+                    return _isCentroid;
                 if (ParentFile.IsOpen)
                 {
                     _isCentroid = ParentFile.GetIsCentroid(SpectrumNumber);
@@ -212,6 +211,8 @@ namespace MassSpectrometry
         {
             get
             {
+                if (ParentFile == null)
+                    return _id;
                 if (ParentFile.IsOpen)
                 {
                     _id = ParentFile.GetSpectrumID(SpectrumNumber);
@@ -287,6 +288,18 @@ namespace MassSpectrometry
             SpectrumNumber = spectrumNumber;
             MsnOrder = msnOrder;
             ParentFile = parentFile;
+        }
+
+
+        public MsDataScan(int SpectrumNumber, TSpectrum MassSpectrum, string id, int MsnOrder, bool isCentroid, Polarity Polarity, double RetentionTime)
+        {
+            this.SpectrumNumber = SpectrumNumber;
+            this.MassSpectrum = MassSpectrum;
+            this.id = id;
+            this.MsnOrder = MsnOrder;
+            this.isCentroid = isCentroid;
+            this.Polarity= Polarity;
+            this.RetentionTime = RetentionTime;
         }
 
         public override string ToString()
