@@ -34,6 +34,9 @@ namespace MassSpectrometry
         {
             get
             {
+                if (_massMzSpectrum == null && ParentFile == null)
+                    throw new NullReferenceException("This scan does not have mass spectrum assigned to it, and no file to read it from");
+
                 if (_massMzSpectrum != null || ParentFile == null) 
                     return _massMzSpectrum;
 
