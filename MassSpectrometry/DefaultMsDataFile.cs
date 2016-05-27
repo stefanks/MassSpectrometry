@@ -125,7 +125,7 @@ namespace MassSpectrometry
 
         protected override int GetLastSpectrumNumber()
         {
-            throw new NotImplementedException();
+            return Scans.Count();
         }
     }
 }
