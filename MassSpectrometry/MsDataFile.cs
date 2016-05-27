@@ -184,6 +184,8 @@ namespace MassSpectrometry
         {
             if (!CacheScans)
                 return GetMsDataScanFromFile(scanNumber);
+            if (Scans == null)
+                Scans = new MsDataScan<TSpectrum>[LastSpectrumNumber - FirstSpectrumNumber + 1];
 
             if (Scans[scanNumber - FirstSpectrumNumber] == null)
             {
@@ -227,7 +229,8 @@ namespace MassSpectrometry
 
         protected virtual MsDataScan<TSpectrum> GetMsDataScanFromFile(int spectrumNumber)
         {
-            throw new NotImplementedException();
+            // Roundabout way of doing things. The last parameter is key, it's not null so can read the full scan from file eventually. 
+            return new MsDataScan<TSpectrum>(spectrumNumber, GetMsnOrder(spectrumNumber), this);
         }
 
         public abstract int GetPrecusorCharge(int spectrumNumber, int msnOrder = 2);
