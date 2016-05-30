@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>TestThermo</RootNamespace>
     <AssemblyName>TestThermo</AssemblyName>
-    <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -20,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <PlatformTarget>x64</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,10 +35,6 @@
     <Reference Include="Chemistry, Version=1.0.8.0, Culture=neutral, processorArchitecture=AMD64">
       <HintPath>..\packages\Chemistry.1.0.8\lib\net451\Chemistry.dll</HintPath>
       <Private>True</Private>
-    </Reference>
-    <Reference Include="MassSpectrometry, Version=1.0.46.0, Culture=neutral, processorArchitecture=AMD64">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\MassSpectrometry.1.0.46\lib\net451\MassSpectrometry.dll</HintPath>
     </Reference>
     <Reference Include="Mono.Cecil, Version=0.9.6.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnit3TestAdapter.3.0.10\lib\Mono.Cecil.dll</HintPath>
@@ -58,10 +56,6 @@
       <HintPath>..\packages\NUnit3TestAdapter.3.0.10\lib\NUnit3.TestAdapter.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Spectra, Version=1.0.46.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\MassSpectrometry.1.0.46\lib\net451\Spectra.dll</HintPath>
-      <Private>True</Private>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -76,12 +70,18 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\MassSpecFiles\Thermo\Thermo.csproj">
       <Project>{24DC85FF-E97B-4140-9614-77DD8FDDD32F}</Project>
       <Name>Thermo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MassSpectrometry\MassSpectrometry.csproj">
+      <Project>{6febb7ed-0be6-4493-817e-cefd4cbe61dd}</Project>
+      <Name>MassSpectrometry</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
