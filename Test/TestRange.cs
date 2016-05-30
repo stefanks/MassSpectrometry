@@ -24,9 +24,7 @@ namespace Test
 {
     [TestFixture]
     public sealed class RangeTest { 
-
-        private object _ignore;
-
+        
         [Test]
         public void RangeSubRange()
         {
@@ -209,7 +207,7 @@ namespace Test
         [Test]
         public void RangeMinBiggerThanMax()
         {
-            Assert.Throws<ArgumentException>(() => { _ignore = new Range<int>(10, 5); });
+            Assert.Throws<ArgumentException>(() => { new Range<int>(10, 5); });
         }
 
         [Test]
