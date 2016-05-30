@@ -209,7 +209,7 @@ namespace Test
         {
             MzSpectrum<MzPeak, DefaultMzSpectrum> v2 = _mzSpectrumA;
             IMzSpectrum<MzPeak> v3 = v2;
-            IEnumerable<Peak> v4 = v3;
+//          IEnumerable<Peak> v4 = v3;
             v3.Take(4);
             var v5 = v3.Select(b => b.X);
             Assert.AreEqual(328.73795, v5.First());

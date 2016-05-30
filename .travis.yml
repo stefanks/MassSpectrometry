@@ -6,3 +6,4 @@ install:
 script:
   - xbuild /p:Configuration=NoExternalProjects MassSpectrometry.sln 
   - mono ./testrunner/NUnit.ConsoleRunner.*/tools/nunit3-console.exe ./Test/bin/Debug/Test.dll
+  - xbuild /p:Configuration=Release MassSpectrometry.sln 

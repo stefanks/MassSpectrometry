@@ -24,11 +24,7 @@ namespace Test
 {
     [TestFixture]
     public sealed class RangeTest { 
-        // ReSharper disable NotAccessedField.Local
-        private object _ignore;
-
-        // ReSharper restore NotAccessedField.Local
-
+        
         [Test]
         public void RangeSubRange()
         {
@@ -211,7 +207,7 @@ namespace Test
         [Test]
         public void RangeMinBiggerThanMax()
         {
-            Assert.Throws<ArgumentException>(() => { _ignore = new Range<int>(10, 5); });
+            Assert.Throws<ArgumentException>(() => { new Range<int>(10, 5); });
         }
 
         [Test]
