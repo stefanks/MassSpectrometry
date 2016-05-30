@@ -1,8 +1,12 @@
 language: csharp
 solution: MassSpectrometry.sln
+matrix:
+  include:
+    - env: CONFIG = Release 
+    - env: CONFIG = NoExternalProjects 
 install:
   - nuget restore MassSpectrometry.sln
   - nuget install NUnit.Console -OutputDirectory testrunner
 script:
-  - xbuild /p:Configuration=NoExternalProjects MassSpectrometry.sln 
+  - xbuild /p:Configuration=$CONFIG MassSpectrometry.sln 
   - mono ./testrunner/NUnit.ConsoleRunner.*/tools/nunit3-console.exe ./Test/bin/Debug/Test.dll
