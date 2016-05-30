@@ -25,6 +25,8 @@ namespace Test
     [TestFixture]
     public sealed class RangeTest { 
 
+        private object _ignore;
+
         [Test]
         public void RangeSubRange()
         {
