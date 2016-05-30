@@ -24,10 +24,6 @@ namespace Test
 {
     [TestFixture]
     public sealed class RangeTest { 
-        // ReSharper disable NotAccessedField.Local
-        private object _ignore;
-
-        // ReSharper restore NotAccessedField.Local
 
         [Test]
         public void RangeSubRange()
