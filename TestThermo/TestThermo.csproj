@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6FEBB7ED-0BE6-4493-817E-CEFD4CBE61DD}</ProjectGuid>
+    <ProjectGuid>{DA244DB8-0644-402B-A7E4-9D838929F82C}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MassSpectrometry</RootNamespace>
-    <AssemblyName>MassSpectrometry</AssemblyName>
+    <RootNamespace>TestThermo</RootNamespace>
+    <AssemblyName>TestThermo</AssemblyName>
     <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <TargetFrameworkProfile />
@@ -38,6 +38,26 @@
       <HintPath>..\packages\Chemistry.1.0.8\lib\net451\Chemistry.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Mono.Cecil, Version=0.9.6.0, Culture=neutral, PublicKeyToken=0738eb9f132ed756, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit3TestAdapter.3.0.10\lib\Mono.Cecil.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="nunit.engine, Version=3.0.5813.39036, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit3TestAdapter.3.0.10\lib\nunit.engine.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="nunit.engine.api, Version=3.0.0.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit3TestAdapter.3.0.10\lib\nunit.engine.api.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
+    <Reference Include="nunit.framework, Version=3.2.1.0, Culture=neutral, PublicKeyToken=2638cd05610744eb, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit.3.2.1\lib\net45\nunit.framework.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="NUnit3.TestAdapter, Version=3.0.10.0, Culture=neutral, PublicKeyToken=4cb40d35494691ac, processorArchitecture=MSIL">
+      <HintPath>..\packages\NUnit3TestAdapter.3.0.10\lib\NUnit3.TestAdapter.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -48,32 +68,26 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Chromatogram\Chromatogram.cs" />
-    <Compile Include="Chromatogram\ChromatographicElutionProfile.cs" />
-    <Compile Include="Chromatogram\ChromatographicPeak.cs" />
-    <Compile Include="DefaultMsDataFile.cs" />
-    <Compile Include="Util\ClassExtensions.cs" />
-    <Compile Include="Enums\DissociationType.cs" />
-    <Compile Include="IMsDataFile.cs" />
-    <Compile Include="IMsDataScan.cs" />
-    <Compile Include="MsDataFile.cs" />
-    <Compile Include="Enums\MsDataFileType.cs" />
-    <Compile Include="MsDataScan.cs" />
-    <Compile Include="Enums\MzAnalyzerType.cs" />
-    <Compile Include="Enums\Polarity.cs" />
+    <Compile Include="Class1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Enums\SmoothingType.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\Spectra\Spectra.csproj">
-      <Project>{088e4fcb-d580-4bad-a811-a1796a7666d2}</Project>
-      <Name>Spectra</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\MassSpecFiles\Thermo\Thermo.csproj">
+      <Project>{24DC85FF-E97B-4140-9614-77DD8FDDD32F}</Project>
+      <Name>Thermo</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\MassSpectrometry\MassSpectrometry.csproj">
+      <Project>{6febb7ed-0be6-4493-817e-cefd4cbe61dd}</Project>
+      <Name>MassSpectrometry</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{82A7F48D-3B50-4B1E-B82E-3ADA8210C358}" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
