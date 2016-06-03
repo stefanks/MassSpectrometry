@@ -25,7 +25,6 @@ namespace Spectra
 {
     internal static class ClassExtensions
     {
-
         public static T[] SubArray<T>(this T[] data, int index, int length)
         {
             T[] result = new T[length];
@@ -52,7 +51,6 @@ namespace Spectra
             return MaxIndex(items, o => o, out maxItem);
         }
         
-
         /// <summary>
         /// Finds the index of the maximum value in a collection
         /// </summary>
@@ -82,6 +80,7 @@ namespace Spectra
             }
             return maxIndex;
         }
+       
         /// <summary>
         /// Decompresses a byte array using Gzip decompression
         /// </summary>

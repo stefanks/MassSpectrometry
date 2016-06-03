@@ -54,8 +54,7 @@ namespace MassSpectrometry
             }
             return smoothedData;
         }
-
-
+        
         /// <summary>
         /// Compresses a byte array using Gzip compression
         /// </summary>
@@ -76,13 +75,7 @@ namespace MassSpectrometry
             TSource maxItem;
             return MaxIndex(items, o => o, out maxItem);
         }
-
-        public static int MaxIndex<TSource>(this IEnumerable<TSource> items, out TSource maxItem) where TSource : IComparable<TSource>
-
-        {
-            return MaxIndex(items, o => o, out maxItem);
-        }
-
+        
         /// <summary>
         /// Finds the index of the maximum value in a collection
         /// </summary>
