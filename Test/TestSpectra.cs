@@ -18,10 +18,7 @@
 
 using NUnit.Framework;
 using Spectra;
-using System.Collections;
-using System.Collections.Generic;
 using System.Linq;
-using System;
 
 namespace Test
 {
