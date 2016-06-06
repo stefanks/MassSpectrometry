@@ -54,6 +54,7 @@
     <Compile Include="Chromatogram\ChromatographicElutionProfile.cs" />
     <Compile Include="Chromatogram\ChromatographicPeak.cs" />
     <Compile Include="DataFile\DefaultMsDataFile.cs" />
+    <Compile Include="Identifications.cs" />
     <Compile Include="Util\ClassExtensions.cs" />
     <Compile Include="Enums\DissociationType.cs" />
     <Compile Include="DataFile\IMsDataFile.cs" />
