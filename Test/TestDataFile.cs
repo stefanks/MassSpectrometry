@@ -1,7 +1,7 @@
 ﻿// Copyright 2012, 2013, 2014 Derek J. Bailey
 // Modified work Copyright 2016 Stefan Solntsev
 //
-// This file (TestSpectra.cs) is part of MassSpectrometry.Tests.
+// This file (TestDataFile.cs) is part of MassSpectrometry.Tests.
 //
 // MassSpectrometry.Tests is free software: you can redistribute it and/or modify it
 // under the terms of the GNU Lesser General Public License as published
@@ -19,7 +19,6 @@
 using MassSpectrometry;
 using NUnit.Framework;
 using Spectra;
-using System.Linq;
 
 namespace Test
 {
