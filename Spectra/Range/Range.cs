@@ -75,9 +75,6 @@ namespace Spectra
         /// <returns>True if this range is fully encloses the other range, false otherwise</returns>
         public bool IsSuperRange(IRange<T> other)
         {
-            if (other == null)
-                return false;
-
             return Maximum.CompareTo(other.Maximum) >= 0 && Minimum.CompareTo(other.Minimum) <= 0;
         }
 
@@ -88,9 +85,6 @@ namespace Spectra
         /// <returns>True if this range is fully enclosed by the other range, false otherwise</returns>
         public bool IsSubRange(IRange<T> other)
         {
-            if (other == null)
-                return false;
-
             return Maximum.CompareTo(other.Maximum) <= 0 && Minimum.CompareTo(other.Minimum) >= 0;
         }
 
@@ -101,9 +95,6 @@ namespace Spectra
         /// <returns>True if the other range in any way overlaps this range, false otherwise</returns>
         public bool IsOverlapping(IRange<T> other)
         {
-            if (other == null)
-                return false;
-
             return Maximum.CompareTo(other.Minimum) >= 0 && Minimum.CompareTo(other.Maximum) <= 0;
         }
 
@@ -133,9 +124,6 @@ namespace Spectra
         /// <returns>True if both the minimum and maximum values are equivalent, false otherwise</returns>
         public bool Equals(IRange<T> other)
         {
-            if (other == null)
-                return false;
-
             return Maximum.Equals(other.Maximum) && Minimum.Equals(other.Minimum);
         }
 

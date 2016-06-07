@@ -60,15 +60,7 @@ namespace Test
 
             Assert.IsFalse(range2.IsOverlapping(range1));
         }
-
-        [Test]
-        public void RangeOverlappingIsFalseWhenNull()
-        {
-            var range1 = new Range<int>(5, 10);
-
-            Assert.IsFalse(range1.IsOverlapping(null));
-        }
-
+        
         [Test]
         public void RangeOverlappingIsTrue()
         {
@@ -281,6 +273,23 @@ namespace Test
             var range2 = new DoubleRange(10, new Tolerance(ToleranceUnit.DA, -4));
 
             Assert.AreEqual(range1, range2);
+        }
+
+
+        [Test]
+        public void RangeFromRange()
+        {
+            var range1 = new DoubleRange(10, new Tolerance(ToleranceUnit.DA, 4));
+            var range2 = new Range<double>(range1);
+            Assert.AreEqual(range1, range2);
+        }
+
+        [Test]
+        public void SuperRange()
+        {
+            var range1 = new DoubleRange(10, new Tolerance(ToleranceUnit.DA, 4));
+            var range2 = new DoubleRange(10, new Tolerance(ToleranceUnit.DA, 3));
+            Assert.IsTrue(range1.IsSuperRange(range2));
         }
     }
 }
