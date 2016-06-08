@@ -46,7 +46,7 @@ namespace MassSpectrometry
         {
         }
 
-        public Chromatogram Smooth(SmoothingType smoothing, int points)
+        public Chromatogram CreateSmoothChromatogram(SmoothingType smoothing, int points)
         {
             switch (smoothing)
             {
@@ -54,8 +54,6 @@ namespace MassSpectrometry
                     double[] newTimes = _times.BoxCarSmooth(points);
                     double[] newIntensities = _intensities.BoxCarSmooth(points);
                     return new Chromatogram(newTimes, newIntensities, false);
-                case SmoothingType.SavitzkyGolay:
-                    throw new NotImplementedException();
                 default:
                     return new Chromatogram(this);
             }
