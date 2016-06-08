@@ -46,7 +46,7 @@ namespace Test
             MzPeak ok = new MzPeak(1, 1);
             ok.AddIntensity(1);
             Assert.AreEqual(2,ok.Intensity);
-            Assert.AreEqual("(1.0000,2)", ok);
+            Assert.AreEqual("(1.0000,2)", ""+ok);
         }
     }
 }
