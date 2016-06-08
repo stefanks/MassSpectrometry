@@ -31,5 +31,22 @@ namespace Test
             MzPeak ok = new MzPeak(1, 1);
             Assert.IsTrue(ok.Equals(new MzPeak(1 + 1e-11, 1 + 1e-11)));
         }
+
+        [Test]
+        public void PeakEquality2()
+        {
+            Peak ok = new MzPeak(1, 1);
+            Peak ok2 = new MzPeak(1 + 1e-11, 1 + 1e-11);
+            Assert.IsTrue(ok.Equals(ok2));
+        }
+
+        [Test]
+        public void PeakStuff()
+        {
+            MzPeak ok = new MzPeak(1, 1);
+            ok.AddIntensity(1);
+            Assert.AreEqual(2,ok.Intensity);
+            Assert.AreEqual("(1, 2)", ok);
+        }
     }
 }
