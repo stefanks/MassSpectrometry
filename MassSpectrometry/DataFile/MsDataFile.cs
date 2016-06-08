@@ -40,13 +40,9 @@ namespace MassSpectrometry
         internal MsDataScan<TSpectrum>[] Scans = null;
 
         private string _filePath;
-
-        private int _firstSpectrumNumber = -1;
-
+        
         private bool _isOpen;
-
-        private int _lastSpectrumNumber = -1;
-
+        
         private string _name;
 
         static MsDataFile()
@@ -79,13 +75,8 @@ namespace MassSpectrometry
         {
             get
             {
-                if (_firstSpectrumNumber < 0)
-                {
-                    _firstSpectrumNumber = GetFirstSpectrumNumber();
-                }
-                return _firstSpectrumNumber;
+                return GetFirstSpectrumNumber();
             }
-            set { _firstSpectrumNumber = value; }
         }
 
         public bool IsOpen
@@ -98,11 +89,7 @@ namespace MassSpectrometry
         {
             get
             {
-                if (_lastSpectrumNumber < 0)
-                {
-                    _lastSpectrumNumber = GetLastSpectrumNumber();
-                }
-                return _lastSpectrumNumber;
+                return GetLastSpectrumNumber();
             }
         }
 
@@ -115,33 +102,7 @@ namespace MassSpectrometry
         {
             return GetEnumerator();
         }
-
-        protected bool _isDisposed;
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (_isDisposed)
-                return;
-
-            if (disposing)
-            {
-                if (Scans != null)
-                {
-                    ClearCachedScans();
-                    Scans = null;
-                }
-            }
-
-            _isOpen = false;
-            _isDisposed = true;
-        }
-
+        
         public bool Equals(MsDataFile<TSpectrum> other)
         {
             if (ReferenceEquals(this, other)) return true;
@@ -199,11 +160,6 @@ namespace MassSpectrometry
 
         public virtual void LoadAllScansInMemory()
         {
-            if (!CacheScans)
-            {
-                throw new ArgumentException("Cache scans needs to be enabled for this to work properly");
-            }
-
             if (Scans == null)
             {
                 Scans = new MsDataScan<TSpectrum>[LastSpectrumNumber - FirstSpectrumNumber + 1];

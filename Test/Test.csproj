@@ -69,6 +69,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TestRange.cs" />
     <Compile Include="TestDataFile.cs" />
+    <Compile Include="TestChromatogram.cs" />
+    <Compile Include="TestPeak.cs" />
     <Compile Include="TestSpectra.cs" />
     <Compile Include="TestTolerance.cs" />
   </ItemGroup>
