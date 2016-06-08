@@ -56,10 +56,18 @@ namespace Test
             Assert.AreEqual(new DoubleRange(2, 6), d.GetPeakWidth(3));
             Assert.AreEqual(new DoubleRange(6, 9), d.GetPeakWidth(9));
 
+
+            var elutionProfile = d.GetElutionProfile(new DoubleRange(3, 7));
+
+            Assert.AreEqual(5,elutionProfile.Count);
+            Assert.AreEqual(9.5, elutionProfile.TrapezoidalArea());
+
+
             var thePeak = new ChromatographicPeak(1, 10);
             Assert.AreEqual(1, thePeak.Time);
             Assert.AreEqual(10, thePeak.Intensity);
             Assert.AreEqual("(1, 10)", thePeak.ToString());
+
         }
     }
 }
