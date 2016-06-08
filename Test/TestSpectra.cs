@@ -228,5 +228,18 @@ namespace Test
         {
             Assert.AreEqual(122781408.0, _mzSpectrumA.GetBasePeak().Intensity);
         }
+
+        [Test]
+        public void GetClosestPeak()
+        {
+            Assert.AreEqual(448.23987, _mzSpectrumA.GetClosestPeak(448).MZ);
+            Assert.AreEqual(447.73849, _mzSpectrumA.GetClosestPeak(447.9).MZ);
+        }
+
+        [Test]
+        public void Extract()
+        {
+            Assert.AreEqual(3, _mzSpectrumA.Extract(500,600).Count);
+        }
     }
 }
