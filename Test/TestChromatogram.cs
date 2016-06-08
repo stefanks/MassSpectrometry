@@ -37,14 +37,24 @@ namespace Test
 
             _mzSpectrumA = new DefaultMzSpectrum(mz, intensities);
         }
-        
+
         [Test]
         public void ChromatogramTest()
         {
-            Chromatogram a = new Chromatogram(new double[5] {1,2,3,4,5 }, new double[5] {1,2,6,4,2});
+            Chromatogram a = new Chromatogram(new double[5] { 1, 2, 3, 4, 5 }, new double[5] { 1, 2, 6, 4, 2 });
             var b = a.CreateSmoothChromatogram(SmoothingType.BoxCar, 4);
             Assert.IsTrue(b.GetTimes().SequenceEqual(new double[3] { 2, 3, 4 }));
-            Assert.IsTrue(b.GetIntensities().SequenceEqual(new double[3] {3,4,4 }));
+            Assert.IsTrue(b.GetIntensities().SequenceEqual(new double[3] { 3, 4, 4 }));
+            var c = new Chromatogram(a);
+
+            Chromatogram d = new Chromatogram(new double[9] { 1, 2, 3, 4, 5, 6, 7, 8,9 }, new double[9] {10, 0, 2, 6, 2, 0, 1, 10, 1 });
+            // Finds the APEX! Not nearest peak!
+            Assert.AreEqual(6, d.FindNearestApex(5.9).Intensity);
+            Assert.AreEqual(10, d.FindNearestApex(6.1).Intensity);
+            // Finds the width of a large peak! Includes the zeros!
+            Assert.AreEqual(new DoubleRange(1, 2), d.GetPeakWidth(1));
+            Assert.AreEqual(new DoubleRange(2, 6), d.GetPeakWidth(3));
+            Assert.AreEqual(new DoubleRange(6, 9), d.GetPeakWidth(9));
         }
     }
 }
