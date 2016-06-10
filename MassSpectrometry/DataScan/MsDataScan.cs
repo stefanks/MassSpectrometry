@@ -34,12 +34,18 @@ namespace MassSpectrometry
         {
             get
             {
+                //Console.WriteLine("In MassSpectrum property of MsDataScan");
                 if (_massMzSpectrum != null)
                     return _massMzSpectrum;
+                //Console.WriteLine("_massMzSpectrum was null...");
                 if (ParentFile == null)
                     throw new NullReferenceException("This scan does not have mass spectrum assigned to it, and no file to read it from");
                 if (!ParentFile.IsOpen)
+                {
+                    //Console.WriteLine("Opening file!");
                     ParentFile.Open();
+                }
+                //Console.WriteLine("Assigning _massMzSpectrum = ParentFile.GetSpectrum(SpectrumNumber)");
                 _massMzSpectrum = ParentFile.GetSpectrum(SpectrumNumber);
                 return _massMzSpectrum;
             }
@@ -313,7 +319,7 @@ namespace MassSpectrometry
 
         public override int GetHashCode()
         {
-            return ParentFile.GetHashCode() ^ SpectrumNumber;
+            return ParentFile.  GetHashCode() ^ SpectrumNumber;
         }
 
         public bool Equals(MsDataScan<TSpectrum> other)
