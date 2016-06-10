@@ -21,7 +21,7 @@ using System;
 
 namespace MassSpectrometry
 {
-    public class MsDataScan<TSpectrum> : IMsDataScan<TSpectrum>, IEquatable<MsDataScan<TSpectrum>> 
+    public class MsDataScan<TSpectrum> : IMsDataScan<TSpectrum>, IEquatable<MsDataScan<TSpectrum>>
         where TSpectrum : IMzSpectrum<MzPeak>
     {
         public MsDataFile<TSpectrum> ParentFile { get; private set; }
@@ -34,21 +34,24 @@ namespace MassSpectrometry
         {
             get
             {
-                if (_massMzSpectrum == null && ParentFile == null)
-                    throw new NullReferenceException("This scan does not have mass spectrum assigned to it, and no file to read it from");
-
-                if (_massMzSpectrum != null || ParentFile == null) 
+                //Console.WriteLine("In MassSpectrum property of MsDataScan");
+                if (_massMzSpectrum != null)
                     return _massMzSpectrum;
-
-                if (ParentFile.IsOpen)
+                //Console.WriteLine("_massMzSpectrum was null...");
+                if (ParentFile == null)
+                    throw new NullReferenceException("This scan does not have mass spectrum assigned to it, and no file to read it from");
+                if (!ParentFile.IsOpen)
                 {
-                    _massMzSpectrum = ParentFile.GetSpectrum(SpectrumNumber);
+                    //Console.WriteLine("Opening file!");
+                    ParentFile.Open();
                 }
+                //Console.WriteLine("Assigning _massMzSpectrum = ParentFile.GetSpectrum(SpectrumNumber)");
+                _massMzSpectrum = ParentFile.GetSpectrum(SpectrumNumber);
                 return _massMzSpectrum;
             }
             internal set { _massMzSpectrum = value; }
         }
-        
+
         public int SpectrumNumber { get; protected set; }
 
         private double _resolution = double.NaN;
@@ -57,7 +60,7 @@ namespace MassSpectrometry
         {
             get
             {
-                if (!double.IsNaN(_resolution) || ParentFile == null) 
+                if (!double.IsNaN(_resolution) || ParentFile == null)
                     return _resolution;
 
                 if (ParentFile.IsOpen)
@@ -244,12 +247,12 @@ namespace MassSpectrometry
         {
             get
             {
-                    if (ParentFile.IsOpen)
-                    {
+                if (ParentFile.IsOpen)
+                {
                     _selectedIonMonoisotopicMZ = ParentFile.GetPrecursorMonoisotopicMz(SpectrumNumber);
-                    }
-                    return _selectedIonMonoisotopicMZ;
                 }
+                return _selectedIonMonoisotopicMZ;
+            }
             internal set { _selectedIonMonoisotopicMZ = value; }
         }
 
@@ -258,12 +261,12 @@ namespace MassSpectrometry
         {
             get
             {
-                    if (ParentFile.IsOpen)
-                    {
+                if (ParentFile.IsOpen)
+                {
                     _selectedIonChargeState = ParentFile.GetPrecusorCharge(SpectrumNumber);
-                    }
-                    return _selectedIonChargeState;
                 }
+                return _selectedIonChargeState;
+            }
             internal set { _selectedIonChargeState = value; }
         }
 
@@ -301,7 +304,7 @@ namespace MassSpectrometry
             this.id = id;
             this.MsnOrder = MsnOrder;
             this.isCentroid = isCentroid;
-            this.Polarity= Polarity;
+            this.Polarity = Polarity;
             this.RetentionTime = RetentionTime;
         }
 
@@ -316,7 +319,7 @@ namespace MassSpectrometry
 
         public override int GetHashCode()
         {
-            return ParentFile.GetHashCode() ^ SpectrumNumber;
+            return ParentFile.  GetHashCode() ^ SpectrumNumber;
         }
 
         public bool Equals(MsDataScan<TSpectrum> other)

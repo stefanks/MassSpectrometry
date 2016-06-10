@@ -23,7 +23,7 @@ using System.Collections.Generic;
 namespace MassSpectrometry
 {
 
-    public interface IMsDataFile<out TSpectrum> : IEnumerable<IMsDataScan<TSpectrum>>, IDisposable
+    public interface IMsDataFile<out TSpectrum> : IEnumerable<IMsDataScan<TSpectrum>>
         where TSpectrum : IMzSpectrum<MzPeak>
     {
         TSpectrum GetSpectrum(int spectrumNumber);

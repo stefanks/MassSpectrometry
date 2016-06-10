@@ -34,11 +34,6 @@ namespace MassSpectrometry
         /// A Moving Average
         /// </para>
         /// </summary>
-        BoxCar,
-
-        /// <summary>
-        /// Savitzky-Golay smoothing
-        /// </summary>
-        SavitzkyGolay
+        BoxCar
     }
 }

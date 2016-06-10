@@ -40,13 +40,9 @@ namespace MassSpectrometry
         internal MsDataScan<TSpectrum>[] Scans = null;
 
         private string _filePath;
-
-        private int _firstSpectrumNumber = -1;
-
+        
         private bool _isOpen;
-
-        private int _lastSpectrumNumber = -1;
-
+        
         private string _name;
 
         static MsDataFile()
@@ -75,17 +71,18 @@ namespace MassSpectrometry
         
         public abstract string GetSpectrumID(int spectrumNumber);
 
+        bool _firstSpectrumNumberSet=false;
+        int _firstSpectrumNumber;
         public virtual int FirstSpectrumNumber
         {
             get
             {
-                if (_firstSpectrumNumber < 0)
-                {
-                    _firstSpectrumNumber = GetFirstSpectrumNumber();
-                }
+                if (_firstSpectrumNumberSet)
+                    return _firstSpectrumNumber;
+                _firstSpectrumNumberSet = true;
+                _firstSpectrumNumber = GetFirstSpectrumNumber();
                 return _firstSpectrumNumber;
             }
-            set { _firstSpectrumNumber = value; }
         }
 
         public bool IsOpen
@@ -94,14 +91,19 @@ namespace MassSpectrometry
             protected set { _isOpen = value; }
         }
 
+        bool _lastSpectrumNumberSet = false;
+        int _lastSpectrumNumber;
         public virtual int LastSpectrumNumber
         {
             get
             {
-                if (_lastSpectrumNumber < 0)
-                {
-                    _lastSpectrumNumber = GetLastSpectrumNumber();
-                }
+                if (_lastSpectrumNumberSet)
+                    return _lastSpectrumNumber;
+                _lastSpectrumNumberSet = true;
+
+                //Console.WriteLine("Calling GetLastSpectrumNumber!");
+                _lastSpectrumNumber = GetLastSpectrumNumber();
+                //Console.WriteLine("Got the _lastSpectrumNumber, "+ _lastSpectrumNumber);
                 return _lastSpectrumNumber;
             }
         }
@@ -115,33 +117,7 @@ namespace MassSpectrometry
         {
             return GetEnumerator();
         }
-
-        protected bool _isDisposed;
-
-        public void Dispose()
-        {
-            Dispose(true);
-            GC.SuppressFinalize(this);
-        }
-
-        protected virtual void Dispose(bool disposing)
-        {
-            if (_isDisposed)
-                return;
-
-            if (disposing)
-            {
-                if (Scans != null)
-                {
-                    ClearCachedScans();
-                    Scans = null;
-                }
-            }
-
-            _isOpen = false;
-            _isDisposed = true;
-        }
-
+        
         public bool Equals(MsDataFile<TSpectrum> other)
         {
             if (ReferenceEquals(this, other)) return true;
@@ -180,8 +156,9 @@ namespace MassSpectrometry
         /// </summary>
         /// <param name="scanNumber">The spectrum number to get the MS Scan at</param>
         /// <returns></returns>
-        public virtual MsDataScan<TSpectrum> GetMsScan(int scanNumber)
+        public virtual IMsDataScan<TSpectrum> GetScan(int scanNumber)
         {
+            //Console.WriteLine("In GetScan");
             if (!CacheScans)
                 return GetMsDataScanFromFile(scanNumber);
             if (Scans == null)
@@ -189,9 +166,11 @@ namespace MassSpectrometry
 
             if (Scans[scanNumber - FirstSpectrumNumber] == null)
             {
+                //Console.WriteLine("Not in cache so getting it from file!");
                 Scans[scanNumber - FirstSpectrumNumber] = GetMsDataScanFromFile(scanNumber);
             }
 
+            //Console.WriteLine("Return the scan!");
             return Scans[scanNumber-FirstSpectrumNumber];
         }
 
@@ -199,11 +178,6 @@ namespace MassSpectrometry
 
         public virtual void LoadAllScansInMemory()
         {
-            if (!CacheScans)
-            {
-                throw new ArgumentException("Cache scans needs to be enabled for this to work properly");
-            }
-
             if (Scans == null)
             {
                 Scans = new MsDataScan<TSpectrum>[LastSpectrumNumber - FirstSpectrumNumber + 1];
@@ -252,25 +226,25 @@ namespace MassSpectrometry
 
         public abstract double GetPrecursorIsolationIntensity(int spectrumNumber);
 
-        public virtual IEnumerable<MsDataScan<TSpectrum>> GetMsScans()
+        public virtual IEnumerable<IMsDataScan<TSpectrum>> GetMsScans()
         {
             return GetMsScans(FirstSpectrumNumber, LastSpectrumNumber);
         }
 
-        public virtual IEnumerable<MsDataScan<TSpectrum>> GetMsScans(int FirstSpectrumNumber, int LastSpectrumNumber)
+        public virtual IEnumerable<IMsDataScan<TSpectrum>> GetMsScans(int FirstSpectrumNumber, int LastSpectrumNumber)
         {
             for (int spectrumNumber = FirstSpectrumNumber; spectrumNumber <= LastSpectrumNumber; spectrumNumber++)
             {
-                yield return GetMsScan(spectrumNumber);
+                yield return GetScan(spectrumNumber);
             }
         }
 
-        public virtual IEnumerable<MsDataScan<TSpectrum>> GetMsScans(double firstRT, double lastRT)
+        public virtual IEnumerable<IMsDataScan<TSpectrum>> GetMsScans(double firstRT, double lastRT)
         {
             int spectrumNumber = GetSpectrumNumber(firstRT - 0.0000001);
             while (spectrumNumber <= LastSpectrumNumber)
             {
-                MsDataScan<TSpectrum> scan = GetMsScan(spectrumNumber++);
+                IMsDataScan<TSpectrum> scan = GetScan(spectrumNumber++);
                 double rt = scan.RetentionTime;
                 if (rt < firstRT)
                     continue;
@@ -280,7 +254,7 @@ namespace MassSpectrometry
             }
         }
 
-        public virtual IEnumerable<MsDataScan<TSpectrum>> GetMsScans(IRange<int> range)
+        public virtual IEnumerable<IMsDataScan<TSpectrum>> GetMsScans(IRange<int> range)
         {
             return GetMsScans(range.Minimum, range.Maximum);
         }
@@ -302,10 +276,7 @@ namespace MassSpectrometry
         /// <summary>
         /// Open up a connection to the underlying MS data stream
         /// </summary>
-        public virtual void Open()
-        {
-            _isOpen = true;
-        }
+        public abstract void Open();
 
         public override string ToString()
         {
@@ -324,11 +295,6 @@ namespace MassSpectrometry
         IEnumerator<IMsDataScan<TSpectrum>> IEnumerable<IMsDataScan<TSpectrum>>.GetEnumerator()
         {
             return GetEnumerator();
-        }
-
-        public IMsDataScan<TSpectrum> GetScan(int scanNumber)
-        {
-            return GetMsScan(scanNumber);
         }
     }
 }

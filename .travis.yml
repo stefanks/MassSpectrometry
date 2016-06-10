@@ -4,6 +4,6 @@ install:
   - nuget restore MassSpectrometry.sln
   - nuget install NUnit.Console -OutputDirectory testrunner
 script:
-  - xbuild /p:Configuration=NoExternalProjects MassSpectrometry.sln 
+  - xbuild /p:Configuration=Debug MassSpectrometry.sln 
   - mono ./testrunner/NUnit.ConsoleRunner.*/tools/nunit3-console.exe ./Test/bin/Debug/Test.dll
   - xbuild /p:Configuration=Release MassSpectrometry.sln 

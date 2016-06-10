@@ -57,25 +57,5 @@ namespace MassSpectrometry
         {
             return string.Format("({0:G4}, {1:G4})", Time, Intensity);
         }
-
-        public int CompareTo(double time)
-        {
-            return Time.CompareTo(time);
-        }
-
-        public int CompareTo(Peak other)
-        {
-            return Time.CompareTo(other.X);
-        }
-
-        public int CompareTo(ChromatographicPeak other)
-        {
-            return Time.CompareTo(other.Time);
-        }
-
-        public int CompareTo(object other)
-        {
-            return 0;
-        }
     }
 }
