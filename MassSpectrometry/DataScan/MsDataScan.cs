@@ -61,7 +61,7 @@ namespace MassSpectrometry
         
         public double SelectedIonIsolationIntensity { get; internal set; }
 
-        public MsDataScan(int SpectrumNumber, TSpectrum MassSpectrum, string id, int MsnOrder, bool isCentroid, Polarity Polarity, double RetentionTime, string PrecursorID = null, double SelectedIonMonoisotopicMZ = double.NaN, int SelectedIonChargeState = 0, double SelectedIonIsolationIntensity = double.NaN)
+        public MsDataScan(int SpectrumNumber, TSpectrum MassSpectrum, string id, int MsnOrder, bool isCentroid, Polarity Polarity, double RetentionTime, DoubleRange MzRange, string PrecursorID = null, double SelectedIonMonoisotopicMZ = double.NaN, int SelectedIonChargeState = 0, double SelectedIonIsolationIntensity = double.NaN)
         {
             this.SpectrumNumber = SpectrumNumber;
             this.MassSpectrum = MassSpectrum;
@@ -70,11 +70,11 @@ namespace MassSpectrometry
             this.isCentroid = isCentroid;
             this.Polarity = Polarity;
             this.RetentionTime = RetentionTime;
+            this.MzRange = MzRange;
             this.PrecursorID = PrecursorID;
             this.SelectedIonMonoisotopicMZ = SelectedIonMonoisotopicMZ;
             this.SelectedIonChargeState = SelectedIonChargeState;
             this.SelectedIonIsolationIntensity = SelectedIonIsolationIntensity;
-            MzRange = new DoubleRange(MassSpectrum.GetMzRange());
         }
 
         public override string ToString()
