@@ -24,282 +24,42 @@ namespace MassSpectrometry
     public class MsDataScan<TSpectrum> : IMsDataScan<TSpectrum>, IEquatable<MsDataScan<TSpectrum>>
         where TSpectrum : IMzSpectrum<MzPeak>
     {
-        public MsDataFile<TSpectrum> ParentFile { get; private set; }
-
         /// <summary>
         /// The mass spectrum associated with the scan
         /// </summary>
-        
-
-
         public TSpectrum MassSpectrum { get; internal set; }
-        //private TSpectrum _massMzSpectrum;
-        //public TSpectrum MassSpectrum
-        //{
-        //    get
-        //    {
-        //        //\\Console.WriteLine("In MassSpectrum property of MsDataScan");
-        //        if (_massMzSpectrum != null)
-        //            return _massMzSpectrum;
-        //        //\\Console.WriteLine("_massMzSpectrum was null...");
-        //        if (ParentFile == null)
-        //            throw new NullReferenceException("This scan does not have mass spectrum assigned to it, and no file to read it from");
-        //        if (!ParentFile.IsOpen)
-        //        {
-        //            //\\Console.WriteLine("Opening file!");
-        //            ParentFile.Open();
-        //        }
-        //        //\\Console.WriteLine("Assigning _massMzSpectrum = ParentFile.GetSpectrum(SpectrumNumber)");
-        //        _massMzSpectrum = ParentFile.GetSpectrum(SpectrumNumber);
-        //        return _massMzSpectrum;
-        //    }
-        //    internal set { _massMzSpectrum = value; }
-        //}
 
         public int SpectrumNumber { get; protected set; }
-
-        private double _resolution = double.NaN;
-
-        public double Resolution
-        {
-            get
-            {
-                if (!double.IsNaN(_resolution) || ParentFile == null)
-                    return _resolution;
-
-                if (ParentFile.IsOpen)
-                {
-                    _resolution = ParentFile.GetResolution(SpectrumNumber);
-                }
-                return _resolution;
-            }
-            internal set { _resolution = value; }
-        }
+        
+        public double Resolution { get; internal set; }
 
         public int MsnOrder { get; protected set; }
-
-        private double _injectionTime = double.NaN;
-
-        public virtual double InjectionTime
-        {
-            get
-            {
-                if (double.IsNaN(_injectionTime))
-                {
-                    if (ParentFile.IsOpen)
-                    {
-                        _injectionTime = ParentFile.GetInjectionTime(SpectrumNumber);
-                    }
-                }
-                return _injectionTime;
-            }
-            internal set { _injectionTime = value; }
-        }
-
-        private double _retentionTime = double.NaN;
-        public double RetentionTime
-        {
-            get
-            {
-                if (double.IsNaN(_retentionTime))
-                {
-                    if (ParentFile.IsOpen)
-                    {
-                        _retentionTime = ParentFile.GetRetentionTime(SpectrumNumber);
-                    }
-                }
-                return _retentionTime;
-            }
-            internal set { _retentionTime = value; }
-        }
-
-        private Polarity _polarity = Polarity.Neutral;
-        public Polarity Polarity
-        {
-            get
-            {
-                if (_polarity == Polarity.Neutral)
-                {
-                    if (ParentFile.IsOpen)
-                    {
-                        _polarity = ParentFile.GetPolarity(SpectrumNumber);
-                    }
-                }
-                return _polarity;
-            }
-            internal set { _polarity = value; }
-        }
-
-        private MZAnalyzerType _mzAnalyzer = MZAnalyzerType.Unknown;
-
-        public MZAnalyzerType MzAnalyzer
-        {
-            get
-            {
-                if (_mzAnalyzer == MZAnalyzerType.Unknown)
-                {
-                    if (ParentFile.IsOpen)
-                    {
-                        _mzAnalyzer = ParentFile.GetMzAnalyzer(SpectrumNumber);
-                    }
-                }
-                return _mzAnalyzer;
-            }
-            internal set { _mzAnalyzer = value; }
-        }
-
-        private DoubleRange _mzRange;
-
-        public DoubleRange MzRange
-        {
-            get
-            {
-                if (_mzRange == null)
-                {
-                    if (ParentFile.IsOpen)
-                    {
-                        _mzRange = ParentFile.GetMzRange(SpectrumNumber);
-                    }
-                }
-                return _mzRange;
-            }
-            internal set { _mzRange = value; }
-        }
-
-        private int _parentScanNumber = -1;
-
-        public int ParentScanNumber
-        {
-            get
-            {
-                if (_parentScanNumber < 0)
-                {
-                    _parentScanNumber = ParentFile.GetParentSpectrumNumber(SpectrumNumber);
-                }
-                return _parentScanNumber;
-            }
-            internal set { _parentScanNumber = value; }
-        }
-
-        private string _scanFilter;
-
-        public string ScanFilter
-        {
-            get
-            {
-                if (_scanFilter == null)
-                {
-                    if (ParentFile.IsOpen)
-                    {
-                        _scanFilter = ParentFile.GetScanFilter(SpectrumNumber);
-                    }
-                }
-                return _scanFilter;
-            }
-            internal set { _scanFilter = value; }
-        }
-
-        private bool _isCentroid;
-        public bool isCentroid
-        {
-            get
-            {
-                if (ParentFile == null)
-                    return _isCentroid;
-                if (ParentFile.IsOpen)
-                {
-                    _isCentroid = ParentFile.GetIsCentroid(SpectrumNumber);
-                }
-                return _isCentroid;
-            }
-            internal set { _isCentroid = value; }
-        }
-
-
-        private string _id;
-        public string id
-        {
-            get
-            {
-                if (ParentFile == null)
-                    return _id;
-                if (ParentFile.IsOpen)
-                {
-                    _id = ParentFile.GetSpectrumID(SpectrumNumber);
-                }
-                return _id;
-            }
-            internal set { _id = value; }
-        }
-
-        //private string _precursorID;
+        
+        public virtual double InjectionTime { get; internal set; }
+        
+        public double RetentionTime { get; internal set; }
+        
+        public Polarity Polarity { get; internal set; }
+        
+        public MZAnalyzerType MzAnalyzer { get; internal set; }
+        
+        public DoubleRange MzRange { get; internal set; }
+        
+        public int ParentScanNumber { get; internal set; }
+        
+        public string ScanFilter { get; internal set; }
+        
+        public bool isCentroid { get; internal set; }
+        
+        public string id { get; internal set; }
+        
         public string PrecursorID { get; internal set; }
-        //{
-        //    get
-        //    {
-        //        if (ParentFile.IsOpen)
-        //        {
-        //            _precursorID = ParentFile.GetPrecursorID(SpectrumNumber);
-        //        }
-        //        return _precursorID;
-        //    }
-        //    internal set { _precursorID = value; }
-        //}
 
-        //private double _selectedIonMonoisotopicMZ;
         public double SelectedIonMonoisotopicMZ { get; internal set; }
-        //{
-        //    get
-        //    {
-        //        if (ParentFile.IsOpen)
-        //        {
-        //            _selectedIonMonoisotopicMZ = ParentFile.GetPrecursorMonoisotopicMz(SpectrumNumber);
-        //        }
-        //        return _selectedIonMonoisotopicMZ;
-        //    }
-        //    internal set { _selectedIonMonoisotopicMZ = value; }
-        //}
 
-        //private int _selectedIonChargeState;
         public int SelectedIonChargeState { get; internal set; }
-        //{
-        //    get
-        //    {
-        //        if (ParentFile.IsOpen)
-        //        {
-        //            _selectedIonChargeState = ParentFile.GetPrecusorCharge(SpectrumNumber);
-        //        }
-        //        return _selectedIonChargeState;
-        //    }
-        //    internal set { _selectedIonChargeState = value; }
-        //}
-
-        //private double _selectedIonIsolationIntensity;
+        
         public double SelectedIonIsolationIntensity { get; internal set; }
-        //{
-        //    get
-        //    {
-        //        if (ParentFile.IsOpen)
-        //        {
-        //            _selectedIonIsolationIntensity = ParentFile.GetPrecursorIsolationIntensity(SpectrumNumber);
-        //        }
-        //        return _selectedIonIsolationIntensity;
-        //    }
-        //    internal set { _selectedIonIsolationIntensity = value; }
-        //}
-
-        //public MsDataScan()
-        //{
-        //    MsnOrder = -1;
-        //}
-
-        //public MsDataScan(int spectrumNumber, int msnOrder = 1, MsDataFile<TSpectrum> parentFile = null)
-        //{
-        //    SpectrumNumber = spectrumNumber;
-        //    MsnOrder = msnOrder;
-        //    ParentFile = parentFile;
-        //}
-
 
         public MsDataScan(int SpectrumNumber, TSpectrum MassSpectrum, string id, int MsnOrder, bool isCentroid, Polarity Polarity, double RetentionTime, string PrecursorID = null, double SelectedIonMonoisotopicMZ = double.NaN, int SelectedIonChargeState = 0, double SelectedIonIsolationIntensity = double.NaN)
         {
@@ -314,26 +74,18 @@ namespace MassSpectrometry
             this.SelectedIonMonoisotopicMZ = SelectedIonMonoisotopicMZ;
             this.SelectedIonChargeState = SelectedIonChargeState;
             this.SelectedIonIsolationIntensity = SelectedIonIsolationIntensity;
+            MzRange = new DoubleRange(MassSpectrum.GetMzRange());
         }
 
         public override string ToString()
         {
-            if (ParentFile == null)
-            {
-                return string.Format("Scan #{0}", SpectrumNumber);
-            }
-            return string.Format("Scan #{0} from {1}", SpectrumNumber, ParentFile);
-        }
-
-        public override int GetHashCode()
-        {
-            return ParentFile.  GetHashCode() ^ SpectrumNumber;
+            return string.Format("Scan #{0}", SpectrumNumber);
         }
 
         public bool Equals(MsDataScan<TSpectrum> other)
         {
             if (ReferenceEquals(this, other)) return true;
-            return SpectrumNumber.Equals(other.SpectrumNumber) && ParentFile.Equals(other.ParentFile);
+            return false;
         }
     }
 }
