@@ -103,11 +103,6 @@ namespace MassSpectrometry
             throw new NotImplementedException();
         }
 
-        public override DefaultMzSpectrum GetSpectrum(int spectrumNumber)
-        {
-            return Scans[spectrumNumber - 1].MassSpectrum;
-        }
-
         public override string GetSpectrumID(int spectrumNumber)
         {
             throw new NotImplementedException();
@@ -131,6 +126,11 @@ namespace MassSpectrometry
         protected override int GetLastSpectrumNumber()
         {
             return Scans.Count();
+        }
+
+        protected override MsDataScan<DefaultMzSpectrum> GetMsDataScanFromFile(int spectrumNumber)
+        {
+            throw new NotImplementedException();
         }
     }
 }

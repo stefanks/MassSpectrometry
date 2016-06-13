@@ -29,28 +29,32 @@ namespace MassSpectrometry
         /// <summary>
         /// The mass spectrum associated with the scan
         /// </summary>
-        private TSpectrum _massMzSpectrum;
-        public TSpectrum MassSpectrum
-        {
-            get
-            {
-                //Console.WriteLine("In MassSpectrum property of MsDataScan");
-                if (_massMzSpectrum != null)
-                    return _massMzSpectrum;
-                //Console.WriteLine("_massMzSpectrum was null...");
-                if (ParentFile == null)
-                    throw new NullReferenceException("This scan does not have mass spectrum assigned to it, and no file to read it from");
-                if (!ParentFile.IsOpen)
-                {
-                    //Console.WriteLine("Opening file!");
-                    ParentFile.Open();
-                }
-                //Console.WriteLine("Assigning _massMzSpectrum = ParentFile.GetSpectrum(SpectrumNumber)");
-                _massMzSpectrum = ParentFile.GetSpectrum(SpectrumNumber);
-                return _massMzSpectrum;
-            }
-            internal set { _massMzSpectrum = value; }
-        }
+        
+
+
+        public TSpectrum MassSpectrum { get; internal set; }
+        //private TSpectrum _massMzSpectrum;
+        //public TSpectrum MassSpectrum
+        //{
+        //    get
+        //    {
+        //        //\\Console.WriteLine("In MassSpectrum property of MsDataScan");
+        //        if (_massMzSpectrum != null)
+        //            return _massMzSpectrum;
+        //        //\\Console.WriteLine("_massMzSpectrum was null...");
+        //        if (ParentFile == null)
+        //            throw new NullReferenceException("This scan does not have mass spectrum assigned to it, and no file to read it from");
+        //        if (!ParentFile.IsOpen)
+        //        {
+        //            //\\Console.WriteLine("Opening file!");
+        //            ParentFile.Open();
+        //        }
+        //        //\\Console.WriteLine("Assigning _massMzSpectrum = ParentFile.GetSpectrum(SpectrumNumber)");
+        //        _massMzSpectrum = ParentFile.GetSpectrum(SpectrumNumber);
+        //        return _massMzSpectrum;
+        //    }
+        //    internal set { _massMzSpectrum = value; }
+        //}
 
         public int SpectrumNumber { get; protected set; }
 
@@ -228,76 +232,76 @@ namespace MassSpectrometry
             internal set { _id = value; }
         }
 
-        private string _precursorID;
-        public string PrecursorID
-        {
-            get
-            {
-                if (ParentFile.IsOpen)
-                {
-                    _precursorID = ParentFile.GetPrecursorID(SpectrumNumber);
-                }
-                return _precursorID;
-            }
-            internal set { _precursorID = value; }
-        }
+        //private string _precursorID;
+        public string PrecursorID { get; internal set; }
+        //{
+        //    get
+        //    {
+        //        if (ParentFile.IsOpen)
+        //        {
+        //            _precursorID = ParentFile.GetPrecursorID(SpectrumNumber);
+        //        }
+        //        return _precursorID;
+        //    }
+        //    internal set { _precursorID = value; }
+        //}
 
-        private double _selectedIonMonoisotopicMZ;
-        public double SelectedIonMonoisotopicMZ
-        {
-            get
-            {
-                if (ParentFile.IsOpen)
-                {
-                    _selectedIonMonoisotopicMZ = ParentFile.GetPrecursorMonoisotopicMz(SpectrumNumber);
-                }
-                return _selectedIonMonoisotopicMZ;
-            }
-            internal set { _selectedIonMonoisotopicMZ = value; }
-        }
+        //private double _selectedIonMonoisotopicMZ;
+        public double SelectedIonMonoisotopicMZ { get; internal set; }
+        //{
+        //    get
+        //    {
+        //        if (ParentFile.IsOpen)
+        //        {
+        //            _selectedIonMonoisotopicMZ = ParentFile.GetPrecursorMonoisotopicMz(SpectrumNumber);
+        //        }
+        //        return _selectedIonMonoisotopicMZ;
+        //    }
+        //    internal set { _selectedIonMonoisotopicMZ = value; }
+        //}
 
-        private int _selectedIonChargeState;
-        public int SelectedIonChargeState
-        {
-            get
-            {
-                if (ParentFile.IsOpen)
-                {
-                    _selectedIonChargeState = ParentFile.GetPrecusorCharge(SpectrumNumber);
-                }
-                return _selectedIonChargeState;
-            }
-            internal set { _selectedIonChargeState = value; }
-        }
+        //private int _selectedIonChargeState;
+        public int SelectedIonChargeState { get; internal set; }
+        //{
+        //    get
+        //    {
+        //        if (ParentFile.IsOpen)
+        //        {
+        //            _selectedIonChargeState = ParentFile.GetPrecusorCharge(SpectrumNumber);
+        //        }
+        //        return _selectedIonChargeState;
+        //    }
+        //    internal set { _selectedIonChargeState = value; }
+        //}
 
-        private double _selectedIonIsolationIntensity;
-        public double SelectedIonIsolationIntensity
-        {
-            get
-            {
-                if (ParentFile.IsOpen)
-                {
-                    _selectedIonIsolationIntensity = ParentFile.GetPrecursorIsolationIntensity(SpectrumNumber);
-                }
-                return _selectedIonIsolationIntensity;
-            }
-            internal set { _selectedIonIsolationIntensity = value; }
-        }
+        //private double _selectedIonIsolationIntensity;
+        public double SelectedIonIsolationIntensity { get; internal set; }
+        //{
+        //    get
+        //    {
+        //        if (ParentFile.IsOpen)
+        //        {
+        //            _selectedIonIsolationIntensity = ParentFile.GetPrecursorIsolationIntensity(SpectrumNumber);
+        //        }
+        //        return _selectedIonIsolationIntensity;
+        //    }
+        //    internal set { _selectedIonIsolationIntensity = value; }
+        //}
 
-        public MsDataScan()
-        {
-            MsnOrder = -1;
-        }
+        //public MsDataScan()
+        //{
+        //    MsnOrder = -1;
+        //}
 
-        public MsDataScan(int spectrumNumber, int msnOrder = 1, MsDataFile<TSpectrum> parentFile = null)
-        {
-            SpectrumNumber = spectrumNumber;
-            MsnOrder = msnOrder;
-            ParentFile = parentFile;
-        }
+        //public MsDataScan(int spectrumNumber, int msnOrder = 1, MsDataFile<TSpectrum> parentFile = null)
+        //{
+        //    SpectrumNumber = spectrumNumber;
+        //    MsnOrder = msnOrder;
+        //    ParentFile = parentFile;
+        //}
 
 
-        public MsDataScan(int SpectrumNumber, TSpectrum MassSpectrum, string id, int MsnOrder, bool isCentroid, Polarity Polarity, double RetentionTime)
+        public MsDataScan(int SpectrumNumber, TSpectrum MassSpectrum, string id, int MsnOrder, bool isCentroid, Polarity Polarity, double RetentionTime, string PrecursorID = null, double SelectedIonMonoisotopicMZ = double.NaN, int SelectedIonChargeState = 0, double SelectedIonIsolationIntensity = double.NaN)
         {
             this.SpectrumNumber = SpectrumNumber;
             this.MassSpectrum = MassSpectrum;
@@ -306,6 +310,10 @@ namespace MassSpectrometry
             this.isCentroid = isCentroid;
             this.Polarity = Polarity;
             this.RetentionTime = RetentionTime;
+            this.PrecursorID = PrecursorID;
+            this.SelectedIonMonoisotopicMZ = SelectedIonMonoisotopicMZ;
+            this.SelectedIonChargeState = SelectedIonChargeState;
+            this.SelectedIonIsolationIntensity = SelectedIonIsolationIntensity;
         }
 
         public override string ToString()

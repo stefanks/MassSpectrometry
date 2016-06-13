@@ -40,9 +40,9 @@ namespace MassSpectrometry
         internal MsDataScan<TSpectrum>[] Scans = null;
 
         private string _filePath;
-        
+
         private bool _isOpen;
-        
+
         private string _name;
 
         static MsDataFile()
@@ -68,10 +68,10 @@ namespace MassSpectrometry
         }
 
         public MsDataFileType FileType { get; private set; }
-        
+
         public abstract string GetSpectrumID(int spectrumNumber);
 
-        bool _firstSpectrumNumberSet=false;
+        bool _firstSpectrumNumberSet = false;
         int _firstSpectrumNumber;
         public virtual int FirstSpectrumNumber
         {
@@ -100,10 +100,7 @@ namespace MassSpectrometry
                 if (_lastSpectrumNumberSet)
                     return _lastSpectrumNumber;
                 _lastSpectrumNumberSet = true;
-
-                //Console.WriteLine("Calling GetLastSpectrumNumber!");
                 _lastSpectrumNumber = GetLastSpectrumNumber();
-                //Console.WriteLine("Got the _lastSpectrumNumber, "+ _lastSpectrumNumber);
                 return _lastSpectrumNumber;
             }
         }
@@ -117,7 +114,7 @@ namespace MassSpectrometry
         {
             return GetEnumerator();
         }
-        
+
         public bool Equals(MsDataFile<TSpectrum> other)
         {
             if (ReferenceEquals(this, other)) return true;
@@ -148,7 +145,7 @@ namespace MassSpectrometry
         {
             return 0;
         }
-        
+
         public abstract string GetScanFilter(int spectrumNumber);
 
         /// <summary>
@@ -158,20 +155,21 @@ namespace MassSpectrometry
         /// <returns></returns>
         public virtual IMsDataScan<TSpectrum> GetScan(int scanNumber)
         {
-            //Console.WriteLine("In GetScan");
             if (!CacheScans)
                 return GetMsDataScanFromFile(scanNumber);
             if (Scans == null)
                 Scans = new MsDataScan<TSpectrum>[LastSpectrumNumber - FirstSpectrumNumber + 1];
-
             if (Scans[scanNumber - FirstSpectrumNumber] == null)
             {
-                //Console.WriteLine("Not in cache so getting it from file!");
                 Scans[scanNumber - FirstSpectrumNumber] = GetMsDataScanFromFile(scanNumber);
             }
 
-            //Console.WriteLine("Return the scan!");
-            return Scans[scanNumber-FirstSpectrumNumber];
+            return Scans[scanNumber - FirstSpectrumNumber];
+        }
+
+        public TSpectrum GetSpectrum(int spectrumNumber)
+        {
+            return GetScan(spectrumNumber).MassSpectrum;
         }
 
         public abstract bool GetIsCentroid(int spectrumNumber);
@@ -201,11 +199,11 @@ namespace MassSpectrometry
             Array.Clear(Scans, 0, Scans.Length);
         }
 
-        protected virtual MsDataScan<TSpectrum> GetMsDataScanFromFile(int spectrumNumber)
-        {
-            // Roundabout way of doing things. The last parameter is key, it's not null so can read the full scan from file eventually. 
-            return new MsDataScan<TSpectrum>(spectrumNumber, GetMsnOrder(spectrumNumber), this);
-        }
+        protected abstract MsDataScan<TSpectrum> GetMsDataScanFromFile(int spectrumNumber);
+        //{
+        //    // Roundabout way of doing things. The last parameter is key, it's not null so can read the full scan from file eventually. 
+        //    return new MsDataScan<TSpectrum>(spectrumNumber, GetMsnOrder(spectrumNumber), this);
+        //}
 
         public abstract int GetPrecusorCharge(int spectrumNumber, int msnOrder = 2);
 
@@ -261,8 +259,6 @@ namespace MassSpectrometry
 
         public abstract MZAnalyzerType GetMzAnalyzer(int spectrumNumber);
 
-        public abstract TSpectrum GetSpectrum(int spectrumNumber);
-
         public abstract Polarity GetPolarity(int spectrumNumber);
 
         public abstract double GetRetentionTime(int spectrumNumber);
@@ -280,17 +276,12 @@ namespace MassSpectrometry
 
         public override string ToString()
         {
-            return string.Format("{0} ({1})", Name, Enum.GetName(typeof (MsDataFileType), FileType));
+            return string.Format("{0} ({1})", Name, Enum.GetName(typeof(MsDataFileType), FileType));
         }
 
         protected abstract int GetFirstSpectrumNumber();
 
         protected abstract int GetLastSpectrumNumber();
-        
-        TSpectrum IMsDataFile<TSpectrum>.GetSpectrum(int spectrumNumber)
-        {
-            return GetSpectrum(spectrumNumber);
-        }
 
         IEnumerator<IMsDataScan<TSpectrum>> IEnumerable<IMsDataScan<TSpectrum>>.GetEnumerator()
         {
