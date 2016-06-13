@@ -63,7 +63,7 @@ namespace Test
         {
             DefaultMsDataFile thefile = new DefaultMsDataFile("Somepath");
 
-            MsDataScan<DefaultMzSpectrum> theSpectrum = new MsDataScan<DefaultMzSpectrum>(1, _mzSpectrumA, "first spectrum", 1, true, Polarity.Positive, 1);
+            MsDataScan<DefaultMzSpectrum> theSpectrum = new MsDataScan<DefaultMzSpectrum>(1, _mzSpectrumA, "first spectrum", 1, true, Polarity.Positive, 1, new DoubleRange(300, 1000));
 
             MsDataScan<DefaultMzSpectrum>[] theList = new MsDataScan<DefaultMzSpectrum>[1];
 
