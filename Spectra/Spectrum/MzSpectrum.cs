@@ -47,7 +47,8 @@ namespace Spectra
         /// <summary>
         /// The number of peaks in this spectrum
         /// </summary>
-        public int Count {
+        public int Count
+        {
             get
             {
                 return Masses.Count();
@@ -81,7 +82,7 @@ namespace Spectra
         #endregion
 
         #region constructors
-        
+
         /// <summary>
         /// Initializes a new spectrum
         /// </summary>
@@ -300,7 +301,7 @@ namespace Spectra
         {
             return string.Format("{0} (Peaks {1})", GetMzRange(), Count);
         }
-        
+
         public TSpectrum Extract(IRange<double> mzRange)
         {
             return Extract(mzRange.Minimum, mzRange.Maximum);
@@ -577,13 +578,15 @@ namespace Spectra
             mz = Masses.SubArray(0, topNPeaks);
             intensities = Intensities.SubArray(0, topNPeaks);
 
+            Array.Sort(mz, intensities);
+
         }
 
         #endregion
 
         #region Explicit implementation of IMzSpectrum
         // These methods are implemented explicitly in order to have the option of returning TSpectrum instead of IMzSpectrum<TPeak>
-        
+
         IMzSpectrum<TPeak> IMzSpectrum<TPeak>.Extract(IRange<double> mzRange)
         {
             return Extract(mzRange);

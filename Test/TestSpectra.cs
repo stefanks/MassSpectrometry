@@ -241,5 +241,12 @@ namespace Test
         {
             Assert.AreEqual(3, _mzSpectrumA.Extract(500,600).Count);
         }
+
+        [Test]
+        public void CorrectOrder()
+        {
+            _mzSpectrumA = new DefaultMzSpectrum(new double[3] { 5, 6, 7 }, new double[3] { 1, 2, 3 });
+            Assert.IsTrue(_mzSpectrumA.FilterByNumberOfMostIntense(2)[0].MZ<_mzSpectrumA.FilterByNumberOfMostIntense(2)[1].MZ);
+        }
     }
 }

@@ -23,7 +23,7 @@ namespace Spectra
 {
     public interface IMzSpectrum<out TPeak> : ISpectrum<TPeak>
         where TPeak : MzPeak
-    {        
+    {
         /// <summary>
         /// The first m/z of the spectrum
         /// </summary>
@@ -33,7 +33,7 @@ namespace Spectra
         /// The last m/z of the spectrum
         /// </summary>
         double LastMZ { get; }
-        
+
         /// <summary>
         /// Gets the m/z at a particular index
         /// </summary>
@@ -71,9 +71,9 @@ namespace Spectra
         /// </summary>
         /// <returns></returns>
         double GetTotalIonCurrent();
-        
+
         byte[] ToBytes(bool zlibCompressed);
-        
+
         double[,] ToArray();
 
         TPeak GetPeak(int index);

@@ -22,7 +22,7 @@ namespace Spectra
 {
     public interface ISpectrum<out TPeak> : IEnumerable<TPeak>
         where TPeak : Peak
-    {        
+    {
         /// <summary>
         /// The number of peaks in the spectrum
         /// </summary>
