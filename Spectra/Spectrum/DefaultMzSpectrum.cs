@@ -71,19 +71,20 @@ namespace Spectra
             return new DefaultMzSpectrum(mz, intensity, false);
         }
 
-        public override DefaultMzSpectrum FilterByMZ(IEnumerable<IRange<double>> mzRanges)
+        public override DefaultMzSpectrum newSpectrumWithRangesRemoved(IEnumerable<IRange<double>> mzRanges)
         {
             double[] mz;
             double[] intensity;
-            FilterByMZProtected(mzRanges, out mz, out intensity);
+            GenerateMzAndIntensitiesWithRemovedRanges(mzRanges, out mz, out intensity);
             return new DefaultMzSpectrum(mz, intensity, false);
         }
 
-        public override DefaultMzSpectrum FilterByMZ(double minMZ, double maxMZ)
+        public override DefaultMzSpectrum newSpectrumWithRangeRemoved(double minMZ, double maxMZ)
         {
             double[] mz;
             double[] intensities;
-            FilterByMZProtected(minMZ, maxMZ, out mz, out intensities);
+            Console.WriteLine("In FilterByMZ of defaultmzspectrum");
+            GenerateMzAndIntensitiesWithRemovedRange(minMZ, maxMZ, out mz, out intensities);
             return new DefaultMzSpectrum(mz, intensities, false);
         }
 

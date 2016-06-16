@@ -18,6 +18,8 @@
 
 using NUnit.Framework;
 using Spectra;
+using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Test
@@ -220,7 +222,7 @@ namespace Test
         [Test]
         public void FilterByNumberOfMostIntenseTest()
         {
-            Assert.AreEqual(5,_mzSpectrumA.FilterByNumberOfMostIntense(5).Count);
+            Assert.AreEqual(5, _mzSpectrumA.FilterByNumberOfMostIntense(5).Count);
         }
 
         [Test]
@@ -239,14 +241,31 @@ namespace Test
         [Test]
         public void Extract()
         {
-            Assert.AreEqual(3, _mzSpectrumA.Extract(500,600).Count);
+            Assert.AreEqual(3, _mzSpectrumA.Extract(500, 600).Count);
         }
 
         [Test]
         public void CorrectOrder()
         {
             _mzSpectrumA = new DefaultMzSpectrum(new double[3] { 5, 6, 7 }, new double[3] { 1, 2, 3 });
-            Assert.IsTrue(_mzSpectrumA.FilterByNumberOfMostIntense(2)[0].MZ<_mzSpectrumA.FilterByNumberOfMostIntense(2)[1].MZ);
+            Assert.IsTrue(_mzSpectrumA.FilterByNumberOfMostIntense(2)[0].MZ < _mzSpectrumA.FilterByNumberOfMostIntense(2)[1].MZ);
+        }
+
+
+        [Test]
+        public void FilterByMZ()
+        {
+            Console.WriteLine("In test!");
+            List<IRange<double>> ok = new List<IRange<double>>();
+            ok.Add(new DoubleRange(300, 400));
+            ok.Add(new DoubleRange(700, 800));
+            Console.WriteLine("In test before first FilterByMZ");
+            Assert.AreEqual(11, _mzSpectrumA.newSpectrumWithRangesRemoved(ok).Count);
+
+            Console.WriteLine("In test before second FilterByMZ");
+            Assert.AreEqual(10, _mzSpectrumA.newSpectrumWithRangeRemoved(new DoubleRange(400, 500)).Count);
+            Console.WriteLine("In test after second FilterByMZ");
+            Assert.AreEqual(10, _mzSpectrumA.newSpectrumWithRangeRemoved(400, 500).Count);
         }
     }
 }
