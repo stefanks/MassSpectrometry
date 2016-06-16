@@ -155,8 +155,8 @@ namespace Spectra
         public abstract TSpectrum Extract(double minMZ, double maxMZ);
         public abstract TSpectrum FilterByIntensity(double minIntensity = 0, double maxIntensity = double.MaxValue);
         public abstract TSpectrum FilterByNumberOfMostIntense(int topNPeaks);
-        public abstract TSpectrum FilterByMZ(IEnumerable<IRange<double>> mzRanges);
-        public abstract TSpectrum FilterByMZ(double minMZ, double maxMZ);
+        public abstract TSpectrum newSpectrumWithRangesRemoved(IEnumerable<IRange<double>> mzRanges);
+        public abstract TSpectrum newSpectrumWithRangeRemoved(double minMZ, double maxMZ);
         public abstract TSpectrum Clone();
 
         /// <summary>
@@ -307,9 +307,9 @@ namespace Spectra
             return Extract(mzRange.Minimum, mzRange.Maximum);
         }
 
-        public TSpectrum FilterByMZ(IRange<double> mzRange)
+        public TSpectrum newSpectrumWithRangeRemoved(IRange<double> mzRange)
         {
-            return FilterByMZ(mzRange.Minimum, mzRange.Maximum);
+            return newSpectrumWithRangeRemoved(mzRange.Minimum, mzRange.Maximum);
         }
 
         public TSpectrum FilterByIntensity(IRange<double> intenistyRange)
@@ -483,7 +483,7 @@ namespace Spectra
             }
         }
 
-        protected void FilterByMZProtected(IEnumerable<IRange<double>> mzRanges, out double[] mz, out double[] intensities)
+        protected void GenerateMzAndIntensitiesWithRemovedRanges(IEnumerable<IRange<double>> mzRanges, out double[] mz, out double[] intensities)
         {
 
             int count = Count;
@@ -510,6 +510,7 @@ namespace Spectra
 
             // The size of the cleaned spectrum
             int cleanCount = count - indiciesToRemove.Count;
+            Console.WriteLine("The size of the cleaned spectrum " + cleanCount);
 
 
             // Create the storage for the cleaned spectrum
@@ -529,8 +530,9 @@ namespace Spectra
 
         }
 
-        protected void FilterByMZProtected(double minMZ, double maxMZ, out double[] mz, out double[] intensities)
+        protected void GenerateMzAndIntensitiesWithRemovedRange(double minMZ, double maxMZ, out double[] mz, out double[] intensities)
         {
+            Console.WriteLine("minMZ " + minMZ + " maxMZ " + maxMZ);
             int count = Count;
 
             // Peaks to remove
@@ -546,9 +548,11 @@ namespace Spectra
                 index++;
             }
 
+            Console.WriteLine("index " + index);
 
             // The size of the cleaned spectrum
             int cleanCount = count - indiciesToRemove.Count;
+            Console.WriteLine("The size of the cleaned spectrum " + cleanCount);
 
             // Create the storage for the cleaned spectrum
             mz = new double[cleanCount];
@@ -599,17 +603,17 @@ namespace Spectra
 
         IMzSpectrum<TPeak> IMzSpectrum<TPeak>.FilterByMZ(IEnumerable<IRange<double>> mzRanges)
         {
-            return FilterByMZ(mzRanges);
+            return newSpectrumWithRangesRemoved(mzRanges);
         }
 
         IMzSpectrum<TPeak> IMzSpectrum<TPeak>.FilterByMZ(IRange<double> mzRange)
         {
-            return FilterByMZ(mzRange);
+            return newSpectrumWithRangeRemoved(mzRange);
         }
 
         IMzSpectrum<TPeak> IMzSpectrum<TPeak>.FilterByMZ(double minMZ, double maxMZ)
         {
-            return FilterByMZ(minMZ, maxMZ);
+            return newSpectrumWithRangeRemoved(minMZ, maxMZ);
         }
 
         IMzSpectrum<TPeak> IMzSpectrum<TPeak>.FilterByIntensity(double minIntensity, double maxIntensity)
