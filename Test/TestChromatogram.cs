@@ -69,5 +69,12 @@ namespace Test
             Assert.AreEqual("(1, 10)", thePeak.ToString());
 
         }
+
+        [Test]
+        public void TestGetApex()
+        {
+            Chromatogram d = new Chromatogram(new double[9] { 1, 2, 3, 4, 5, 6, 7, 8, 9 }, new double[9] { 10, 0, 2, 6, 2, 0, 1, 10, 1 });
+            Assert.AreEqual(6,d.GetApex(new DoubleRange(2,6)).Y);
+        }
     }
 }
