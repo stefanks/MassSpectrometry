@@ -66,8 +66,8 @@ namespace MassSpectrometry
 
         public override byte[] ToBytes(bool zlibCompressed = false)
         {
-            int length = Count*sizeof (double);
-            byte[] bytes = new byte[length*2];
+            int length = Count * sizeof(double);
+            byte[] bytes = new byte[length * 2];
             Buffer.BlockCopy(_times, 0, bytes, 0, length);
             Buffer.BlockCopy(_intensities, 0, bytes, length, length);
 
@@ -80,7 +80,7 @@ namespace MassSpectrometry
         }
     }
 
-    public abstract class Chromatogram<TPeak> : ISpectrum<TPeak> 
+    public abstract class Chromatogram<TPeak> : ISpectrum<TPeak>
         where TPeak : Peak
     {
         protected readonly double[] _times;
@@ -106,8 +106,8 @@ namespace MassSpectrometry
             {
                 _times = new double[Count];
                 _intensities = new double[Count];
-                Buffer.BlockCopy(times, 0, _times, 0, 8*Count);
-                Buffer.BlockCopy(intensities, 0, _intensities, 0, 8*Count);
+                Buffer.BlockCopy(times, 0, _times, 0, 8 * Count);
+                Buffer.BlockCopy(intensities, 0, _intensities, 0, 8 * Count);
             }
             else
             {
@@ -121,14 +121,14 @@ namespace MassSpectrometry
             Count = timeintensities.GetLength(1);
             _times = new double[Count];
             _intensities = new double[Count];
-            Buffer.BlockCopy(timeintensities, 0, _times, 0, 8*Count);
-            Buffer.BlockCopy(timeintensities, 8*Count, _intensities, 0, 8*Count);
+            Buffer.BlockCopy(timeintensities, 0, _times, 0, 8 * Count);
+            Buffer.BlockCopy(timeintensities, 8 * Count, _intensities, 0, 8 * Count);
         }
 
         protected Chromatogram(byte[] timeintensities)
         {
-            Count = timeintensities.Length/(sizeof (double)*2);
-            int size = sizeof (double)*Count;
+            Count = timeintensities.Length / (sizeof(double) * 2);
+            int size = sizeof(double) * Count;
             _times = new double[Count];
             _intensities = new double[Count];
             Buffer.BlockCopy(timeintensities, 0, _times, 0, size);
@@ -147,14 +147,14 @@ namespace MassSpectrometry
         public double[] GetTimes()
         {
             double[] times = new double[Count];
-            Buffer.BlockCopy(_times, 0, times, 0, sizeof (double)*Count);
+            Buffer.BlockCopy(_times, 0, times, 0, sizeof(double) * Count);
             return times;
         }
 
         public double[] GetIntensities()
         {
             double[] intensities = new double[Count];
-            Buffer.BlockCopy(_intensities, 0, intensities, 0, sizeof (double)*Count);
+            Buffer.BlockCopy(_intensities, 0, intensities, 0, sizeof(double) * Count);
             return intensities;
         }
 
@@ -219,41 +219,6 @@ namespace MassSpectrometry
             return new ChromatographicElutionProfile<TPeak>(peaks);
         }
 
-        public virtual bool ContainsPeak(IRange<double> timeRange)
-        {
-            return ContainsPeak(timeRange.Minimum, timeRange.Maximum);
-        }
-
-        public virtual bool ContainsPeak(double mintime, double maxTime)
-        {
-            int index = Array.BinarySearch(_times, mintime);
-            if (index < 0)
-                index = ~index;
-
-            if (index >= Count)
-            {
-                return false;
-            }
-
-            double startIntensity = _intensities[index];
-            double maxIntensity = startIntensity;
-            double endIntensity = startIntensity;
-            while (index < Count && _times[index] <= maxTime)
-            {
-                double currentIntensity = _intensities[index];
-                endIntensity = currentIntensity;
-                if (currentIntensity > maxIntensity) {
-                    maxIntensity = currentIntensity;
-                }
-                index++;
-            }
-            if (maxIntensity <= 0)
-                return false;
-
-            double maxEndPointIntensity = Math.Max(startIntensity, endIntensity);
-            return maxIntensity >= 1.4 * maxEndPointIntensity;
-        }
-        
         public virtual TPeak GetApex()
         {
             int index = _intensities.MaxIndex();
@@ -315,7 +280,7 @@ namespace MassSpectrometry
 
             return GetPeak(bestApex);
         }
-        
+
         public DoubleRange GetPeakWidth(double time, double fraction = 0.1, int upPts = 3, double upPrecent = 1.4, double minValue = 0)
         {
             int index = Array.BinarySearch(_times, time);
@@ -327,7 +292,7 @@ namespace MassSpectrometry
 
             double maxTime = _times[index];
             double minTime = maxTime;
-            double threshold = Math.Max(_intensities[index]*fraction, minValue);
+            double threshold = Math.Max(_intensities[index] * fraction, minValue);
 
             int count = 0;
             double localMin = _intensities[index];
@@ -335,7 +300,7 @@ namespace MassSpectrometry
             {
                 double peakIntensity = _intensities[i];
 
-                if (peakIntensity > localMin*upPrecent)
+                if (peakIntensity > localMin * upPrecent)
                 {
                     // Going up
                     count++;
@@ -363,7 +328,7 @@ namespace MassSpectrometry
             {
                 double peakIntensity = _intensities[i];
 
-                if (peakIntensity > localMin*upPrecent)
+                if (peakIntensity > localMin * upPrecent)
                 {
                     // Going up
                     count++;
