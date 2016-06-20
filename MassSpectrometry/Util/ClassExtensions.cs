@@ -33,9 +33,7 @@ namespace MassSpectrometry
             int count = data.Length;
 
             if (points <= 0 || points > count)
-            {
-                return null;
-            }
+                throw new ArgumentException("Points = " + points + " out of range for BoxCarSmooth!");
 
             int newCount = count - points + 1;
 
