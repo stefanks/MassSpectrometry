@@ -46,22 +46,22 @@ namespace Spectra
         /// <summary>
         /// Initializes a new spectrum
         /// </summary>
-        /// <param name="mz">The m/z's</param>
-        /// <param name="intensities">The intensities</param>
+        /// <param name="x">The m/z's</param>
+        /// <param name="xy">The intensities</param>
         /// <param name="shouldCopy">Indicates whether the input arrays should be copied to new ones</param>
-        public Spectrum(double[] mz, double[] intensities, bool shouldCopy = true)
+        public Spectrum(double[] x, double[] xy, bool shouldCopy = true)
         {
-            xArray = CopyData(mz, shouldCopy);
-            yArray = CopyData(intensities, shouldCopy);
+            xArray = CopyData(x, shouldCopy);
+            yArray = CopyData(xy, shouldCopy);
             peakList = new TPeak[Count];
         }
 
         /// <summary>
         /// Initializes a new spectrum from another spectrum
         /// </summary>
-        /// <param name="MZSpectrum">The spectrum to clone</param>
-        public Spectrum(ISpectrum MZSpectrum)
-            : this(MZSpectrum.GetCopyofXarray(), MZSpectrum.GetCopyofYarray(), false)
+        /// <param name="spectrumToClone">The spectrum to clone</param>
+        public Spectrum(ISpectrum spectrumToClone)
+            : this(spectrumToClone.GetCopyofXarray(), spectrumToClone.GetCopyofYarray(), false)
         {
         }
 
@@ -69,9 +69,9 @@ namespace Spectra
         /// <summary>
         /// Initializes a new spectrum
         /// </summary>
-        /// <param name="mzintensities"></param>
-        public Spectrum(double[,] mzintensities)
-            : this(mzintensities, mzintensities.GetLength(1))
+        /// <param name="xy"></param>
+        public Spectrum(double[,] xy)
+            : this(xy, xy.GetLength(1))
         {
         }
 
