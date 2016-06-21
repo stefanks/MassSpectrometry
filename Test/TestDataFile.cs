@@ -82,6 +82,9 @@ namespace Test
 
             foreach (var ok in thefile.GetMsScans())
                 Assert.AreEqual(new MzRange(300, 1000), ok.MzRange);
+
+
+            IMsDataFile<IMzSpectrum<MzPeak, MzRange>> okyee = thefile;
         }
     }
 }

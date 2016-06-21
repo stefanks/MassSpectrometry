@@ -28,7 +28,7 @@ namespace MassSpectrometry
     /// A data file for storing data collected from a Mass Spectrometer
     /// </summary>
     public abstract class MsDataFile<TSpectrum> : IMsDataFile<TSpectrum>
-        where TSpectrum : IMzSpectrum<MzPeak, MzRange, TSpectrum>
+        where TSpectrum : IMzSpectrum<MzPeak, MzRange>
     {
         /// <summary>
         /// Defines if MS scans should be cached for quicker retrieval. Cached scans are held in an internal
