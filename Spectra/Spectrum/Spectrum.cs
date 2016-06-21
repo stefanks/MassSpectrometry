@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 
 namespace Spectra
 {
@@ -50,8 +51,8 @@ namespace Spectra
         /// <param name="shouldCopy">Indicates whether the input arrays should be copied to new ones</param>
         public Spectrum(double[] mz, double[] intensities, bool shouldCopy = true)
         {
-            xArray = ClassExtensionsAndHelpers.CopyData(mz, shouldCopy);
-            yArray = ClassExtensionsAndHelpers.CopyData(intensities, shouldCopy);
+            xArray = CopyData(mz, shouldCopy);
+            yArray = CopyData(intensities, shouldCopy);
             peakList = new TPeak[Count];
         }
 
@@ -101,8 +102,8 @@ namespace Spectra
         public virtual TSpectrum newSpectrumFilterByNumberOfMostIntense(int topNPeaks)
         {
 
-            double[] mz = ClassExtensionsAndHelpers.CopyData(xArray);
-            double[] intensities = ClassExtensionsAndHelpers.CopyData(yArray);
+            double[] mz = CopyData(xArray);
+            double[] intensities = CopyData(yArray);
 
             IComparer<double> mycomparer = new ReverseComparer();
 
@@ -308,10 +309,10 @@ namespace Spectra
             double[] modifiedXarray = new double[Count];
             for (int i = 0; i < Count; i++)
                 modifiedXarray[i] = convertor(xArray[i]);
-            return (TSpectrum)Activator.CreateInstance(typeof(TSpectrum), new object[] { modifiedXarray, ClassExtensionsAndHelpers.CopyData(yArray) });
+            return (TSpectrum)Activator.CreateInstance(typeof(TSpectrum), new object[] { modifiedXarray, CopyData(yArray) });
         }
 
-        public double[,] CopyTo2DArray()
+        public virtual double[,] CopyTo2DArray()
         {
             double[,] data = new double[2, Count];
             const int size = sizeof(double);
@@ -353,11 +354,11 @@ namespace Spectra
 
         public double[] GetCopyofXarray()
         {
-            return ClassExtensionsAndHelpers.CopyData(xArray);
+            return CopyData(xArray);
         }
         public double[] GetCopyofYarray()
         {
-            return ClassExtensionsAndHelpers.CopyData(yArray);
+            return CopyData(yArray);
         }
 
         #endregion
@@ -400,6 +401,22 @@ namespace Spectra
             return indexm1;
         }
 
+        /// <summary>
+        /// Copies the source array to the destination array
+        /// </summary>
+        /// <typeparam name="TArray"></typeparam>
+        /// <param name="sourceArray">The source array to copy from</param>
+        /// <param name="deepCopy">If true, a new array will be generate, else references are copied</param>
+        protected static TArray[] CopyData<TArray>(TArray[] sourceArray, bool deepCopy = true) where TArray : struct
+        {
+            if (!deepCopy)
+                return sourceArray;
+            int count = sourceArray.Length;
+            TArray[] dstArray = new TArray[count];
+            Buffer.BlockCopy(sourceArray, 0, dstArray, 0, count * Marshal.SizeOf(typeof(TArray)));
+            return dstArray;
+
+        }
         #endregion
 
         #region enumeration

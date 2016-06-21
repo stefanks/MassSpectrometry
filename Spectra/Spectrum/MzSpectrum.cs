@@ -29,6 +29,10 @@ namespace Spectra
         {
         }
 
+        public MzSpectrum(byte[] mzintensities) : base(mzintensities)
+        {
+        }
+
         public MzSpectrum(TSpectrum mZSpectrum) : base(mZSpectrum)
         {
         }
