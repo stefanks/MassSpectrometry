@@ -30,38 +30,38 @@ namespace MassSpectrometry
         public TSpectrum MassSpectrum { get; internal set; }
 
         public int SpectrumNumber { get; protected set; }
-        
+
         public double Resolution { get; internal set; }
 
         public int MsnOrder { get; protected set; }
-        
+
         public virtual double InjectionTime { get; internal set; }
-        
+
         public double RetentionTime { get; internal set; }
-        
+
         public Polarity Polarity { get; internal set; }
-        
+
         public MZAnalyzerType MzAnalyzer { get; internal set; }
-        
-        public DoubleRange MzRange { get; internal set; }
-        
+
+        public MzRange MzRange { get; internal set; }
+
         public int ParentScanNumber { get; internal set; }
-        
+
         public string ScanFilter { get; internal set; }
-        
+
         public bool isCentroid { get; internal set; }
-        
+
         public string id { get; internal set; }
-        
+
         public string PrecursorID { get; internal set; }
 
         public double SelectedIonMonoisotopicMZ { get; internal set; }
 
         public int SelectedIonChargeState { get; internal set; }
-        
+
         public double SelectedIonIsolationIntensity { get; internal set; }
 
-        public MsDataScan(int SpectrumNumber, TSpectrum MassSpectrum, string id, int MsnOrder, bool isCentroid, Polarity Polarity, double RetentionTime, DoubleRange MzRange, string ScanFilter, string PrecursorID = null, double SelectedIonMonoisotopicMZ = double.NaN, int SelectedIonChargeState = 0, double SelectedIonIsolationIntensity = double.NaN)
+        public MsDataScan(int SpectrumNumber, TSpectrum MassSpectrum, string id, int MsnOrder, bool isCentroid, Polarity Polarity, double RetentionTime, MzRange MzRange, string ScanFilter, string PrecursorID = null, double SelectedIonMonoisotopicMZ = double.NaN, int SelectedIonChargeState = 0, double SelectedIonIsolationIntensity = double.NaN)
         {
             this.SpectrumNumber = SpectrumNumber;
             this.MassSpectrum = MassSpectrum;

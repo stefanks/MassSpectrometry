@@ -29,7 +29,7 @@ namespace MassSpectrometry
         double RetentionTime { get; }
         Polarity Polarity { get; }
         MZAnalyzerType MzAnalyzer { get; }
-        DoubleRange MzRange { get; }
+        MzRange MzRange { get; }
         string ScanFilter { get; }
         string id { get; }
         bool isCentroid { get; }
