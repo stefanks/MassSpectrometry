@@ -120,47 +120,7 @@ namespace Spectra
         {
             return 1e6 * Width / Mean;
         }
-
-        public double OverlapFraction(DoubleRange otherRange)
-        {
-            DoubleRange shorter, longer;
-            if (Width < otherRange.Width)
-            {
-                shorter = this;
-                longer = otherRange;
-            }
-            else
-            {
-                shorter = otherRange;
-                longer = this;
-            }
-
-            double coveredWidth = 0;
-            if (shorter.Minimum > longer.Minimum)
-            {
-                if (shorter.Minimum < longer.Maximum)
-                {
-                    coveredWidth = Math.Min(longer.Maximum, shorter.Maximum) - shorter.Minimum;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-            else
-            {
-                if (shorter.Maximum < longer.Minimum)
-                {
-                    coveredWidth = Math.Min(shorter.Maximum, longer.Maximum) - shorter.Maximum;
-                }
-                else
-                {
-                    return 0;
-                }
-            }
-            return coveredWidth / shorter.Width;
-        }
-
+        
         /// <summary>
         /// Returns a string representation of this range at the given numerical format
         /// </summary>

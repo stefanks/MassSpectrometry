@@ -19,7 +19,6 @@
 using MassSpectrometry;
 using NUnit.Framework;
 using Spectra;
-using System;
 using System.Linq;
 
 namespace Test
@@ -47,7 +46,7 @@ namespace Test
             Assert.IsTrue(b.GetIntensities().SequenceEqual(new double[3] { 3, 4, 4 }));
             var c = new Chromatogram(a);
 
-            Chromatogram d = new Chromatogram(new double[9] { 1, 2, 3, 4, 5, 6, 7, 8,9 }, new double[9] {10, 0, 2, 6, 2, 0, 1, 10, 1 });
+            Chromatogram d = new Chromatogram(new double[9] { 1, 2, 3, 4, 5, 6, 7, 8, 9 }, new double[9] { 10, 0, 2, 6, 2, 0, 1, 10, 1 });
             // Finds the APEX! Not nearest peak!
             Assert.AreEqual(6, d.FindNearestApex(5.9).Intensity);
             Assert.AreEqual(10, d.FindNearestApex(6.1).Intensity);
@@ -59,7 +58,7 @@ namespace Test
 
             var elutionProfile = d.GetElutionProfile(new DoubleRange(3, 7));
 
-            Assert.AreEqual(5,elutionProfile.Count);
+            Assert.AreEqual(5, elutionProfile.Count);
             Assert.AreEqual(9.5, elutionProfile.TrapezoidalArea());
 
 
@@ -74,7 +73,7 @@ namespace Test
         public void TestGetApex()
         {
             Chromatogram d = new Chromatogram(new double[9] { 1, 2, 3, 4, 5, 6, 7, 8, 9 }, new double[9] { 10, 0, 2, 6, 2, 0, 1, 10, 1 });
-            Assert.AreEqual(6,d.GetApex(new DoubleRange(2,6)).Y);
+            Assert.AreEqual(6, d.GetApex(new DoubleRange(2, 6)).Y);
         }
     }
 }
