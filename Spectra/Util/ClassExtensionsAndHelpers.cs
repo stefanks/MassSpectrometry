@@ -20,7 +20,6 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
-using System.Runtime.InteropServices;
 
 namespace Spectra
 {
@@ -49,21 +48,7 @@ namespace Spectra
             return bytes;
         }
 
-        /// <summary>
-        /// Copies the source array to the destination array
-        /// </summary>
-        /// <typeparam name="TArray"></typeparam>
-        /// <param name="sourceArray">The source array to copy from</param>
-        /// <param name="deepCopy">If true, a new array will be generate, else references are copied</param>
-        public static TArray[] CopyData<TArray>(TArray[] sourceArray, bool deepCopy = true) where TArray : struct
-        {
-            if (!deepCopy)
-                return sourceArray;
-            int count = sourceArray.Length;
-            TArray[] dstArray = new TArray[count];
-            Buffer.BlockCopy(sourceArray, 0, dstArray, 0, count * Marshal.SizeOf(typeof(TArray)));
-            return dstArray;
-        }
+
 
         public static T[] SubArray<T>(this T[] data, int index, int length)
         {
