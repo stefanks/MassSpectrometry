@@ -89,12 +89,6 @@ namespace MassSpectrometry
 
         protected Chromatogram(byte[] timeintensities) : base(timeintensities)
         {
-            //Count = timeintensities.Length / (sizeof(double) * 2);
-            int size = sizeof(double) * Count;
-            xArray = new double[Count];
-            yArray = new double[Count];
-            Buffer.BlockCopy(timeintensities, 0, xArray, 0, size);
-            Buffer.BlockCopy(timeintensities, size, yArray, 0, size);
         }
 
         protected Chromatogram(Chromatogram<TPeak> other)

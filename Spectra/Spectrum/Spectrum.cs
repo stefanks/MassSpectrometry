@@ -12,12 +12,8 @@ namespace Spectra
         where TSpectrum : Spectrum<TPeak, TRange, TSpectrum>
     {
 
-        #region protected fields
-
-        // Populated at creation and stays constant
-        protected double[] xArray;
-        protected double[] yArray;
-
+        #region fields
+        
         // Populated on demand
         protected TPeak[] peakList;
 
@@ -38,6 +34,9 @@ namespace Spectra
         public double LastX { get { return xArray[Count - 1]; } }
 
         public int Count { get { return xArray.Length; } }
+
+        public double[] xArray  {get; private set; }
+        public double[] yArray  {get; private set; }
 
         #endregion
 
@@ -61,7 +60,7 @@ namespace Spectra
         /// </summary>
         /// <param name="spectrumToClone">The spectrum to clone</param>
         public Spectrum(ISpectrum spectrumToClone)
-            : this(spectrumToClone.GetCopyofXarray(), spectrumToClone.GetCopyofYarray(), false)
+            : this(spectrumToClone.xArray, spectrumToClone.yArray, false)
         {
         }
 
@@ -348,22 +347,12 @@ namespace Spectra
         {
             return (TRange)Activator.CreateInstance(typeof(TRange), new object[] { FirstX, LastX });
         }
-
-
-        public double[] GetCopyofXarray()
-        {
-            return CopyData(xArray);
-        }
-        public double[] GetCopyofYarray()
-        {
-            return CopyData(yArray);
-        }
-
+        
         #endregion
 
         #region private methods
 
-        private int GetClosestPeakIndex(double targetX)
+        protected int GetClosestPeakIndex(double targetX)
         {
             if (Count == 0)
                 return -1;

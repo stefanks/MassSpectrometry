@@ -23,6 +23,11 @@ namespace Spectra
 {
     public interface ISpectrum
     {
+
+        double[] xArray { get; }
+
+        double[] yArray { get; }
+
         double FirstX { get; }
 
         double LastX { get; }
@@ -32,11 +37,7 @@ namespace Spectra
         double GetY(int index);
 
         int Count { get; }
-
-        double[] GetCopyofXarray();
-
-        double[] GetCopyofYarray();
-
+        
         double GetYofPeakWithHighestY();
 
         double GetSumOfAllY();

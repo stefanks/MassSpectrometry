@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace MassSpectrometry
 {
-    public class DefaultMsDataFile : MsDataFile<DefaultMzSpectrum>
+    public class FakeMsDataFile : MsDataFile<DefaultMzSpectrum>
     {
-        public DefaultMsDataFile(string filePath, MsDataFileType filetype = MsDataFileType.UnKnown) : base(filePath, filetype)
+        public FakeMsDataFile(string filePath, MsDataFileType filetype = MsDataFileType.UnKnown) : base(filePath, filetype)
         {
         }
 
@@ -54,6 +54,11 @@ namespace MassSpectrometry
         }
 
         public override MzRange GetMzRange(int spectrumNumber)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override int GetParentSpectrumNumber(int spectrumNumber)
         {
             throw new NotImplementedException();
         }

@@ -141,10 +141,7 @@ namespace MassSpectrometry
         /// </summary>
         /// <param name="spectrumNumber">The spectrum number to get the parent scan number of</param>
         /// <returns>The spectrum number of the parent scan. 0 if no parent</returns>
-        public virtual int GetParentSpectrumNumber(int spectrumNumber)
-        {
-            return 0;
-        }
+        public abstract int GetParentSpectrumNumber(int spectrumNumber);
 
         public abstract string GetScanFilter(int spectrumNumber);
 
