@@ -79,6 +79,9 @@ namespace Test
 
 
             Assert.IsTrue(thefile.GetScan(1).isCentroid);
+
+            foreach (var ok in thefile.GetMsScans())
+                Assert.AreEqual(new MzRange(300, 1000), ok.MzRange);
         }
     }
 }

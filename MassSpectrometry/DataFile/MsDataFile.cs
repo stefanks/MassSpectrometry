@@ -226,10 +226,10 @@ namespace MassSpectrometry
 
         public virtual IEnumerable<IMsDataScan<TSpectrum>> GetMsScans()
         {
-            return GetMsScans(FirstSpectrumNumber, LastSpectrumNumber);
+            return GetMsScansInIndexRange(FirstSpectrumNumber, LastSpectrumNumber);
         }
 
-        public virtual IEnumerable<IMsDataScan<TSpectrum>> GetMsScans(int FirstSpectrumNumber, int LastSpectrumNumber)
+        public virtual IEnumerable<IMsDataScan<TSpectrum>> GetMsScansInIndexRange(int FirstSpectrumNumber, int LastSpectrumNumber)
         {
             for (int spectrumNumber = FirstSpectrumNumber; spectrumNumber <= LastSpectrumNumber; spectrumNumber++)
             {
@@ -237,7 +237,7 @@ namespace MassSpectrometry
             }
         }
 
-        public virtual IEnumerable<IMsDataScan<TSpectrum>> GetMsScans(double firstRT, double lastRT)
+        public virtual IEnumerable<IMsDataScan<TSpectrum>> GetMsScansInTimeRange(double firstRT, double lastRT)
         {
             int spectrumNumber = GetSpectrumNumber(firstRT - 0.0000001);
             while (spectrumNumber <= LastSpectrumNumber)
@@ -254,7 +254,7 @@ namespace MassSpectrometry
 
         public virtual IEnumerable<IMsDataScan<TSpectrum>> GetMsScans(IRange<int> range)
         {
-            return GetMsScans(range.Minimum, range.Maximum);
+            return GetMsScansInIndexRange(range.Minimum, range.Maximum);
         }
 
         public abstract MZAnalyzerType GetMzAnalyzer(int spectrumNumber);
