@@ -123,7 +123,7 @@ namespace Spectra
         /// Initializes a new spectrum
         /// </summary>
         /// <param name="mzintensities"></param>
-        private MzSpectrum(double[,] mzintensities)
+        public MzSpectrum(double[,] mzintensities)
             : this(mzintensities, mzintensities.GetLength(1))
         {
         }

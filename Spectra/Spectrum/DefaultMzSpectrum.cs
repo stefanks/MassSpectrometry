@@ -38,6 +38,12 @@ namespace Spectra
         {
         }
 
+
+        public DefaultMzSpectrum(double[,] mzintensities)
+            : base(mzintensities)
+        {
+        }
+
         #endregion
 
         #region overriding methods

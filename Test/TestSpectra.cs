@@ -267,5 +267,13 @@ namespace Test
             Console.WriteLine("In test after second FilterByMZ");
             Assert.AreEqual(10, _mzSpectrumA.newSpectrumWithRangeRemoved(400, 500).Count);
         }
+
+        [Test]
+        public void Test2D()
+        {
+            double[,] array2D = new double[,] { { 1, 2, 3, 4 }, { 5, 6, 7, 8 } };
+            _mzSpectrumA = new DefaultMzSpectrum(array2D);
+            Assert.AreEqual("1 - 4 m/z (Peaks 4)", _mzSpectrumA.ToString());
+        }
     }
 }
