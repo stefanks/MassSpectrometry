@@ -45,8 +45,10 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Peak\DefaultPeak.cs" />
     <Compile Include="Peak\Peak.cs" />
     <Compile Include="Spectrum\DefaultMzSpectrum.cs" />
+    <Compile Include="Spectrum\DefaultSpectrum.cs" />
     <Compile Include="Spectrum\ISpectrum.cs" />
     <Compile Include="Util\ClassExtensions.cs" />
     <Compile Include="Range\DoubleRange.cs" />
