@@ -47,13 +47,14 @@
   <ItemGroup>
     <Compile Include="Peak\DefaultPeak.cs" />
     <Compile Include="Peak\Peak.cs" />
+    <Compile Include="Spectrum\Spectrum.cs" />
     <Compile Include="Spectrum\DefaultMzSpectrum.cs" />
     <Compile Include="Spectrum\DefaultSpectrum.cs" />
+    <Compile Include="Spectrum\IMzSpectrum.cs" />
     <Compile Include="Spectrum\ISpectrum.cs" />
-    <Compile Include="Util\ClassExtensions.cs" />
+    <Compile Include="Util\ClassExtensionsAndHelpers.cs" />
     <Compile Include="Range\DoubleRange.cs" />
     <Compile Include="Range\IRange.cs" />
-    <Compile Include="Spectrum\IMzSpectrum.cs" />
     <Compile Include="Peak\MzPeak.cs" />
     <Compile Include="Range\MzRange.cs" />
     <Compile Include="Spectrum\MzSpectrum.cs" />

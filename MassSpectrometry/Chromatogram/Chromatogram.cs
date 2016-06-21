@@ -18,7 +18,6 @@
 
 using Spectra;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -51,8 +50,8 @@ namespace MassSpectrometry
             switch (smoothing)
             {
                 case SmoothingType.BoxCar:
-                    double[] newTimes = _times.BoxCarSmooth(points);
-                    double[] newIntensities = _intensities.BoxCarSmooth(points);
+                    double[] newTimes = xArray.BoxCarSmooth(points);
+                    double[] newIntensities = yArray.BoxCarSmooth(points);
                     return new Chromatogram(newTimes, newIntensities, false);
                 default:
                     return new Chromatogram(this);
@@ -61,111 +60,72 @@ namespace MassSpectrometry
 
         public override ChromatographicPeak GetPeak(int index)
         {
-            return new ChromatographicPeak(_times[index], _intensities[index]);
+            return new ChromatographicPeak(xArray[index], yArray[index]);
         }
 
-        public override byte[] ToBytes(bool zlibCompressed = false)
-        {
-            int length = Count * sizeof(double);
-            byte[] bytes = new byte[length * 2];
-            Buffer.BlockCopy(_times, 0, bytes, 0, length);
-            Buffer.BlockCopy(_intensities, 0, bytes, length, length);
-
-            if (zlibCompressed)
-            {
-                bytes = bytes.Compress();
-            }
-
-            return bytes;
-        }
     }
 
-    public abstract class Chromatogram<TPeak> : ISpectrum<TPeak>
+    public abstract class Chromatogram<TPeak> : Spectrum<TPeak, DoubleRange, Chromatogram<TPeak>>
         where TPeak : Peak
     {
-        protected readonly double[] _times;
-        protected readonly double[] _intensities;
-
-        public int Count { get; private set; }
 
         public double FirstTime
         {
-            get { return _times[0]; }
+            get { return xArray[0]; }
         }
 
         public double LastTime
         {
-            get { return _times[Count - 1]; }
+            get { return yArray[Count - 1]; }
         }
 
-        protected Chromatogram(double[] times, double[] intensities, bool shouldCopy = true)
+        protected Chromatogram(double[] times, double[] intensities, bool shouldCopy = true) : base(times, intensities, shouldCopy)
         {
-            Count = times.Length;
-
-            if (shouldCopy)
-            {
-                _times = new double[Count];
-                _intensities = new double[Count];
-                Buffer.BlockCopy(times, 0, _times, 0, 8 * Count);
-                Buffer.BlockCopy(intensities, 0, _intensities, 0, 8 * Count);
-            }
-            else
-            {
-                _times = times;
-                _intensities = intensities;
-            }
         }
 
-        protected Chromatogram(double[,] timeintensities)
+        protected Chromatogram(double[,] timeintensities) : base(timeintensities)
         {
-            Count = timeintensities.GetLength(1);
-            _times = new double[Count];
-            _intensities = new double[Count];
-            Buffer.BlockCopy(timeintensities, 0, _times, 0, 8 * Count);
-            Buffer.BlockCopy(timeintensities, 8 * Count, _intensities, 0, 8 * Count);
         }
 
-        protected Chromatogram(byte[] timeintensities)
+        protected Chromatogram(byte[] timeintensities) : base(timeintensities)
         {
-            Count = timeintensities.Length / (sizeof(double) * 2);
+            //Count = timeintensities.Length / (sizeof(double) * 2);
             int size = sizeof(double) * Count;
-            _times = new double[Count];
-            _intensities = new double[Count];
-            Buffer.BlockCopy(timeintensities, 0, _times, 0, size);
-            Buffer.BlockCopy(timeintensities, size, _intensities, 0, size);
+            xArray = new double[Count];
+            yArray = new double[Count];
+            Buffer.BlockCopy(timeintensities, 0, xArray, 0, size);
+            Buffer.BlockCopy(timeintensities, size, yArray, 0, size);
         }
 
         protected Chromatogram(Chromatogram<TPeak> other)
-            : this(other._times, other._intensities)
+            : this(other.xArray, other.yArray)
         {
         }
 
         public abstract TPeak GetPeak(int index);
 
-        public abstract byte[] ToBytes(bool zlibCompressed);
-
         public double[] GetTimes()
         {
             double[] times = new double[Count];
-            Buffer.BlockCopy(_times, 0, times, 0, sizeof(double) * Count);
+            Buffer.BlockCopy(xArray, 0, times, 0, sizeof(double) * Count);
             return times;
         }
 
         public double[] GetIntensities()
         {
             double[] intensities = new double[Count];
-            Buffer.BlockCopy(_intensities, 0, intensities, 0, sizeof(double) * Count);
+            Buffer.BlockCopy(yArray, 0, intensities, 0, sizeof(double) * Count);
             return intensities;
         }
 
         public double GetTime(int index)
         {
-            return _times[index];
+            return xArray[index];
         }
 
         public double GetIntensity(int index)
         {
-            return _intensities[index];
+            return yArray[index];
         }
 
         public virtual TPeak GetApex(IRange<double> timeRange)
@@ -175,7 +135,7 @@ namespace MassSpectrometry
 
         public virtual TPeak GetApex(double mintime, double maxTime)
         {
-            int index = Array.BinarySearch(_times, mintime);
+            int index = Array.BinarySearch(xArray, mintime);
             if (index < 0)
                 index = ~index;
 
@@ -186,9 +146,9 @@ namespace MassSpectrometry
 
             double maxvalue = -1; // double.negative infinity?
             int apexIndex = index;
-            while (index < Count && _times[index] <= maxTime)
+            while (index < Count && xArray[index] <= maxTime)
             {
-                double intensity = _intensities[index];
+                double intensity = yArray[index];
                 if (intensity > maxvalue)
                 {
                     apexIndex = index;
@@ -206,12 +166,12 @@ namespace MassSpectrometry
 
         public virtual ChromatographicElutionProfile<TPeak> GetElutionProfile(double mintime, double maxTime)
         {
-            int index = Array.BinarySearch(_times, mintime);
+            int index = Array.BinarySearch(xArray, mintime);
             if (index < 0)
                 index = ~index;
 
             List<TPeak> peaks = new List<TPeak>();
-            while (index < Count && _times[index] <= maxTime)
+            while (index < Count && xArray[index] <= maxTime)
             {
                 peaks.Add(GetPeak(index));
                 index++;
@@ -221,7 +181,7 @@ namespace MassSpectrometry
 
         public virtual TPeak GetApex()
         {
-            int index = _intensities.MaxIndex();
+            int index = yArray.MaxIndex();
             return GetPeak(index);
         }
 
@@ -230,7 +190,7 @@ namespace MassSpectrometry
             if (Count == 1)
                 return GetPeak(0);
 
-            int index = Array.BinarySearch(_times, rt);
+            int index = Array.BinarySearch(xArray, rt);
             if (index < 0)
                 index = ~index;
 
@@ -238,16 +198,16 @@ namespace MassSpectrometry
                 index--;
 
             int bestApex = index;
-            double apexValue = _intensities[bestApex];
+            double apexValue = yArray[bestApex];
 
             int i = index - 1;
             int count = 0;
             while (i >= 0)
             {
-                if (_intensities[i] > apexValue)
+                if (yArray[i] > apexValue)
                 {
                     bestApex = i;
-                    apexValue = _intensities[bestApex];
+                    apexValue = yArray[bestApex];
                     count = 0;
                 }
                 else
@@ -263,10 +223,10 @@ namespace MassSpectrometry
             count = 0;
             while (i < Count)
             {
-                if (_intensities[i] > apexValue)
+                if (yArray[i] > apexValue)
                 {
                     bestApex = i;
-                    apexValue = _intensities[bestApex];
+                    apexValue = yArray[bestApex];
                     count = 0;
                 }
                 else
@@ -283,22 +243,22 @@ namespace MassSpectrometry
 
         public DoubleRange GetPeakWidth(double time, double fraction = 0.1, int upPts = 3, double upPrecent = 1.4, double minValue = 0)
         {
-            int index = Array.BinarySearch(_times, time);
+            int index = Array.BinarySearch(xArray, time);
             if (index < 0)
                 index = ~index;
 
-            if (index == _times.Length)
+            if (index == xArray.Length)
                 index--;
 
-            double maxTime = _times[index];
+            double maxTime = xArray[index];
             double minTime = maxTime;
-            double threshold = Math.Max(_intensities[index] * fraction, minValue);
+            double threshold = Math.Max(yArray[index] * fraction, minValue);
 
             int count = 0;
-            double localMin = _intensities[index];
+            double localMin = yArray[index];
             for (int i = index + 1; i < Count; i++)
             {
-                double peakIntensity = _intensities[i];
+                double peakIntensity = yArray[i];
 
                 if (peakIntensity > localMin * upPrecent)
                 {
@@ -309,7 +269,7 @@ namespace MassSpectrometry
                     continue;
                 }
 
-                maxTime = _times[i];
+                maxTime = xArray[i];
 
                 if (peakIntensity < localMin)
                     localMin = peakIntensity;
@@ -320,13 +280,11 @@ namespace MassSpectrometry
                     break;
             }
 
-            //maxTime = Math.Min(maxTime, _times[Count - 1]);
-
-            localMin = _intensities[index];
+            localMin = yArray[index];
             count = 0;
             for (int i = index - 1; i >= 0; i--)
             {
-                double peakIntensity = _intensities[i];
+                double peakIntensity = yArray[i];
 
                 if (peakIntensity > localMin * upPrecent)
                 {
@@ -338,7 +296,7 @@ namespace MassSpectrometry
                     continue;
                 }
 
-                minTime = _times[i];
+                minTime = xArray[i];
 
                 if (peakIntensity < localMin)
                     localMin = peakIntensity;
@@ -349,33 +307,14 @@ namespace MassSpectrometry
                     break;
             }
 
-            //minTime = Math.Max(minTime,_times[0]);
-
             return new DoubleRange(minTime, maxTime);
         }
 
         public override string ToString()
         {
-            return string.Format("Count = {0:N0} TIC = {1:G4}", Count, _intensities.Sum());
+            return string.Format("Count = {0:N0} TIC = {1:G4}", Count, yArray.Sum());
         }
 
-        public IEnumerator<TPeak> GetEnumerator()
-        {
-            for (int i = 0; i < Count; i++)
-            {
-                yield return GetPeak(i);
-            }
-        }
-
-        IEnumerator IEnumerable.GetEnumerator()
-        {
-            return GetEnumerator();
-        }
-
-        public bool ContainsAnyPeaksWithinRange(double minX, double maxX)
-        {
-            throw new NotImplementedException();
-        }
 
         public bool ContainsAnyPeaksWithinRange(IRange<double> range)
         {
@@ -387,9 +326,5 @@ namespace MassSpectrometry
             throw new NotImplementedException();
         }
 
-        IEnumerator<TPeak> IEnumerable<TPeak>.GetEnumerator()
-        {
-            throw new NotImplementedException();
-        }
     }
 }

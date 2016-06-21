@@ -47,13 +47,13 @@ namespace Test
         [Test]
         public void SpectrumFirstMZ()
         {
-            Assert.AreEqual(328.73795, _mzSpectrumA.FirstMZ);
+            Assert.AreEqual(328.73795, _mzSpectrumA.FirstX);
         }
 
         [Test]
         public void SpectrumLastMZ()
         {
-            Assert.AreEqual(723.35345, _mzSpectrumA.LastMZ);
+            Assert.AreEqual(723.35345, _mzSpectrumA.LastX);
         }
 
         #endregion Properties
