@@ -1,6 +1,6 @@
 ﻿namespace Spectra
 {
-    class DefaultPeak : Peak
+    public class DefaultPeak : Peak
     {
         public DefaultPeak(double v1, double v2)
         {

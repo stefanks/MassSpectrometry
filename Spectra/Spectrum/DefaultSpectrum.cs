@@ -1,9 +1,20 @@
-﻿namespace Spectra.Spectrum
+﻿namespace Spectra
 {
-    class DefaultSpectrum : Spectrum<DefaultPeak, DoubleRange, DefaultSpectrum>
+    public class DefaultSpectrum : Spectrum<DefaultPeak, DoubleRange, DefaultSpectrum>
     {
-        public DefaultSpectrum(double[] xArray, double[] yArray) : base(xArray, yArray)
+        public DefaultSpectrum(DefaultMzSpectrum MZSpectrum) : base(MZSpectrum)
         {
         }
+
+        public DefaultSpectrum(double[] mz, double[] intensities, bool shouldCopy = true) : base(mz, intensities, shouldCopy)
+        {
+        }
+
+
+        public DefaultSpectrum(double[,] mzintensities)
+            : base(mzintensities)
+        {
+        }
+
     }
 }

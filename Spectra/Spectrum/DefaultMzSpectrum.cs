@@ -35,5 +35,8 @@ namespace Spectra
         {
         }
 
+        public DefaultMzSpectrum(byte[] mzintensities) : base(mzintensities)
+        {
+        }
     }
 }

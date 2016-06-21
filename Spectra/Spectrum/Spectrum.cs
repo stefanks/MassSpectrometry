@@ -60,8 +60,8 @@ namespace Spectra
         /// Initializes a new spectrum from another spectrum
         /// </summary>
         /// <param name="MZSpectrum">The spectrum to clone</param>
-        public Spectrum(TSpectrum MZSpectrum)
-            : this(MZSpectrum.xArray, MZSpectrum.yArray)
+        public Spectrum(ISpectrum MZSpectrum)
+            : this(MZSpectrum.GetCopyofXarray(), MZSpectrum.GetCopyofYarray(), false)
         {
         }
 
@@ -98,7 +98,6 @@ namespace Spectra
 
         #endregion
 
-
         public virtual TSpectrum newSpectrumFilterByNumberOfMostIntense(int topNPeaks)
         {
 
@@ -117,7 +116,6 @@ namespace Spectra
             return (TSpectrum)Activator.CreateInstance(typeof(TSpectrum), new object[] { mz, intensities, false });
 
         }
-
 
         #region public methods
 
