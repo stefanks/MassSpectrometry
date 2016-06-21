@@ -20,11 +20,51 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
+using System.Runtime.InteropServices;
 
 namespace Spectra
 {
-    internal static class ClassExtensions
+    internal static class ClassExtensionsAndHelpers
     {
+        public static double[] FromBytes(byte[] data, int index)
+        {
+            if (data.IsCompressed())
+                data = data.Decompress();
+            int size = sizeof(double) * data.Length / (sizeof(double) * 2);
+            double[] outArray = new double[data.Length / (sizeof(double) * 2)];
+            Buffer.BlockCopy(data, index * size, outArray, 0, size);
+            return outArray;
+        }
+
+        public static byte[] ToBytes(bool zlibCompressed, int Count, params double[][] arrays)
+        {
+            int length = Count * sizeof(double);
+            int arrayCount = arrays.Length;
+            byte[] bytes = new byte[length * arrayCount];
+            int i = 0;
+            foreach (double[] array in arrays)
+                Buffer.BlockCopy(array, 0, bytes, length * i++, length);
+            if (zlibCompressed)
+                bytes = bytes.Compress();
+            return bytes;
+        }
+
+        /// <summary>
+        /// Copies the source array to the destination array
+        /// </summary>
+        /// <typeparam name="TArray"></typeparam>
+        /// <param name="sourceArray">The source array to copy from</param>
+        /// <param name="deepCopy">If true, a new array will be generate, else references are copied</param>
+        public static TArray[] CopyData<TArray>(TArray[] sourceArray, bool deepCopy = true) where TArray : struct
+        {
+            if (!deepCopy)
+                return sourceArray;
+            int count = sourceArray.Length;
+            TArray[] dstArray = new TArray[count];
+            Buffer.BlockCopy(sourceArray, 0, dstArray, 0, count * Marshal.SizeOf(typeof(TArray)));
+            return dstArray;
+        }
+
         public static T[] SubArray<T>(this T[] data, int index, int length)
         {
             T[] result = new T[length];
@@ -50,7 +90,7 @@ namespace Spectra
             TSource maxItem;
             return MaxIndex(items, o => o, out maxItem);
         }
-        
+
         /// <summary>
         /// Finds the index of the maximum value in a collection
         /// </summary>
@@ -80,7 +120,7 @@ namespace Spectra
             }
             return maxIndex;
         }
-       
+
         /// <summary>
         /// Decompresses a byte array using Gzip decompression
         /// </summary>

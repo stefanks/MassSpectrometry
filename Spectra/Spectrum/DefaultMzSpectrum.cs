@@ -16,20 +16,11 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with MassSpectrometry. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
-using System.Collections.Generic;
 
 namespace Spectra
 {
-    public class DefaultMzSpectrum : MzSpectrum<MzPeak, DefaultMzSpectrum>
+    public class DefaultMzSpectrum : MzSpectrum<MzPeak, MzRange, DefaultMzSpectrum>
     {
-
-        #region constructors
-
-        public DefaultMzSpectrum() : base()
-        {
-        }
-
         public DefaultMzSpectrum(DefaultMzSpectrum MZSpectrum) : base(MZSpectrum)
         {
         }
@@ -43,71 +34,6 @@ namespace Spectra
             : base(mzintensities)
         {
         }
-
-        #endregion
-
-        #region overriding methods
-
-        public override DefaultMzSpectrum Clone()
-        {
-            return new DefaultMzSpectrum(this);
-        }
-
-        public override DefaultMzSpectrum CorrectMasses(Func<double, double> convertor)
-        {
-            DefaultMzSpectrum newSpectrum = Clone();
-            for (int i = 0; i < newSpectrum.Count; i++)
-                newSpectrum.Masses[i] = convertor(newSpectrum.Masses[i]);
-            return newSpectrum;
-        }
-
-        public override DefaultMzSpectrum Extract(double minMZ, double maxMZ)
-        {
-            double[] mz;
-            double[] intensity;
-            ExtractProtected(minMZ, maxMZ, out mz, out intensity);
-            return new DefaultMzSpectrum(mz, intensity, false);
-        }
-
-        public override DefaultMzSpectrum FilterByIntensity(double minIntensity = 0, double maxIntensity = double.MaxValue)
-        {
-            double[] mz;
-            double[] intensity;
-            FilterByIntensityProtected(minIntensity, maxIntensity, out mz, out intensity);
-            return new DefaultMzSpectrum(mz, intensity, false);
-        }
-
-        public override DefaultMzSpectrum newSpectrumWithRangesRemoved(IEnumerable<IRange<double>> mzRanges)
-        {
-            double[] mz;
-            double[] intensity;
-            GenerateMzAndIntensitiesWithRemovedRanges(mzRanges, out mz, out intensity);
-            return new DefaultMzSpectrum(mz, intensity, false);
-        }
-
-        public override DefaultMzSpectrum newSpectrumWithRangeRemoved(double minMZ, double maxMZ)
-        {
-            double[] mz;
-            double[] intensities;
-            Console.WriteLine("In FilterByMZ of defaultmzspectrum");
-            GenerateMzAndIntensitiesWithRemovedRange(minMZ, maxMZ, out mz, out intensities);
-            return new DefaultMzSpectrum(mz, intensities, false);
-        }
-
-        public override DefaultMzSpectrum FilterByNumberOfMostIntense(int topNPeaks)
-        {
-            double[] mz;
-            double[] intensities;
-            FilterByNumberOfMostIntenseProtected(topNPeaks, out mz, out intensities);
-            return new DefaultMzSpectrum(mz, intensities, false);
-        }
-
-        public override MzPeak GetPeak(int index)
-        {
-            return new MzPeak(Masses[index], Intensities[index]);
-        }
-
-        #endregion
 
     }
 }

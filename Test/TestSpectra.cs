@@ -50,13 +50,13 @@ namespace Test
         [Test]
         public void SpectrumFirstMZ()
         {
-            Assert.AreEqual(328.73795, _mzSpectrumA.FirstMZ);
+            Assert.AreEqual(328.73795, _mzSpectrumA.FirstX);
         }
 
         [Test]
         public void SpectrumLastMZ()
         {
-            Assert.AreEqual(723.35345, _mzSpectrumA.LastMZ);
+            Assert.AreEqual(723.35345, _mzSpectrumA.LastX);
         }
 
         #endregion Properties
@@ -64,7 +64,7 @@ namespace Test
         [Test]
         public void SpectrumBasePeakIntensity()
         {
-            double basePeakIntensity = _mzSpectrumA.GetBasePeakIntensity();
+            double basePeakIntensity = _mzSpectrumA.GetYofPeakWithHighestY();
 
             Assert.AreEqual(122781408.0, basePeakIntensity);
         }
@@ -72,46 +72,15 @@ namespace Test
         [Test]
         public void SpectrumTIC()
         {
-            double tic = _mzSpectrumA.GetTotalIonCurrent();
+            double tic = _mzSpectrumA.GetSumOfAllY();
 
             Assert.AreEqual(843998894.0, tic);
         }
 
         [Test]
-        public void SpectrumGetMasses()
-        {
-            double[] mz = { 328.73795, 329.23935, 447.73849, 448.23987, 482.23792, 482.57089, 482.90393, 500.95358, 501.28732, 501.62131, 611.99377, 612.32806, 612.66187, 722.85217, 723.35345 };
-            double[] masses = _mzSpectrumA.GetMasses();
-
-            Assert.AreEqual(mz, masses);
-        }
-
-        [Test]
-        public void SpectrumGetIntensities()
-        {
-            double[] intensities = { 81007096.0, 28604418.0, 78353512.0, 39291696.0, 122781408.0, 94147520.0, 44238040.0, 71198680.0, 54184096.0, 21975364.0, 44514172.0, 43061628.0, 23599424.0, 56022696.0, 41019144.0 };
-            double[] intensities2 = _mzSpectrumA.GetIntensities();
-
-            Assert.AreEqual(intensities, intensities2);
-        }
-
-        [Test]
-        public void SpectrumToArray()
-        {
-            double[,] data = _mzSpectrumA.ToArray();
-            double[,] realData =
-            {
-                {328.73795, 329.23935, 447.73849, 448.23987, 482.23792, 482.57089, 482.90393, 500.95358, 501.28732, 501.62131, 611.99377, 612.32806, 612.66187, 722.85217, 723.35345}
-                , {81007096.0, 28604418.0, 78353512.0, 39291696.0, 122781408.0, 94147520.0, 44238040.0, 71198680.0, 54184096.0, 21975364.0, 44514172.0, 43061628.0, 23599424.0, 56022696.0, 41019144.0}
-            };
-
-            Assert.AreEqual(data, realData);
-        }
-
-        [Test]
         public void SpectrumGetIntensityFirst()
         {
-            double intensity = _mzSpectrumA.GetIntensity(0);
+            double intensity = _mzSpectrumA.GetY(0);
 
             Assert.AreEqual(81007096.0, intensity);
         }
@@ -119,7 +88,7 @@ namespace Test
         [Test]
         public void SpectrumGetIntensityRandom()
         {
-            double intensity = _mzSpectrumA.GetIntensity(6);
+            double intensity = _mzSpectrumA.GetY(6);
 
             Assert.AreEqual(44238040.0, intensity);
         }
@@ -127,7 +96,7 @@ namespace Test
         [Test]
         public void SpectrumGetMassFirst()
         {
-            double intensity = _mzSpectrumA.GetMass(0);
+            double intensity = _mzSpectrumA.GetX(0);
 
             Assert.AreEqual(328.73795, intensity);
         }
@@ -135,7 +104,7 @@ namespace Test
         [Test]
         public void SpectrumGetMassRandom()
         {
-            double intensity = _mzSpectrumA.GetMass(6);
+            double intensity = _mzSpectrumA.GetX(6);
 
             Assert.AreEqual(482.90393, intensity);
         }
@@ -145,7 +114,7 @@ namespace Test
         [Test]
         public void SpectrumContainsPeak()
         {
-            Assert.IsTrue(_mzSpectrumA.ContainsAnyPeaks());
+            Assert.IsTrue(_mzSpectrumA.Count > 0);
         }
 
         [Test]
@@ -191,14 +160,14 @@ namespace Test
         {
             MzRange range = new MzRange(328.73795, 723.35345);
 
-            Assert.AreEqual(range, _mzSpectrumA.GetMzRange());
+            Assert.AreEqual(range, _mzSpectrumA.GetRange());
         }
 
 
         [Test]
         public void SpectrumFilterCount()
         {
-            var filteredMzSpectrum = _mzSpectrumA.FilterByIntensity(28604417, 28604419);
+            var filteredMzSpectrum = _mzSpectrumA.newSpectrumFilterByY(28604417, 28604419);
 
             Assert.AreEqual(1, filteredMzSpectrum.Count);
         }
@@ -206,10 +175,11 @@ namespace Test
         [Test]
         public void SpectrumSelect()
         {
-            MzSpectrum<MzPeak, DefaultMzSpectrum> v2 = _mzSpectrumA;
-            IMzSpectrum<MzPeak> v3 = v2;
+            MzSpectrum<MzPeak, MzRange, DefaultMzSpectrum> v2 = _mzSpectrumA;
+            ISpectrum<Peak> v3 = v2;
 
             v3.Take(4);
+
             var v5 = v3.Select(b => b.X);
             Assert.AreEqual(328.73795, v5.First());
 
@@ -222,13 +192,13 @@ namespace Test
         [Test]
         public void FilterByNumberOfMostIntenseTest()
         {
-            Assert.AreEqual(5, _mzSpectrumA.FilterByNumberOfMostIntense(5).Count);
+            Assert.AreEqual(5, _mzSpectrumA.newSpectrumFilterByNumberOfMostIntense(5).Count);
         }
 
         [Test]
         public void GetBasePeak()
         {
-            Assert.AreEqual(122781408.0, _mzSpectrumA.GetBasePeak().Intensity);
+            Assert.AreEqual(122781408.0, _mzSpectrumA.GetPeakWithHighestY().Intensity);
         }
 
         [Test]
@@ -241,14 +211,14 @@ namespace Test
         [Test]
         public void Extract()
         {
-            Assert.AreEqual(3, _mzSpectrumA.Extract(500, 600).Count);
+            Assert.AreEqual(3, _mzSpectrumA.newSpectrumExtract(500, 600).Count);
         }
 
         [Test]
         public void CorrectOrder()
         {
             _mzSpectrumA = new DefaultMzSpectrum(new double[3] { 5, 6, 7 }, new double[3] { 1, 2, 3 });
-            Assert.IsTrue(_mzSpectrumA.FilterByNumberOfMostIntense(2)[0].MZ < _mzSpectrumA.FilterByNumberOfMostIntense(2)[1].MZ);
+            Assert.IsTrue(_mzSpectrumA.newSpectrumFilterByNumberOfMostIntense(2)[0].MZ < _mzSpectrumA.newSpectrumFilterByNumberOfMostIntense(2)[1].MZ);
         }
 
 

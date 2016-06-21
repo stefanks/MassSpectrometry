@@ -17,14 +17,13 @@
 // License along with MassSpectrometry. If not, see <http://www.gnu.org/licenses/>.
 
 using Spectra;
-using System;
 using System.Collections.Generic;
 
 namespace MassSpectrometry
 {
 
     public interface IMsDataFile<out TSpectrum> : IEnumerable<IMsDataScan<TSpectrum>>
-        where TSpectrum : IMzSpectrum<MzPeak>
+        where TSpectrum : IMzSpectrum<MzPeak, MzRange, TSpectrum>
     {
         TSpectrum GetSpectrum(int spectrumNumber);
         IMsDataScan<TSpectrum> GetScan(int scanNumber);
@@ -39,7 +38,7 @@ namespace MassSpectrometry
         double GetRetentionTime(int spectrumNumber);
         DissociationType GetDissociationType(int spectrumNumber, int msnOrder = 2);
         Polarity GetPolarity(int spectrumNumber);
-        string FilePath { get;}
-        
+        string FilePath { get; }
+
     }
 }

@@ -22,7 +22,7 @@ using System;
 namespace MassSpectrometry
 {
     public class MsDataScan<TSpectrum> : IMsDataScan<TSpectrum>, IEquatable<MsDataScan<TSpectrum>>
-        where TSpectrum : IMzSpectrum<MzPeak>
+        where TSpectrum : IMzSpectrum<MzPeak, MzRange, TSpectrum>
     {
         /// <summary>
         /// The mass spectrum associated with the scan
