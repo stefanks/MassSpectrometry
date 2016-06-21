@@ -1,33 +1,27 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace MassSpectrometry
+﻿namespace MassSpectrometry
 {
     public interface Identifications
     {
-         int getNumBelow(double thresholdPassParameter);
+        int getNumBelow(double thresholdPassParameter);
 
-         bool isDecoy(int matchIndex);
+        bool isDecoy(int matchIndex);
 
-         int ms2spectrumIndex(int matchIndex);
+        int ms2spectrumIndex(int matchIndex);
 
-         double calculatedMassToCharge(int matchIndex);
+        double calculatedMassToCharge(int matchIndex);
 
-         double experimentalMassToCharge(int matchIndex);
+        double experimentalMassToCharge(int matchIndex);
 
-         string PeptideSequence(int matchIndex);
+        string PeptideSequenceWithoutModifications(int matchIndex);
 
-         int chargeState(int matchIndex);
+        int chargeState(int matchIndex);
 
-         int NumModifications(int matchIndex);
+        int NumModifications(int matchIndex);
 
-         int modificationLocation(int matchIndex, int i);
+        int modificationLocation(int matchIndex, int i);
 
-         string modificationDictionary(int matchIndex, int i);
+        string modificationDictionary(int matchIndex, int i);
 
-         string modificationAcession(int matchIndex, int i);
+        string modificationAcession(int matchIndex, int i);
     }
 }
