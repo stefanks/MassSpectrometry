@@ -63,7 +63,7 @@ namespace Test
         {
             DefaultMsDataFile thefile = new DefaultMsDataFile("Somepath");
 
-            MsDataScan<DefaultMzSpectrum> theSpectrum = new MsDataScan<DefaultMzSpectrum>(1, _mzSpectrumA, "first spectrum", 1, true, Polarity.Positive, 1, new DoubleRange(300, 1000), "fake scan filter");
+            MsDataScan<DefaultMzSpectrum> theSpectrum = new MsDataScan<DefaultMzSpectrum>(1, _mzSpectrumA, "first spectrum", 1, true, Polarity.Positive, 1, new MzRange(300, 1000), "fake scan filter");
 
             MsDataScan<DefaultMzSpectrum>[] theList = new MsDataScan<DefaultMzSpectrum>[1];
 
@@ -72,13 +72,13 @@ namespace Test
             thefile.Add(theList);
 
             Assert.AreEqual(15, thefile.GetSpectrum(thefile.FirstSpectrumNumber).Count);
-            Assert.AreEqual(15, thefile.GetSpectrum(thefile.FirstSpectrumNumber).Count); 
+            Assert.AreEqual(15, thefile.GetSpectrum(thefile.FirstSpectrumNumber).Count);
 
             Assert.AreEqual(1, thefile.LastSpectrumNumber);
             Assert.AreEqual(1, thefile.LastSpectrumNumber);
 
 
-            Assert.IsTrue( thefile.GetScan(1).isCentroid);
+            Assert.IsTrue(thefile.GetScan(1).isCentroid);
         }
     }
 }
