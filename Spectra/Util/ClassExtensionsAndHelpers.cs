@@ -35,21 +35,6 @@ namespace Spectra
             return outArray;
         }
 
-        public static byte[] ToBytes(bool zlibCompressed, int Count, params double[][] arrays)
-        {
-            int length = Count * sizeof(double);
-            int arrayCount = arrays.Length;
-            byte[] bytes = new byte[length * arrayCount];
-            int i = 0;
-            foreach (double[] array in arrays)
-                Buffer.BlockCopy(array, 0, bytes, length * i++, length);
-            if (zlibCompressed)
-                bytes = bytes.Compress();
-            return bytes;
-        }
-
-
-
         public static T[] SubArray<T>(this T[] data, int index, int length)
         {
             T[] result = new T[length];
