@@ -88,6 +88,8 @@ namespace Test
 
             Assert.AreEqual("Somepath (UnKnown)", okyee.ToString());
 
+            Assert.AreEqual("Somepath", okyee.FilePath);
+
             //int ok1 = 0;
             //foreach (var i in thefile.GetMsScansInTimeRange(0, 2))
             //    ok1 += 1;

@@ -17,12 +17,24 @@
 // License along with MassSpectrometry. If not, see <http://www.gnu.org/licenses/>.
 
 
+using System;
+using System.Collections.Generic;
+
 namespace Spectra
 {
     public interface IMzSpectrum<out TPeak, out TRange> : ISpectrum<TPeak, TRange>
         where TPeak : MzPeak
         where TRange : MzRange
     {
+        new IMzSpectrum<TPeak, TRange> newSpectrumFilterByNumberOfMostIntense(int topNPeaks);
+        new IMzSpectrum<TPeak, TRange> newSpectrumExtract(IRange<double> xRange);
+        new IMzSpectrum<TPeak, TRange> newSpectrumExtract(double minX, double maxX);
+        new IMzSpectrum<TPeak, TRange> newSpectrumWithRangesRemoved(IEnumerable<IRange<double>> xRanges);
+        new IMzSpectrum<TPeak, TRange> newSpectrumWithRangeRemoved(IRange<double> xRange);
+        new IMzSpectrum<TPeak, TRange> newSpectrumWithRangeRemoved(double minX, double maxX);
+        new IMzSpectrum<TPeak, TRange> newSpectrumFilterByY(double minY, double maxY);
+        new IMzSpectrum<TPeak, TRange> newSpectrumFilterByY(IRange<double> yRange);
+        new IMzSpectrum<TPeak, TRange> newSpectrumApplyFunctionToX(Func<double, double> convertor);
     }
 
     public interface IMzSpectrum<out TPeak, out TRange, out TSpectrum> : IMzSpectrum<TPeak, TRange>, ISpectrum<TPeak, TRange, TSpectrum>
@@ -30,5 +42,14 @@ namespace Spectra
         where TRange : MzRange
         where TSpectrum : IMzSpectrum<TPeak, TRange, TSpectrum>
     {
+        new TSpectrum newSpectrumFilterByNumberOfMostIntense(int topNPeaks);
+        new TSpectrum newSpectrumExtract(IRange<double> xRange);
+        new TSpectrum newSpectrumExtract(double minX, double maxX);
+        new TSpectrum newSpectrumWithRangesRemoved(IEnumerable<IRange<double>> xRanges);
+        new TSpectrum newSpectrumWithRangeRemoved(IRange<double> xRange);
+        new TSpectrum newSpectrumWithRangeRemoved(double minX, double maxX);
+        new TSpectrum newSpectrumFilterByY(double minY, double maxY);
+        new TSpectrum newSpectrumFilterByY(IRange<double> yRange);
+        new TSpectrum newSpectrumApplyFunctionToX(Func<double, double> convertor);
     }
 }

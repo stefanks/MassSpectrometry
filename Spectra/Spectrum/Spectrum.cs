@@ -97,6 +97,18 @@ namespace Spectra
 
         #endregion
 
+
+        #region public methods
+
+        public override string ToString()
+        {
+            return string.Format("{0} (Peaks {1})", GetRange(), Count);
+        }
+
+        #endregion
+
+        #region implementing ISpectrum
+
         public virtual TSpectrum newSpectrumFilterByNumberOfMostIntense(int topNPeaks)
         {
 
@@ -115,17 +127,6 @@ namespace Spectra
             return (TSpectrum)Activator.CreateInstance(typeof(TSpectrum), new object[] { mz, intensities, false });
 
         }
-
-        #region public methods
-
-        public override string ToString()
-        {
-            return string.Format("{0} (Peaks {1})", GetRange(), Count);
-        }
-
-        #endregion
-
-        #region implementing ISpectrum
 
         public virtual TSpectrum newSpectrumWithRangeRemoved(double minX, double maxX)
         {
@@ -272,35 +273,6 @@ namespace Spectra
 
         }
 
-        public double GetX(int index)
-        {
-            return xArray[index];
-        }
-
-        public double GetY(int index)
-        {
-            return yArray[index];
-        }
-
-        public double GetSumOfAllY()
-        {
-            return yArray.Sum();
-        }
-
-        public TSpectrum newSpectrumFilterByY(IRange<double> yRange)
-        {
-            return newSpectrumFilterByY(yRange.Minimum, yRange.Maximum);
-        }
-        public TSpectrum newSpectrumWithRangeRemoved(IRange<double> xRange)
-        {
-            return newSpectrumWithRangeRemoved(xRange.Minimum, xRange.Maximum);
-        }
-
-        public TSpectrum newSpectrumExtract(IRange<double> xRange)
-        {
-            return newSpectrumExtract(xRange.Minimum, xRange.Maximum);
-        }
-
         public virtual TSpectrum newSpectrumApplyFunctionToX(Func<double, double> convertor)
         {
             double[] modifiedXarray = new double[Count];
@@ -323,9 +295,44 @@ namespace Spectra
             return ToBytes(zlibCompressed, Count, xArray, yArray);
         }
 
+        public virtual TRange GetRange()
+        {
+            return (TRange)Activator.CreateInstance(typeof(TRange), new object[] { FirstX, LastX });
+        }
+
+        public double GetX(int index)
+        {
+            return xArray[index];
+        }
+
+        public double GetY(int index)
+        {
+            return yArray[index];
+        }
+
+        public double GetSumOfAllY()
+        {
+            return yArray.Sum();
+        }
+
         public double GetYofPeakWithHighestY()
         {
             return yArray.Max();
+        }
+
+        public TSpectrum newSpectrumFilterByY(IRange<double> yRange)
+        {
+            return newSpectrumFilterByY(yRange.Minimum, yRange.Maximum);
+        }
+
+        public TSpectrum newSpectrumWithRangeRemoved(IRange<double> xRange)
+        {
+            return newSpectrumWithRangeRemoved(xRange.Minimum, xRange.Maximum);
+        }
+
+        public TSpectrum newSpectrumExtract(IRange<double> xRange)
+        {
+            return newSpectrumExtract(xRange.Minimum, xRange.Maximum);
         }
 
         public TPeak GetClosestPeak(IRange<double> rangeX)
@@ -333,6 +340,7 @@ namespace Spectra
             double mean = (rangeX.Maximum + rangeX.Minimum) / 2.0;
             return GetClosestPeak(mean);
         }
+
         public TPeak GetClosestPeak(double mean)
         {
             return this[GetClosestPeakIndex(mean)];
@@ -341,11 +349,6 @@ namespace Spectra
         public TPeak GetPeakWithHighestY()
         {
             return this[yArray.MaxIndex()];
-        }
-
-        public virtual TRange GetRange()
-        {
-            return (TRange)Activator.CreateInstance(typeof(TRange), new object[] { FirstX, LastX });
         }
 
         #endregion
