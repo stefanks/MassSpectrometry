@@ -2,7 +2,7 @@
 {
     public class DefaultSpectrum : Spectrum<DefaultPeak, DoubleRange, DefaultSpectrum>
     {
-        public DefaultSpectrum(ISpectrum MZSpectrum) : base(MZSpectrum)
+        public DefaultSpectrum(ISpectrum<Peak, DoubleRange> spectrum) : base(spectrum)
         {
         }
 

@@ -19,16 +19,7 @@
 
 namespace Spectra
 {
-    public interface IMzSpectrum : ISpectrum
-    {
-    }
-
-    public interface IMzSpectrum<out TPeak> : IMzSpectrum, ISpectrum<TPeak>
-        where TPeak : MzPeak
-    {
-    }
-
-    public interface IMzSpectrum<out TPeak, out TRange> : IMzSpectrum<TPeak>, ISpectrum<TPeak, TRange>
+    public interface IMzSpectrum<out TPeak, out TRange> : ISpectrum<TPeak, TRange>
         where TPeak : MzPeak
         where TRange : MzRange
     {
