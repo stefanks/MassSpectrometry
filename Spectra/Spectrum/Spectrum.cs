@@ -306,7 +306,7 @@ namespace Spectra
             double[] modifiedXarray = new double[Count];
             for (int i = 0; i < Count; i++)
                 modifiedXarray[i] = convertor(xArray[i]);
-            return (TSpectrum)Activator.CreateInstance(typeof(TSpectrum), new object[] { modifiedXarray, CopyData(yArray) });
+            return (TSpectrum) Activator.CreateInstance(typeof(TSpectrum), new object[] { modifiedXarray, CopyData(yArray), false });
         }
 
         public virtual double[,] CopyTo2DArray()
