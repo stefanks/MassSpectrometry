@@ -318,9 +318,9 @@ namespace Spectra
             return data;
         }
 
-        public byte[] ToBytes(bool zlibCompressed = false)
+        public virtual byte[] ToBytes(bool zlibCompressed = false)
         {
-            return ClassExtensionsAndHelpers.ToBytes(zlibCompressed, Count, xArray, yArray);
+            return ToBytes(zlibCompressed, Count, xArray, yArray);
         }
 
         public double GetYofPeakWithHighestY()
@@ -350,7 +350,7 @@ namespace Spectra
         
         #endregion
 
-        #region private methods
+        #region protected methods
 
         protected int GetClosestPeakIndex(double targetX)
         {
@@ -404,6 +404,22 @@ namespace Spectra
             return dstArray;
 
         }
+
+
+        protected static byte[] ToBytes(bool zlibCompressed, int Count, params double[][] arrays)
+        {
+            int length = Count * sizeof(double);
+            int arrayCount = arrays.Length;
+            byte[] bytes = new byte[length * arrayCount];
+            int i = 0;
+            foreach (double[] array in arrays)
+                Buffer.BlockCopy(array, 0, bytes, length * i++, length);
+            if (zlibCompressed)
+                bytes = bytes.Compress();
+            return bytes;
+        }
+        
+
         #endregion
 
         #region enumeration
