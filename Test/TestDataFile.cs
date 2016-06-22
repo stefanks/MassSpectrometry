@@ -61,7 +61,7 @@ namespace Test
         [Test]
         public void DataFileTest()
         {
-            DefaultMsDataFile thefile = new DefaultMsDataFile("Somepath");
+            FakeMsDataFile thefile = new FakeMsDataFile("Somepath");
 
             MsDataScan<DefaultMzSpectrum> theSpectrum = new MsDataScan<DefaultMzSpectrum>(1, _mzSpectrumA, "first spectrum", 1, true, Polarity.Positive, 1, new MzRange(300, 1000), "fake scan filter");
 
@@ -85,6 +85,22 @@ namespace Test
 
 
             IMsDataFile<IMzSpectrum<MzPeak, MzRange>> okyee = thefile;
+
+            Assert.AreEqual("Somepath (UnKnown)", okyee.ToString());
+
+            //int ok1 = 0;
+            //foreach (var i in thefile.GetMsScansInTimeRange(0, 2))
+            //    ok1 += 1;
+
+            //Assert.AreEqual(1, ok1);
+
+
+            //int ok2 = 0;
+            //foreach (var i in thefile.GetMsScansInTimeRange(2, 4))
+            //    ok2 += 1;
+
+            //Assert.AreEqual(0, ok2);
+
         }
     }
 }
