@@ -33,7 +33,7 @@ namespace Spectra
         {
         }
 
-        public MzSpectrum(TSpectrum mZSpectrum) : base(mZSpectrum)
+        public MzSpectrum(ISpectrum<Peak, DoubleRange> mZSpectrum) : base(mZSpectrum)
         {
         }
 
