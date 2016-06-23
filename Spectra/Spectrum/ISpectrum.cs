@@ -54,7 +54,9 @@ namespace Spectra
 
         TPeak this[int index] { get; }
 
-        TPeak GetClosestPeak(double mean);
+        TPeak GetClosestPeak(double x);
+
+        double GetClosestPeakXvalue(double x);
 
         TPeak GetPeakWithHighestY();
 
