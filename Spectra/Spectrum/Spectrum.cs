@@ -341,9 +341,15 @@ namespace Spectra
             return GetClosestPeak(mean);
         }
 
-        public TPeak GetClosestPeak(double mean)
+        public TPeak GetClosestPeak(double x)
         {
-            return this[GetClosestPeakIndex(mean)];
+            return this[GetClosestPeakIndex(x)];
+        }
+
+
+        public double GetClosestPeakXvalue(double x)
+        {
+            return xArray[GetClosestPeakIndex(x)];
         }
 
         public TPeak GetPeakWithHighestY()
@@ -498,6 +504,7 @@ namespace Spectra
         {
             return newSpectrumApplyFunctionToX(convertor);
         }
+
         #endregion
 
     }
