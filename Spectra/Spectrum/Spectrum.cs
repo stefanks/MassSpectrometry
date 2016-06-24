@@ -365,7 +365,7 @@ namespace Spectra
         protected int GetClosestPeakIndex(double targetX)
         {
             if (Count == 0)
-                return -1;
+                throw new IndexOutOfRangeException("No peaks in spectrum!");
 
             int index = Array.BinarySearch(xArray, targetX);
             if (index >= 0)

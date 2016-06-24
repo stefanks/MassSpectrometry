@@ -25,7 +25,7 @@ namespace Spectra
         {
         }
 
-        public DefaultMzSpectrum(double[] mz, double[] intensities, bool shouldCopy = true) : base(mz, intensities, shouldCopy)
+        public DefaultMzSpectrum(double[] mz, double[] intensities, bool shouldCopy) : base(mz, intensities, shouldCopy)
         {
         }
 

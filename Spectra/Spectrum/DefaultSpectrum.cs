@@ -6,7 +6,7 @@
         {
         }
 
-        public DefaultSpectrum(double[] x, double[] y, bool shouldCopy = true) : base(x, y, shouldCopy)
+        public DefaultSpectrum(double[] x, double[] y, bool shouldCopy) : base(x, y, shouldCopy)
         {
         }
 
