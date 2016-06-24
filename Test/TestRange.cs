@@ -23,8 +23,9 @@ using System;
 namespace Test
 {
     [TestFixture]
-    public sealed class RangeTest { 
-        
+    public sealed class RangeTest
+    {
+
         [Test]
         public void RangeSubRange()
         {
@@ -60,7 +61,7 @@ namespace Test
 
             Assert.IsFalse(range2.IsOverlapping(range1));
         }
-        
+
         [Test]
         public void RangeOverlappingIsTrue()
         {
@@ -205,7 +206,7 @@ namespace Test
         [Test]
         public void MassRangeFromDAWidth()
         {
-            var range1 = new DoubleRange(10, new Tolerance(ToleranceUnit.DA, 4));
+            var range1 = new DoubleRange(10, new Tolerance(ToleranceUnit.Absolute, 4));
 
             Assert.AreEqual(8, range1.Width);
         }
@@ -213,7 +214,7 @@ namespace Test
         [Test]
         public void MassRangeFromDAMean()
         {
-            var range1 = new DoubleRange(10, new Tolerance(ToleranceUnit.DA, 4));
+            var range1 = new DoubleRange(10, new Tolerance(ToleranceUnit.Absolute, 4));
 
             Assert.AreEqual(10, range1.Mean);
         }
@@ -221,7 +222,7 @@ namespace Test
         [Test]
         public void MassRangeFromDAMin()
         {
-            var range1 = new DoubleRange(10, new Tolerance(ToleranceUnit.DA, 4));
+            var range1 = new DoubleRange(10, new Tolerance(ToleranceUnit.Absolute, 4));
 
             Assert.AreEqual(6, range1.Minimum);
         }
@@ -229,7 +230,7 @@ namespace Test
         [Test]
         public void MassRangeFromDAMax()
         {
-            var range1 = new DoubleRange(10, new Tolerance(ToleranceUnit.DA, 4));
+            var range1 = new DoubleRange(10, new Tolerance(ToleranceUnit.Absolute, 4));
 
             Assert.AreEqual(14, range1.Maximum);
         }
@@ -269,8 +270,8 @@ namespace Test
         [Test]
         public void MassRangeFromDANegative()
         {
-            var range1 = new DoubleRange(10, new Tolerance(ToleranceUnit.DA, 4));
-            var range2 = new DoubleRange(10, new Tolerance(ToleranceUnit.DA, -4));
+            var range1 = new DoubleRange(10, new Tolerance(ToleranceUnit.Absolute, 4));
+            var range2 = new DoubleRange(10, new Tolerance(ToleranceUnit.Absolute, -4));
 
             Assert.AreEqual(range1, range2);
         }
@@ -279,7 +280,7 @@ namespace Test
         [Test]
         public void RangeFromRange()
         {
-            var range1 = new DoubleRange(10, new Tolerance(ToleranceUnit.DA, 4));
+            var range1 = new DoubleRange(10, new Tolerance(ToleranceUnit.Absolute, 4));
             var range2 = new Range<double>(range1);
             Assert.AreEqual(range1, range2);
         }
@@ -287,8 +288,8 @@ namespace Test
         [Test]
         public void SuperRange()
         {
-            var range1 = new DoubleRange(10, new Tolerance(ToleranceUnit.DA, 4));
-            var range2 = new DoubleRange(10, new Tolerance(ToleranceUnit.DA, 3));
+            var range1 = new DoubleRange(10, new Tolerance(ToleranceUnit.Absolute, 4));
+            var range2 = new DoubleRange(10, new Tolerance(ToleranceUnit.Absolute, 3));
             Assert.IsTrue(range1.IsSuperRange(range2));
         }
     }

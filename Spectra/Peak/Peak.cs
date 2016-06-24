@@ -16,19 +16,13 @@
 // You should have received a copy of the GNU Lesser General Public
 // License along with MassSpectrometry. If not, see <http://www.gnu.org/licenses/>.
 
-using System;
 
 namespace Spectra
 {
-    public abstract class Peak :  IEquatable<Peak>
+    public abstract class Peak
     {
         public double X { get; protected set; }
         public double Y { get; protected set; }
 
-        public bool Equals(Peak other)
-        {
-            if (ReferenceEquals(this, other)) return true;
-            return X.FuzzyEquals(other.X) && Y.FuzzyEquals(other.Y);
-        }
     }
 }

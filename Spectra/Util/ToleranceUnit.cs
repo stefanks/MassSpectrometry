@@ -29,16 +29,8 @@ namespace Spectra
         PPM,
 
         /// <summary>
-        /// Daltons
+        /// Absolute units
         /// </summary>
-        DA,
-
-        /// <summary>
-        /// Milli Mass Units
-        /// <para>
-        /// Equivalent to mDa
-        /// </para>
-        /// </summary>
-        MMU
+        Absolute
     }
 }

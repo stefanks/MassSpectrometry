@@ -27,7 +27,7 @@ namespace Test
         [Test]
         public void MassToleranceConstructorDaValue()
         {
-            var tol = new Tolerance(ToleranceUnit.DA, 10);
+            var tol = new Tolerance(ToleranceUnit.Absolute, 10);
 
             Assert.AreEqual(10, tol.Value);
         }
@@ -35,15 +35,15 @@ namespace Test
         [Test]
         public void MassToleranceConstructorDaType()
         {
-            var tol = new Tolerance(ToleranceUnit.DA, 10);
+            var tol = new Tolerance(ToleranceUnit.Absolute, 10);
 
-            Assert.AreEqual(ToleranceUnit.DA, tol.Unit);
+            Assert.AreEqual(ToleranceUnit.Absolute, tol.Unit);
         }
 
         [Test]
         public void MassToleranceFromDaValue()
         {
-            var tol = Tolerance.FromDA(10);
+            var tol = Tolerance.FromAbsolute(10);
 
             Assert.AreEqual(10, tol.Value);
         }
@@ -67,9 +67,9 @@ namespace Test
         [Test]
         public void MassToleranceFromDaType()
         {
-            var tol = Tolerance.FromDA(10);
+            var tol = Tolerance.FromAbsolute(10);
 
-            Assert.AreEqual(ToleranceUnit.DA, tol.Unit);
+            Assert.AreEqual(ToleranceUnit.Absolute, tol.Unit);
         }
 
         [Test]
@@ -115,7 +115,7 @@ namespace Test
         [Test]
         public void GetToleranceDaPositive()
         {
-            double value = Tolerance.GetTolerance(10, 5, ToleranceUnit.DA);
+            double value = Tolerance.GetTolerance(10, 5, ToleranceUnit.Absolute);
 
             Assert.AreEqual(5, value);
         }
@@ -123,7 +123,7 @@ namespace Test
         [Test]
         public void GetToleranceDaNegative()
         {
-            double value = Tolerance.GetTolerance(5, 10, ToleranceUnit.DA);
+            double value = Tolerance.GetTolerance(5, 10, ToleranceUnit.Absolute);
 
             Assert.AreEqual(-5, value);
         }
@@ -131,7 +131,7 @@ namespace Test
         [Test]
         public void GetToleranceDaZero()
         {
-            double value = Tolerance.GetTolerance(10, 10, ToleranceUnit.DA);
+            double value = Tolerance.GetTolerance(10, 10, ToleranceUnit.Absolute);
 
             Assert.AreEqual(0, value);
         }

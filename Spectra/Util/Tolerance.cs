@@ -29,10 +29,10 @@ namespace Spectra
         /// <summary>
         /// A regex for parsing a string representation of a tolerance
         /// <para>
-        /// i.e., "10 PPM", "-+10 PPM", "5 DA", "±10 MMU", etc...
+        /// i.e., "10 PPM", "-+10 PPM", "5 AbsoluteUnits", etc...
         /// </para>
         /// </summary>
-        private static readonly Regex StringRegex = new Regex(@"(\+-|-\+|±)?\s*([\d.]+)\s*(PPM|DA|MMU)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+        private static readonly Regex StringRegex = new Regex(@"(\+-|-\+|±)?\s*([\d.]+)\s*(PPM|AbsoluteUnits)", RegexOptions.Compiled | RegexOptions.IgnoreCase);
 
         /// <summary>
         /// Creates a new tolerance given a unit, value, and whether the tolerance is ±
@@ -62,7 +62,7 @@ namespace Spectra
         /// <summary>
         /// Calculates a tolerance from the string representation
         /// <para>
-        /// i.e., "10 PPM", "-+10 PPM", "5 DA", "±10 MMU", etc...
+        /// i.e., "10 PPM", "-+10 PPM", "5 AbsoluteUnits", etc...
         /// </para>
         /// </summary>
         /// <param name="s"></param>
@@ -100,21 +100,17 @@ namespace Spectra
         /// <returns></returns>
         public DoubleRange GetRange(double mean)
         {
-            double value = Value*((Type == ToleranceType.PlusAndMinus) ? 2 : 1);
+            double value = Value * ((Type == ToleranceType.PlusAndMinus) ? 2 : 1);
 
             double tol;
             switch (Unit)
             {
-                case ToleranceUnit.MMU:
-                    tol = value/2000.0;
-                    break;
-
                 case ToleranceUnit.PPM:
-                    tol = value*mean/2e6;
+                    tol = value * mean / 2e6;
                     break;
 
                 default:
-                    tol = value/2.0;
+                    tol = value / 2.0;
                     break;
             }
             return new DoubleRange(mean - tol, mean + tol);
@@ -127,18 +123,15 @@ namespace Spectra
         /// <returns></returns>
         public double GetMinimumValue(double mean)
         {
-            double value = Value*((Type == ToleranceType.PlusAndMinus) ? 2 : 1);
+            double value = Value * ((Type == ToleranceType.PlusAndMinus) ? 2 : 1);
 
             switch (Unit)
             {
-                case ToleranceUnit.MMU:
-                    return mean - value/2000.0;
-
                 case ToleranceUnit.PPM:
-                    return mean*(1 - (value/2e6));
+                    return mean * (1 - (value / 2e6));
 
                 default:
-                    return mean - value/2.0;
+                    return mean - value / 2.0;
             }
         }
 
@@ -149,18 +142,15 @@ namespace Spectra
         /// <returns></returns>
         public double GetMaximumValue(double mean)
         {
-            double value = Value*((Type == ToleranceType.PlusAndMinus) ? 2 : 1);
+            double value = Value * ((Type == ToleranceType.PlusAndMinus) ? 2 : 1);
 
             switch (Unit)
             {
-                case ToleranceUnit.MMU:
-                    return mean + value/2000.0;
-
                 case ToleranceUnit.PPM:
-                    return mean*(1 + (value/2e6));
+                    return mean * (1 + (value / 2e6));
 
                 default:
-                    return mean + value/2.0;
+                    return mean + value / 2.0;
             }
         }
 
@@ -173,13 +163,13 @@ namespace Spectra
         public bool Within(double experimental, double theoretical)
         {
             double tolerance = Math.Abs(GetTolerance(experimental, theoretical, Unit));
-            double value = (Type == ToleranceType.PlusAndMinus) ? Value : Value/2;
+            double value = (Type == ToleranceType.PlusAndMinus) ? Value : Value / 2;
             return tolerance <= value;
         }
 
         public override string ToString()
         {
-            return string.Format("{0}{1:f4} {2}", (Type == ToleranceType.PlusAndMinus) ? "±" : "", Value, Enum.GetName(typeof (ToleranceUnit), Unit));
+            return string.Format("{0}{1:f4} {2}", (Type == ToleranceType.PlusAndMinus) ? "±" : "", Value, Enum.GetName(typeof(ToleranceUnit), Unit));
         }
 
         #region Static
@@ -188,11 +178,9 @@ namespace Spectra
         {
             switch (type)
             {
-                case ToleranceUnit.MMU:
-                    return (experimental - theoretical)*1000.0;
 
                 case ToleranceUnit.PPM:
-                    return (experimental - theoretical)/theoretical*1e6;
+                    return (experimental - theoretical) / theoretical * 1e6;
 
                 default:
                     return experimental - theoretical;
@@ -204,16 +192,11 @@ namespace Spectra
             return new Tolerance(ToleranceUnit.PPM, value, toleranceType);
         }
 
-        public static Tolerance FromDA(double value, ToleranceType toleranceType = ToleranceType.PlusAndMinus)
+        public static Tolerance FromAbsolute(double value, ToleranceType toleranceType = ToleranceType.PlusAndMinus)
         {
-            return new Tolerance(ToleranceUnit.DA, value, toleranceType);
+            return new Tolerance(ToleranceUnit.Absolute, value, toleranceType);
         }
 
-        public static Tolerance FromMMU(double value, ToleranceType toleranceType = ToleranceType.PlusAndMinus)
-        {
-            return new Tolerance(ToleranceUnit.MMU, value, toleranceType);
-        }
-        
 
         #endregion Static
     }

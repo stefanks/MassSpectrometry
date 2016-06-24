@@ -2,7 +2,7 @@
 {
     public interface Identifications
     {
-        int getNumBelow(double thresholdPassParameter);
+        int Count();
 
         bool isDecoy(int matchIndex);
 
