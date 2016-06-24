@@ -17,8 +17,6 @@
 // License along with MassSpectrometry. If not, see <http://www.gnu.org/licenses/>.
 
 using System;
-using System.IO;
-using System.IO.Compression;
 
 namespace MassSpectrometry
 {
@@ -50,21 +48,6 @@ namespace MassSpectrometry
                 smoothedData[i] = value / points;
             }
             return smoothedData;
-        }
-
-        /// <summary>
-        /// Compresses a byte array using Gzip compression
-        /// </summary>
-        /// <param name="bytes">The byte array to compress</param>
-        /// <returns>The compressed byte array</returns>
-        public static byte[] Compress(this byte[] bytes)
-        {
-            var compressedStream = new MemoryStream();
-            using (var stream = new GZipStream(compressedStream, CompressionMode.Compress))
-            {
-                new MemoryStream(bytes).CopyTo(stream);
-            }
-            return compressedStream.ToArray();
         }
 
     }
