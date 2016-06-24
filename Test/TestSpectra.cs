@@ -245,5 +245,26 @@ namespace Test
             _mzSpectrumA = new DefaultMzSpectrum(array2D);
             Assert.AreEqual("1 - 4 m/z (Peaks 4)", _mzSpectrumA.ToString());
         }
+
+        [Test]
+        public void TestClone()
+        {
+            var ok = new DefaultSpectrum(_mzSpectrumA);
+            Assert.AreNotEqual(ok[0], _mzSpectrumA[0]);
+            Assert.AreEqual(ok[0].Y, _mzSpectrumA[0].Y);
+
+
+            var ok2 = new DefaultSpectrum(_mzSpectrumA.xArray, _mzSpectrumA.yArray, true);
+
+            ok2.xArray[0] = 0;
+            Assert.AreNotEqual(ok2.xArray[0], _mzSpectrumA.xArray[0]);
+
+            var ok3 = new DefaultSpectrum(_mzSpectrumA.xArray, _mzSpectrumA.yArray, false);
+
+            ok3.xArray[0] = 0;
+            Assert.AreEqual(ok3.xArray[0], _mzSpectrumA.xArray[0]);
+
+        }
+
     }
 }
