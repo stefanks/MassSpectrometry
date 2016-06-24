@@ -35,7 +35,7 @@ namespace Test
             double[] mz = { 328.73795, 329.23935, 447.73849, 448.23987, 482.23792, 482.57089, 482.90393, 500.95358, 501.28732, 501.62131, 611.99377, 612.32806, 612.66187, 722.85217, 723.35345 };
             double[] intensities = { 81007096.0, 28604418.0, 78353512.0, 39291696.0, 122781408.0, 94147520.0, 44238040.0, 71198680.0, 54184096.0, 21975364.0, 44514172.0, 43061628.0, 23599424.0, 56022696.0, 41019144.0 };
 
-            _mzSpectrumA = new DefaultMzSpectrum(mz, intensities);
+            _mzSpectrumA = new DefaultMzSpectrum(mz, intensities, false);
         }
 
 
@@ -217,7 +217,7 @@ namespace Test
         [Test]
         public void CorrectOrder()
         {
-            _mzSpectrumA = new DefaultMzSpectrum(new double[3] { 5, 6, 7 }, new double[3] { 1, 2, 3 });
+            _mzSpectrumA = new DefaultMzSpectrum(new double[3] { 5, 6, 7 }, new double[3] { 1, 2, 3 }, false);
             Assert.IsTrue(_mzSpectrumA.newSpectrumFilterByNumberOfMostIntense(2)[0].MZ < _mzSpectrumA.newSpectrumFilterByNumberOfMostIntense(2)[1].MZ);
         }
 
@@ -247,15 +247,53 @@ namespace Test
         }
 
         [Test]
-        public void SpectrumFromSpectrum()
+        public void TestClone()
         {
-            DefaultSpectrum defSpectrum = new DefaultSpectrum(_mzSpectrumA);
-            Assert.AreEqual(1, _mzSpectrumA.newSpectrumFilterByY(new DoubleRange(122781400, double.MaxValue)).Count);
+            var ok = new DefaultSpectrum(_mzSpectrumA);
+            Assert.AreNotEqual(ok[0], _mzSpectrumA[0]);
+            Assert.AreEqual(ok[0].Y, _mzSpectrumA[0].Y);
 
-            byte[] bytes = _mzSpectrumA.ToBytes();
-            var hmm = new DefaultMzSpectrum(bytes);
 
-            Assert.AreEqual(328.73795, hmm[0].X);
+            var ok2 = new DefaultSpectrum(_mzSpectrumA.xArray, _mzSpectrumA.yArray, true);
+
+            ok2.xArray[0] = 0;
+            Assert.AreNotEqual(ok2.xArray[0], _mzSpectrumA.xArray[0]);
+
+            var ok3 = new DefaultSpectrum(_mzSpectrumA.xArray, _mzSpectrumA.yArray, false);
+
+            ok3.xArray[0] = 0;
+            Assert.AreEqual(ok3.xArray[0], _mzSpectrumA.xArray[0]);
+
         }
+
+        [Test]
+        public void TestFunctionToX()
+        {
+            var ok = _mzSpectrumA.newSpectrumApplyFunctionToX(b => -1);
+            Assert.AreEqual(-1, ok[0].X);
+        }
+
+        [Test]
+        public void Test2dArray()
+        {
+            var ok = _mzSpectrumA.CopyTo2DArray();
+            var ok2 = new DefaultMzSpectrum(ok);
+            Assert.AreEqual(ok2[0].X, _mzSpectrumA[0].X);
+        }
+
+        [Test]
+        public void TestFilterAndExtract()
+        {
+            Assert.AreEqual(447.73849, _mzSpectrumA.newSpectrumFilterByY(new DoubleRange(78353510, 81007097)).newSpectrumExtract(new DoubleRange(400, 500)).GetClosestPeak(new DoubleRange(327, 328)).X);
+        }
+
+        [Test]
+        public void TestGetClosestPeakXValue()
+        {
+            Assert.AreEqual(447.73849, _mzSpectrumA.GetClosestPeakXvalue(447.73849));
+            Assert.AreEqual(447.73849, _mzSpectrumA.GetClosestPeakXvalue(447));
+            Assert.Throws<IndexOutOfRangeException>(() => { new DefaultMzSpectrum(new double[0], new double[0], false).GetClosestPeakXvalue(1); }, "No peaks in spectrum!");
+        }
+
     }
 }

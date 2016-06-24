@@ -32,10 +32,6 @@ namespace Spectra
         {
         }
 
-        public MzSpectrum(byte[] mzintensities) : base(mzintensities)
-        {
-        }
-
         public MzSpectrum(ISpectrum<Peak, DoubleRange> mZSpectrum) : base(mZSpectrum)
         {
         }

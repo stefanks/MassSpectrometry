@@ -44,8 +44,6 @@ namespace Spectra
 
         double GetSumOfAllY();
 
-        byte[] ToBytes(bool zlibCompressed);
-
         double[,] CopyTo2DArray();
 
         bool ContainsAnyPeaksWithinRange(double minX, double maxX);

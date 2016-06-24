@@ -26,7 +26,8 @@ namespace Spectra
     {
         #region properties
 
-        public double Intensity {
+        public double Intensity
+        {
             get
             {
                 return Y;
@@ -64,21 +65,6 @@ namespace Spectra
         public override string ToString()
         {
             return string.Format("({0:F4},{1:G5})", MZ, Intensity);
-        }
-        
-        public override bool Equals(object obj)
-        {
-            return obj is MzPeak && Equals((MzPeak) obj);
-        }
-
-        public override int GetHashCode()
-        {
-            return MZ.GetHashCode() ^ Intensity.GetHashCode();
-        }
-
-        public bool Equals(MzPeak other)
-        {
-            return MZ.FuzzyEquals(other.MZ) && Intensity.FuzzyEquals(other.Intensity);
         }
 
         public void AddIntensity(double additionalIntensity)

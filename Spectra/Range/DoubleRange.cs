@@ -81,11 +81,6 @@ namespace Spectra
                     Maximum = mean + value / 2.0;
                     break;
 
-                case ToleranceUnit.MMU:
-                    Minimum = mean - value / 2000.0;
-                    Maximum = mean + value / 2000.0;
-                    break;
-
                 case ToleranceUnit.PPM:
                     Minimum = mean * (1 - (value / 2e6));
                     Maximum = mean * (1 + (value / 2e6));
@@ -120,7 +115,7 @@ namespace Spectra
         {
             return 1e6 * Width / Mean;
         }
-        
+
         /// <summary>
         /// Returns a string representation of this range at the given numerical format
         /// </summary>
@@ -140,7 +135,7 @@ namespace Spectra
 
         public static DoubleRange FromDa(double mean, double daTolerance)
         {
-            return new DoubleRange(mean, new Tolerance(ToleranceUnit.DA, daTolerance));
+            return new DoubleRange(mean, new Tolerance(ToleranceUnit.Absolute, daTolerance));
         }
 
         #endregion Static

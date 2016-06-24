@@ -25,7 +25,7 @@ namespace MassSpectrometry
 {
     public class Chromatogram : Chromatogram<ChromatographicPeak>
     {
-        public Chromatogram(double[] times, double[] intensities, bool shouldCopy = true)
+        public Chromatogram(double[] times, double[] intensities, bool shouldCopy)
             : base(times, intensities, shouldCopy)
         {
         }
@@ -37,11 +37,6 @@ namespace MassSpectrometry
 
         public Chromatogram(Chromatogram other)
             : base(other)
-        {
-        }
-
-        public Chromatogram(byte[] bytes)
-            : base(bytes)
         {
         }
 
@@ -84,10 +79,6 @@ namespace MassSpectrometry
         }
 
         protected Chromatogram(double[,] timeintensities) : base(timeintensities)
-        {
-        }
-
-        protected Chromatogram(byte[] timeintensities) : base(timeintensities)
         {
         }
 
@@ -175,8 +166,7 @@ namespace MassSpectrometry
 
         public virtual TPeak GetApex()
         {
-            int index = yArray.MaxIndex();
-            return GetPeak(index);
+            return GetPeakWithHighestY();
         }
 
         public TPeak FindNearestApex(double rt, int skipablePts = 1)

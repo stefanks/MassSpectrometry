@@ -212,12 +212,12 @@ namespace MassSpectrometry
 
         public abstract double GetIsolationWidth(int spectrumNumber);
 
-        public abstract MzRange GetIsolationRange(int spectrumNumber);
-        //{
-        //    double precursormz = GetPrecursorIsolationMz(spectrumNumber);
-        //    double halfWidth = GetIsolationWidth(spectrumNumber)/2;
-        //    return new MzRange(precursormz - halfWidth, precursormz + halfWidth);
-        //}
+        public virtual MzRange GetIsolationRange(int spectrumNumber)
+        {
+            double precursormz = GetPrecursorIsolationMz(spectrumNumber);
+            double halfWidth = GetIsolationWidth(spectrumNumber) / 2;
+            return new MzRange(precursormz - halfWidth, precursormz + halfWidth);
+        }
 
         public abstract double GetPrecursorIsolationIntensity(int spectrumNumber);
 

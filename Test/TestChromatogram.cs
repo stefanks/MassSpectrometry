@@ -34,19 +34,19 @@ namespace Test
             double[] mz = { 328.73795, 329.23935, 447.73849, 448.23987, 482.23792, 482.57089, 482.90393, 500.95358, 501.28732, 501.62131, 611.99377, 612.32806, 612.66187, 722.85217, 723.35345 };
             double[] intensities = { 81007096.0, 28604418.0, 78353512.0, 39291696.0, 122781408.0, 94147520.0, 44238040.0, 71198680.0, 54184096.0, 21975364.0, 44514172.0, 43061628.0, 23599424.0, 56022696.0, 41019144.0 };
 
-            _mzSpectrumA = new DefaultMzSpectrum(mz, intensities);
+            _mzSpectrumA = new DefaultMzSpectrum(mz, intensities, false);
         }
 
         [Test]
         public void ChromatogramTest()
         {
-            Chromatogram a = new Chromatogram(new double[5] { 1, 2, 3, 4, 5 }, new double[5] { 1, 2, 6, 4, 2 });
+            Chromatogram a = new Chromatogram(new double[5] { 1, 2, 3, 4, 5 }, new double[5] { 1, 2, 6, 4, 2 }, false);
             var b = a.CreateSmoothChromatogram(SmoothingType.BoxCar, 4);
             Assert.IsTrue(b.GetTimes().SequenceEqual(new double[3] { 2, 3, 4 }));
             Assert.IsTrue(b.GetIntensities().SequenceEqual(new double[3] { 3, 4, 4 }));
             var c = new Chromatogram(a);
 
-            Chromatogram d = new Chromatogram(new double[9] { 1, 2, 3, 4, 5, 6, 7, 8, 9 }, new double[9] { 10, 0, 2, 6, 2, 0, 1, 10, 1 });
+            Chromatogram d = new Chromatogram(new double[9] { 1, 2, 3, 4, 5, 6, 7, 8, 9 }, new double[9] { 10, 0, 2, 6, 2, 0, 1, 10, 1 }, false);
             // Finds the APEX! Not nearest peak!
             Assert.AreEqual(6, d.FindNearestApex(5.9).Intensity);
             Assert.AreEqual(10, d.FindNearestApex(6.1).Intensity);
@@ -72,7 +72,7 @@ namespace Test
         [Test]
         public void TestGetApex()
         {
-            Chromatogram d = new Chromatogram(new double[9] { 1, 2, 3, 4, 5, 6, 7, 8, 9 }, new double[9] { 10, 0, 2, 6, 2, 0, 1, 10, 1 });
+            Chromatogram d = new Chromatogram(new double[9] { 1, 2, 3, 4, 5, 6, 7, 8, 9 }, new double[9] { 10, 0, 2, 6, 2, 0, 1, 10, 1 }, false);
             Assert.AreEqual(6, d.GetApex(new DoubleRange(2, 6)).Y);
         }
     }
