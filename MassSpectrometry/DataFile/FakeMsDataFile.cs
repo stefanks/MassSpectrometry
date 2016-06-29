@@ -129,6 +129,15 @@ namespace MassSpectrometry
 
         public override int GetSpectrumNumber(double retentionTime)
         {
+            int ok = Array.BinarySearch(Scans.Select(b => b.RetentionTime).ToArray(), retentionTime);
+            if (ok < 0)
+                ok = ~ok;
+            Console.WriteLine("Returning spectrum number " + (ok + FirstSpectrumNumber));
+            return ok + FirstSpectrumNumber;
+        }
+
+        public override void Open()
+        {
             throw new NotImplementedException();
         }
 

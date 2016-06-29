@@ -184,10 +184,6 @@ namespace MassSpectrometry
         }
 
         protected abstract MsDataScan<TSpectrum> GetMsDataScanFromFile(int spectrumNumber);
-        //{
-        //    // Roundabout way of doing things. The last parameter is key, it's not null so can read the full scan from file eventually. 
-        //    return new MsDataScan<TSpectrum>(spectrumNumber, GetMsnOrder(spectrumNumber), this);
-        //}
 
         public abstract int GetPrecusorCharge(int spectrumNumber, int msnOrder = 2);
 
@@ -261,6 +257,6 @@ namespace MassSpectrometry
         protected abstract int GetFirstSpectrumNumber();
 
         protected abstract int GetLastSpectrumNumber();
-
+        public abstract void Open();
     }
 }
