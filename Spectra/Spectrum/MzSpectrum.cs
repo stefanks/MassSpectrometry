@@ -22,17 +22,16 @@ using System.Collections.Generic;
 
 namespace Spectra
 {
-    public abstract class MzSpectrum<TPeak, TRange, TSpectrum> : Spectrum<TPeak, TRange, TSpectrum>, IMzSpectrum<TPeak, TRange, TSpectrum>
+    public abstract class MzSpectrum<TPeak, TSpectrum> : Spectrum<TPeak, TSpectrum>, IMzSpectrum<TPeak, TSpectrum>
         where TPeak : MzPeak
-        where TRange : MzRange
-        where TSpectrum : MzSpectrum<TPeak, TRange, TSpectrum>
+        where TSpectrum : MzSpectrum<TPeak, TSpectrum>
     {
 
         public MzSpectrum(double[,] mzintensities) : base(mzintensities)
         {
         }
 
-        public MzSpectrum(ISpectrum<Peak, DoubleRange> mZSpectrum) : base(mZSpectrum)
+        public MzSpectrum(ISpectrum<Peak> mZSpectrum) : base(mZSpectrum)
         {
         }
 
@@ -40,48 +39,53 @@ namespace Spectra
         {
         }
 
-        #region implementing IMzSpectrum<TPeak, TRange>
-        IMzSpectrum<TPeak, TRange> IMzSpectrum<TPeak, TRange>.newSpectrumApplyFunctionToX(Func<double, double> convertor)
+        public override DoubleRange GetRange()
+        {
+            return new MzRange(FirstX, LastX);
+        }
+
+        #region implementing IMzSpectrum<TPeak>
+        IMzSpectrum<TPeak> IMzSpectrum<TPeak>.newSpectrumApplyFunctionToX(Func<double, double> convertor)
         {
             return newSpectrumApplyFunctionToX(convertor);
         }
 
-        IMzSpectrum<TPeak, TRange> IMzSpectrum<TPeak, TRange>.newSpectrumExtract(IRange<double> xRange)
+        IMzSpectrum<TPeak> IMzSpectrum<TPeak>.newSpectrumExtract(IRange<double> xRange)
         {
             return newSpectrumExtract(xRange);
         }
 
-        IMzSpectrum<TPeak, TRange> IMzSpectrum<TPeak, TRange>.newSpectrumExtract(double minX, double maxX)
+        IMzSpectrum<TPeak> IMzSpectrum<TPeak>.newSpectrumExtract(double minX, double maxX)
         {
             return newSpectrumExtract(minX, maxX);
         }
 
-        IMzSpectrum<TPeak, TRange> IMzSpectrum<TPeak, TRange>.newSpectrumFilterByNumberOfMostIntense(int topNPeaks)
+        IMzSpectrum<TPeak> IMzSpectrum<TPeak>.newSpectrumFilterByNumberOfMostIntense(int topNPeaks)
         {
             return newSpectrumFilterByNumberOfMostIntense(topNPeaks);
         }
 
-        IMzSpectrum<TPeak, TRange> IMzSpectrum<TPeak, TRange>.newSpectrumFilterByY(IRange<double> yRange)
+        IMzSpectrum<TPeak> IMzSpectrum<TPeak>.newSpectrumFilterByY(IRange<double> yRange)
         {
             return newSpectrumFilterByY(yRange);
         }
 
-        IMzSpectrum<TPeak, TRange> IMzSpectrum<TPeak, TRange>.newSpectrumFilterByY(double minY, double maxY)
+        IMzSpectrum<TPeak> IMzSpectrum<TPeak>.newSpectrumFilterByY(double minY, double maxY)
         {
             return newSpectrumFilterByY(minY, maxY);
         }
 
-        IMzSpectrum<TPeak, TRange> IMzSpectrum<TPeak, TRange>.newSpectrumWithRangeRemoved(IRange<double> xRange)
+        IMzSpectrum<TPeak> IMzSpectrum<TPeak>.newSpectrumWithRangeRemoved(IRange<double> xRange)
         {
             return newSpectrumWithRangeRemoved(xRange);
         }
 
-        IMzSpectrum<TPeak, TRange> IMzSpectrum<TPeak, TRange>.newSpectrumWithRangeRemoved(double minX, double maxX)
+        IMzSpectrum<TPeak> IMzSpectrum<TPeak>.newSpectrumWithRangeRemoved(double minX, double maxX)
         {
             return newSpectrumWithRangeRemoved(minX, maxX);
         }
 
-        IMzSpectrum<TPeak, TRange> IMzSpectrum<TPeak, TRange>.newSpectrumWithRangesRemoved(IEnumerable<IRange<double>> xRanges)
+        IMzSpectrum<TPeak> IMzSpectrum<TPeak>.newSpectrumWithRangesRemoved(IEnumerable<IRange<double>> xRanges)
         {
             return newSpectrumWithRangesRemoved(xRanges);
         }

@@ -21,9 +21,8 @@ using System.Collections.Generic;
 
 namespace Spectra
 {
-    public interface ISpectrum<out TPeak, out TRange> : IEnumerable<TPeak>
+    public interface ISpectrum<out TPeak> : IEnumerable<TPeak>
         where TPeak : Peak
-        where TRange : DoubleRange
     {
 
         double[] xArray { get; }
@@ -48,7 +47,7 @@ namespace Spectra
 
         bool ContainsAnyPeaksWithinRange(double minX, double maxX);
 
-        TRange GetRange();
+        DoubleRange GetRange();
 
         TPeak this[int index] { get; }
 
@@ -60,21 +59,20 @@ namespace Spectra
 
         TPeak GetClosestPeak(IRange<double> rangeX);
 
-        ISpectrum<TPeak, TRange> newSpectrumFilterByNumberOfMostIntense(int topNPeaks);
-        ISpectrum<TPeak, TRange> newSpectrumExtract(IRange<double> xRange);
-        ISpectrum<TPeak, TRange> newSpectrumExtract(double minX, double maxX);
-        ISpectrum<TPeak, TRange> newSpectrumWithRangesRemoved(IEnumerable<IRange<double>> xRanges);
-        ISpectrum<TPeak, TRange> newSpectrumWithRangeRemoved(IRange<double> xRange);
-        ISpectrum<TPeak, TRange> newSpectrumWithRangeRemoved(double minX, double maxX);
-        ISpectrum<TPeak, TRange> newSpectrumFilterByY(double minY, double maxY);
-        ISpectrum<TPeak, TRange> newSpectrumFilterByY(IRange<double> yRange);
-        ISpectrum<TPeak, TRange> newSpectrumApplyFunctionToX(Func<double, double> convertor);
+        ISpectrum<TPeak> newSpectrumFilterByNumberOfMostIntense(int topNPeaks);
+        ISpectrum<TPeak> newSpectrumExtract(IRange<double> xRange);
+        ISpectrum<TPeak> newSpectrumExtract(double minX, double maxX);
+        ISpectrum<TPeak> newSpectrumWithRangesRemoved(IEnumerable<IRange<double>> xRanges);
+        ISpectrum<TPeak> newSpectrumWithRangeRemoved(IRange<double> xRange);
+        ISpectrum<TPeak> newSpectrumWithRangeRemoved(double minX, double maxX);
+        ISpectrum<TPeak> newSpectrumFilterByY(double minY, double maxY);
+        ISpectrum<TPeak> newSpectrumFilterByY(IRange<double> yRange);
+        ISpectrum<TPeak> newSpectrumApplyFunctionToX(Func<double, double> convertor);
     }
 
-    public interface ISpectrum<out TPeak, out TRange, out TSpectrum> : ISpectrum<TPeak, TRange>
+    public interface ISpectrum<out TPeak, out TSpectrum> : ISpectrum<TPeak>
         where TPeak : Peak
-        where TRange : DoubleRange
-        where TSpectrum : ISpectrum<TPeak, TRange, TSpectrum>
+        where TSpectrum : ISpectrum<TPeak, TSpectrum>
     {
         new TSpectrum newSpectrumFilterByNumberOfMostIntense(int topNPeaks);
         new TSpectrum newSpectrumExtract(IRange<double> xRange);

@@ -60,7 +60,7 @@ namespace MassSpectrometry
 
     }
 
-    public abstract class Chromatogram<TPeak> : Spectrum<TPeak, DoubleRange, Chromatogram<TPeak>>
+    public abstract class Chromatogram<TPeak> : Spectrum<TPeak, Chromatogram<TPeak>>
         where TPeak : Peak
     {
 

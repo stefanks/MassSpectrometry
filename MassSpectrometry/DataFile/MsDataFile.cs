@@ -28,14 +28,14 @@ namespace MassSpectrometry
     /// A data file for storing data collected from a Mass Spectrometer
     /// </summary>
     public abstract class MsDataFile<TSpectrum> : IMsDataFile<TSpectrum>
-        where TSpectrum : IMzSpectrum<MzPeak, MzRange>
+        where TSpectrum : IMzSpectrum<MzPeak>
     {
         /// <summary>
         /// Defines if MS scans should be cached for quicker retrieval. Cached scans are held in an internal
         /// array and don't get cleared until the file is disposed or the ClearCacheScans() method is called.
         /// Of course, if you store the scans somewhere else, they will persist. The default value is True.
         /// </summary>
-        public static bool CacheScans;
+        public bool CacheScans { get; private set; }
 
         internal MsDataScan<TSpectrum>[] Scans = null;
 
@@ -45,16 +45,12 @@ namespace MassSpectrometry
 
         private string _name;
 
-        static MsDataFile()
-        {
-            CacheScans = true;
-        }
-
-        protected MsDataFile(string filePath, MsDataFileType filetype = MsDataFileType.UnKnown)
+        protected MsDataFile(string filePath, bool cacheScans, MsDataFileType filetype = MsDataFileType.UnKnown)
         {
             FilePath = filePath;
             FileType = filetype;
             _isOpen = false;
+            CacheScans = cacheScans;
         }
 
         public string FilePath
