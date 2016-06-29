@@ -19,7 +19,7 @@
 
 namespace Spectra
 {
-    public class DefaultMzSpectrum : MzSpectrum<MzPeak, MzRange, DefaultMzSpectrum>
+    public class DefaultMzSpectrum : MzSpectrum<MzPeak, DefaultMzSpectrum>
     {
         public DefaultMzSpectrum(DefaultMzSpectrum MZSpectrum) : base(MZSpectrum)
         {

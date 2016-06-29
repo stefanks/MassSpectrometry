@@ -20,7 +20,7 @@ namespace MassSpectrometry
 {
     public enum DissociationType
     {
-        UnKnown = -1,
+        Unknown = -1,
         None = 6,
         CID = 0,
         HCD = 5,

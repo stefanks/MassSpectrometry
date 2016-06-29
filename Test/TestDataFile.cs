@@ -84,7 +84,7 @@ namespace Test
                 Assert.AreEqual(new MzRange(300, 1000), ok.MzRange);
 
 
-            IMsDataFile<IMzSpectrum<MzPeak, MzRange>> okyee = thefile;
+            IMsDataFile<IMzSpectrum<MzPeak>> okyee = thefile;
 
             Assert.AreEqual("Somepath (UnKnown)", okyee.ToString());
 

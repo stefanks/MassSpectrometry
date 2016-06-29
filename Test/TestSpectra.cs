@@ -175,8 +175,8 @@ namespace Test
         [Test]
         public void SpectrumSelect()
         {
-            MzSpectrum<MzPeak, MzRange, DefaultMzSpectrum> v2 = _mzSpectrumA;
-            ISpectrum<Peak, DoubleRange> v3 = v2;
+            MzSpectrum<MzPeak, DefaultMzSpectrum> v2 = _mzSpectrumA;
+            ISpectrum<Peak> v3 = v2;
 
             v3.Take(4);
 
@@ -226,7 +226,7 @@ namespace Test
         public void FilterByMZ()
         {
             Console.WriteLine("In test!");
-            List<IRange<double>> ok = new List<IRange<double>>();
+            List<DoubleRange> ok = new List<DoubleRange>();
             ok.Add(new DoubleRange(300, 400));
             ok.Add(new DoubleRange(700, 800));
             Console.WriteLine("In test before first FilterByMZ");

@@ -23,13 +23,11 @@ namespace MassSpectrometry
 {
 
     public interface IMsDataFile<out TSpectrum> : IEnumerable<IMsDataScan<TSpectrum>>
-        where TSpectrum : IMzSpectrum<MzPeak, MzRange>
+        where TSpectrum : IMzSpectrum<MzPeak>
     {
         TSpectrum GetSpectrum(int spectrumNumber);
         IMsDataScan<TSpectrum> GetScan(int scanNumber);
-        void Open();
         string Name { get; }
-        bool IsOpen { get; }
         int FirstSpectrumNumber { get; }
         int LastSpectrumNumber { get; }
         int GetMsnOrder(int spectrumNumber);

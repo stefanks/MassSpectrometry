@@ -77,7 +77,7 @@ namespace Test
         {
             var tol = new Tolerance("+-10 ppm");
 
-            Assert.AreEqual(tol.Type, ToleranceType.PlusAndMinus);
+            Assert.AreEqual(tol.ThisToleranceType, ToleranceType.PlusAndMinus);
         }
 
         [Test]
@@ -85,7 +85,7 @@ namespace Test
         {
             var tol = new Tolerance("-+10 ppm");
 
-            Assert.AreEqual(tol.Type, ToleranceType.PlusAndMinus);
+            Assert.AreEqual(tol.ThisToleranceType, ToleranceType.PlusAndMinus);
         }
 
         [Test]
@@ -93,7 +93,7 @@ namespace Test
         {
             var tol = new Tolerance("±10 ppm"); // alt-code 241
 
-            Assert.AreEqual(tol.Type, ToleranceType.PlusAndMinus);
+            Assert.AreEqual(tol.ThisToleranceType, ToleranceType.PlusAndMinus);
         }
 
         [Test]
@@ -101,7 +101,7 @@ namespace Test
         {
             var tol = new Tolerance("± 10 ppm"); // alt-code 241
 
-            Assert.AreEqual(tol.Type, ToleranceType.PlusAndMinus);
+            Assert.AreEqual(tol.ThisToleranceType, ToleranceType.PlusAndMinus);
         }
 
         [Test]
@@ -109,7 +109,7 @@ namespace Test
         {
             var tol = new Tolerance("10 ppm");
 
-            Assert.AreEqual(tol.Type, ToleranceType.FullWidth);
+            Assert.AreEqual(tol.ThisToleranceType, ToleranceType.FullWidth);
         }
 
         [Test]
