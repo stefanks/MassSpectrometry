@@ -71,7 +71,7 @@ namespace Spectra
 
             double value = Math.Abs(tolerance.Value);
 
-            if (tolerance.Type == ToleranceType.PlusAndMinus)
+            if (tolerance.ThisToleranceType == ToleranceType.PlusAndMinus)
                 value *= 2;
 
             switch (tolerance.Unit)

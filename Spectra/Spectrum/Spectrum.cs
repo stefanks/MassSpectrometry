@@ -64,7 +64,7 @@ namespace Spectra
         /// <param name="x">The m/z's</param>
         /// <param name="xy">The intensities</param>
         /// <param name="shouldCopy">Indicates whether the input arrays should be copied to new ones</param>
-        public Spectrum(double[] x, double[] y, bool shouldCopy)
+        protected Spectrum(double[] x, double[] y, bool shouldCopy)
         {
             if (shouldCopy)
             {
@@ -85,7 +85,7 @@ namespace Spectra
         /// Initializes a new spectrum from another spectrum
         /// </summary>
         /// <param name="spectrumToClone">The spectrum to clone</param>
-        public Spectrum(ISpectrum<Peak> spectrumToClone)
+        protected Spectrum(ISpectrum<Peak> spectrumToClone)
             : this(spectrumToClone.xArray, spectrumToClone.yArray, true)
         {
         }
@@ -95,12 +95,12 @@ namespace Spectra
         /// Initializes a new spectrum
         /// </summary>
         /// <param name="xy"></param>
-        public Spectrum(double[,] xy)
+        protected Spectrum(double[,] xy)
             : this(xy, xy.GetLength(1))
         {
         }
 
-        public Spectrum(double[,] mzintensities, int count)
+        protected Spectrum(double[,] mzintensities, int count)
         {
             int length = mzintensities.GetLength(1);
 
@@ -190,7 +190,7 @@ namespace Spectra
 
         }
 
-        public virtual TSpectrum newSpectrumWithRangesRemoved(IEnumerable<IRange<double>> xRanges)
+        public virtual TSpectrum newSpectrumWithRangesRemoved(IEnumerable<DoubleRange> xRanges)
         {
 
             int count = Count;
@@ -461,7 +461,7 @@ namespace Spectra
             return newSpectrumExtract(minX, maxX);
         }
 
-        ISpectrum<TPeak> ISpectrum<TPeak>.newSpectrumWithRangesRemoved(IEnumerable<IRange<double>> xRanges)
+        ISpectrum<TPeak> ISpectrum<TPeak>.newSpectrumWithRangesRemoved(IEnumerable<DoubleRange> xRanges)
         {
             return newSpectrumWithRangesRemoved(xRanges);
         }

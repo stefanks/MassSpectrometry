@@ -28,7 +28,7 @@ namespace Spectra
         new IMzSpectrum<TPeak> newSpectrumFilterByNumberOfMostIntense(int topNPeaks);
         new IMzSpectrum<TPeak> newSpectrumExtract(IRange<double> xRange);
         new IMzSpectrum<TPeak> newSpectrumExtract(double minX, double maxX);
-        new IMzSpectrum<TPeak> newSpectrumWithRangesRemoved(IEnumerable<IRange<double>> xRanges);
+        new IMzSpectrum<TPeak> newSpectrumWithRangesRemoved(IEnumerable<DoubleRange> xRanges);
         new IMzSpectrum<TPeak> newSpectrumWithRangeRemoved(IRange<double> xRange);
         new IMzSpectrum<TPeak> newSpectrumWithRangeRemoved(double minX, double maxX);
         new IMzSpectrum<TPeak> newSpectrumFilterByY(double minY, double maxY);
@@ -43,7 +43,7 @@ namespace Spectra
         new TSpectrum newSpectrumFilterByNumberOfMostIntense(int topNPeaks);
         new TSpectrum newSpectrumExtract(IRange<double> xRange);
         new TSpectrum newSpectrumExtract(double minX, double maxX);
-        new TSpectrum newSpectrumWithRangesRemoved(IEnumerable<IRange<double>> xRanges);
+        new TSpectrum newSpectrumWithRangesRemoved(IEnumerable<DoubleRange> xRanges);
         new TSpectrum newSpectrumWithRangeRemoved(IRange<double> xRange);
         new TSpectrum newSpectrumWithRangeRemoved(double minX, double maxX);
         new TSpectrum newSpectrumFilterByY(double minY, double maxY);

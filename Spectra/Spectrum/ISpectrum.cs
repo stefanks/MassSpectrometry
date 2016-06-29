@@ -9,7 +9,7 @@
 // (at your option) any later version.
 //
 // MassSpectrometry is distributed in the hope that it will be useful, but WITHOUT
-// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
+// ANY WARRANTY; without even the implied warranty of MERCHANTABILITY ors
 // FITNESS FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public
 // License for more details.
 //
@@ -62,7 +62,7 @@ namespace Spectra
         ISpectrum<TPeak> newSpectrumFilterByNumberOfMostIntense(int topNPeaks);
         ISpectrum<TPeak> newSpectrumExtract(IRange<double> xRange);
         ISpectrum<TPeak> newSpectrumExtract(double minX, double maxX);
-        ISpectrum<TPeak> newSpectrumWithRangesRemoved(IEnumerable<IRange<double>> xRanges);
+        ISpectrum<TPeak> newSpectrumWithRangesRemoved(IEnumerable<DoubleRange> xRanges);
         ISpectrum<TPeak> newSpectrumWithRangeRemoved(IRange<double> xRange);
         ISpectrum<TPeak> newSpectrumWithRangeRemoved(double minX, double maxX);
         ISpectrum<TPeak> newSpectrumFilterByY(double minY, double maxY);
@@ -77,7 +77,7 @@ namespace Spectra
         new TSpectrum newSpectrumFilterByNumberOfMostIntense(int topNPeaks);
         new TSpectrum newSpectrumExtract(IRange<double> xRange);
         new TSpectrum newSpectrumExtract(double minX, double maxX);
-        new TSpectrum newSpectrumWithRangesRemoved(IEnumerable<IRange<double>> xRanges);
+        new TSpectrum newSpectrumWithRangesRemoved(IEnumerable<DoubleRange> xRanges);
         new TSpectrum newSpectrumWithRangeRemoved(IRange<double> xRange);
         new TSpectrum newSpectrumWithRangeRemoved(double minX, double maxX);
         new TSpectrum newSpectrumFilterByY(double minY, double maxY);

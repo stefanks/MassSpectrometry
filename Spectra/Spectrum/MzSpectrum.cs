@@ -27,15 +27,15 @@ namespace Spectra
         where TSpectrum : MzSpectrum<TPeak, TSpectrum>
     {
 
-        public MzSpectrum(double[,] mzintensities) : base(mzintensities)
+        protected MzSpectrum(double[,] mzintensities) : base(mzintensities)
         {
         }
 
-        public MzSpectrum(ISpectrum<Peak> mZSpectrum) : base(mZSpectrum)
+        protected MzSpectrum(ISpectrum<Peak> mZSpectrum) : base(mZSpectrum)
         {
         }
 
-        public MzSpectrum(double[] mz, double[] intensities, bool shouldCopy) : base(mz, intensities, shouldCopy)
+        protected MzSpectrum(double[] mz, double[] intensities, bool shouldCopy) : base(mz, intensities, shouldCopy)
         {
         }
 
@@ -85,7 +85,7 @@ namespace Spectra
             return newSpectrumWithRangeRemoved(minX, maxX);
         }
 
-        IMzSpectrum<TPeak> IMzSpectrum<TPeak>.newSpectrumWithRangesRemoved(IEnumerable<IRange<double>> xRanges)
+        IMzSpectrum<TPeak> IMzSpectrum<TPeak>.newSpectrumWithRangesRemoved(IEnumerable<DoubleRange> xRanges)
         {
             return newSpectrumWithRangesRemoved(xRanges);
         }

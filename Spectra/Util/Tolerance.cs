@@ -44,7 +44,7 @@ namespace Spectra
         {
             Unit = unit;
             Value = value;
-            Type = type;
+            ThisToleranceType = type;
         }
 
         /// <summary>
@@ -71,7 +71,7 @@ namespace Spectra
             Match m = StringRegex.Match(s);
             if (!m.Success)
                 throw new ArgumentException("Input string is not in the correct format: " + s);
-            Type = m.Groups[1].Success ? ToleranceType.PlusAndMinus : ToleranceType.FullWidth;
+            ThisToleranceType = m.Groups[1].Success ? ToleranceType.PlusAndMinus : ToleranceType.FullWidth;
             Value = double.Parse(m.Groups[2].Value);
             ToleranceUnit type;
             Enum.TryParse(m.Groups[3].Value, true, out type);
@@ -91,7 +91,7 @@ namespace Spectra
         /// <summary>
         /// Indicates if this tolerance is ± or not
         /// </summary>
-        public ToleranceType Type { get; set; }
+        public ToleranceType ThisToleranceType { get; set; }
 
         /// <summary>
         /// Gets the range of values encompassed by this tolerance
@@ -100,7 +100,7 @@ namespace Spectra
         /// <returns></returns>
         public DoubleRange GetRange(double mean)
         {
-            double value = Value * ((Type == ToleranceType.PlusAndMinus) ? 2 : 1);
+            double value = Value * ((ThisToleranceType == ToleranceType.PlusAndMinus) ? 2 : 1);
 
             double tol;
             switch (Unit)
@@ -123,7 +123,7 @@ namespace Spectra
         /// <returns></returns>
         public double GetMinimumValue(double mean)
         {
-            double value = Value * ((Type == ToleranceType.PlusAndMinus) ? 2 : 1);
+            double value = Value * ((ThisToleranceType == ToleranceType.PlusAndMinus) ? 2 : 1);
 
             switch (Unit)
             {
@@ -142,7 +142,7 @@ namespace Spectra
         /// <returns></returns>
         public double GetMaximumValue(double mean)
         {
-            double value = Value * ((Type == ToleranceType.PlusAndMinus) ? 2 : 1);
+            double value = Value * ((ThisToleranceType == ToleranceType.PlusAndMinus) ? 2 : 1);
 
             switch (Unit)
             {
@@ -163,13 +163,13 @@ namespace Spectra
         public bool Within(double experimental, double theoretical)
         {
             double tolerance = Math.Abs(GetTolerance(experimental, theoretical, Unit));
-            double value = (Type == ToleranceType.PlusAndMinus) ? Value : Value / 2;
+            double value = (ThisToleranceType == ToleranceType.PlusAndMinus) ? Value : Value / 2;
             return tolerance <= value;
         }
 
         public override string ToString()
         {
-            return string.Format("{0}{1:f4} {2}", (Type == ToleranceType.PlusAndMinus) ? "±" : "", Value, Enum.GetName(typeof(ToleranceUnit), Unit));
+            return string.Format("{0}{1:f4} {2}", (ThisToleranceType == ToleranceType.PlusAndMinus) ? "±" : "", Value, Enum.GetName(typeof(ToleranceUnit), Unit));
         }
 
         #region Static

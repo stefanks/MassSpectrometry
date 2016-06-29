@@ -226,7 +226,7 @@ namespace Test
         public void FilterByMZ()
         {
             Console.WriteLine("In test!");
-            List<IRange<double>> ok = new List<IRange<double>>();
+            List<DoubleRange> ok = new List<DoubleRange>();
             ok.Add(new DoubleRange(300, 400));
             ok.Add(new DoubleRange(700, 800));
             Console.WriteLine("In test before first FilterByMZ");
