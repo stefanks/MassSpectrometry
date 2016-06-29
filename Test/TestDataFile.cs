@@ -90,18 +90,18 @@ namespace Test
 
             Assert.AreEqual("Somepath", okyee.FilePath);
 
-            //int ok1 = 0;
-            //foreach (var i in thefile.GetMsScansInTimeRange(0, 2))
-            //    ok1 += 1;
+            int ok1 = 0;
+            foreach (var i in thefile.GetMsScansInTimeRange(0, 2))
+                ok1 += 1;
 
-            //Assert.AreEqual(1, ok1);
+            Assert.AreEqual(1, ok1);
 
 
-            //int ok2 = 0;
-            //foreach (var i in thefile.GetMsScansInTimeRange(2, 4))
-            //    ok2 += 1;
+            int ok2 = 0;
+            foreach (var i in thefile.GetMsScansInTimeRange(2, 4))
+                ok2 += 1;
 
-            //Assert.AreEqual(0, ok2);
+            Assert.AreEqual(0, ok2);
 
         }
     }
