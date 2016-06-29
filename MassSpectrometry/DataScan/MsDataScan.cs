@@ -21,49 +21,54 @@ using System;
 
 namespace MassSpectrometry
 {
-    public class MsDataScan<TSpectrum> : IMsDataScan<TSpectrum>, IEquatable<MsDataScan<TSpectrum>>
+    public sealed class MsDataScan<TSpectrum> : IMsDataScan<TSpectrum>, IEquatable<MsDataScan<TSpectrum>>
         where TSpectrum : IMzSpectrum<MzPeak>
     {
+        private double isolationMZ;
+        private string precursorID;
+        private int selectedIonGuessChargeStateGuess;
+        private double selectedIonGuessIsolationIntensity;
+        private double selectedIonGuessMZ;
+        private DissociationType dissociationType;
+        private double isolationWidth;
+        private int precursorScanNumber;
+
         /// <summary>
         /// The mass spectrum associated with the scan
         /// </summary>
-        public TSpectrum MassSpectrum { get; internal set; }
+        public TSpectrum MassSpectrum { get; private set; }
 
-        public int SpectrumNumber { get; protected set; }
+        public int ScanNumber { get; private set; }
 
-        public double Resolution { get; internal set; }
+        public double Resolution { get; private set; }
 
-        public int MsnOrder { get; protected set; }
+        public int MsnOrder { get; private set; }
 
-        public virtual double InjectionTime { get; internal set; }
+        public double RetentionTime { get; private set; }
 
-        public double RetentionTime { get; internal set; }
+        public Polarity Polarity { get; private set; }
 
-        public Polarity Polarity { get; internal set; }
+        public MZAnalyzerType MzAnalyzer { get; private set; }
 
-        public MZAnalyzerType MzAnalyzer { get; internal set; }
+        public MzRange MzRange { get; private set; }
 
-        public MzRange MzRange { get; internal set; }
+        public string ScanFilter { get; private set; }
 
-        public int ParentScanNumber { get; internal set; }
+        public bool isCentroid { get; private set; }
 
-        public string ScanFilter { get; internal set; }
+        public string id { get; private set; }
 
-        public bool isCentroid { get; internal set; }
-
-        public string id { get; internal set; }
-
-        public string PrecursorID { get; internal set; }
-
-        public double SelectedIonMonoisotopicMZ { get; internal set; }
-
-        public int SelectedIonChargeState { get; internal set; }
-
-        public double SelectedIonIsolationIntensity { get; internal set; }
-
-        public MsDataScan(int SpectrumNumber, TSpectrum MassSpectrum, string id, int MsnOrder, bool isCentroid, Polarity Polarity, double RetentionTime, MzRange MzRange, string ScanFilter, string PrecursorID = null, double SelectedIonMonoisotopicMZ = double.NaN, int SelectedIonChargeState = 0, double SelectedIonIsolationIntensity = double.NaN)
+        public double InjectionTime
         {
-            this.SpectrumNumber = SpectrumNumber;
+            get
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public MsDataScan(int ScanNumber, TSpectrum MassSpectrum, string id, int MsnOrder, bool isCentroid, Polarity Polarity, double RetentionTime, MzRange MzRange, string ScanFilter)
+        {
+            this.ScanNumber = ScanNumber;
             this.MassSpectrum = MassSpectrum;
             this.id = id;
             this.MsnOrder = MsnOrder;
@@ -71,22 +76,133 @@ namespace MassSpectrometry
             this.Polarity = Polarity;
             this.RetentionTime = RetentionTime;
             this.MzRange = MzRange;
-            this.PrecursorID = PrecursorID;
-            this.SelectedIonMonoisotopicMZ = SelectedIonMonoisotopicMZ;
-            this.SelectedIonChargeState = SelectedIonChargeState;
-            this.SelectedIonIsolationIntensity = SelectedIonIsolationIntensity;
             this.ScanFilter = ScanFilter;
+        }
+        public MsDataScan(int ScanNumber, TSpectrum MassSpectrum, string id, int MsnOrder, bool isCentroid, Polarity Polarity, double RetentionTime, MzRange MzRange, string ScanFilter, string precursorID, double selectedIonGuessMZ, int selectedIonGuessChargeStateGuess, double selectedIonGuessIsolationIntensity, double isolationMZ, double isolationWidth, DissociationType dissociationType, int precursorScanNumber)
+            : this(ScanNumber, MassSpectrum, id, MsnOrder, isCentroid, Polarity, RetentionTime, MzRange, ScanFilter)
+        {
+            this.isolationMZ = isolationMZ;
+            this.precursorID = precursorID;
+            this.selectedIonGuessChargeStateGuess = selectedIonGuessChargeStateGuess;
+            this.selectedIonGuessIsolationIntensity = selectedIonGuessIsolationIntensity;
+            this.selectedIonGuessMZ = selectedIonGuessMZ;
+            this.dissociationType = dissociationType;
+            this.isolationWidth = isolationWidth;
+            this.precursorScanNumber = precursorScanNumber;
         }
 
         public override string ToString()
         {
-            return string.Format("Scan #{0}", SpectrumNumber);
+            return string.Format("Scan #{0}", ScanNumber);
         }
 
         public bool Equals(MsDataScan<TSpectrum> other)
         {
             if (ReferenceEquals(this, other)) return true;
             return false;
+        }
+
+        public bool TryGetPrecursorID(out string PrecursorID)
+        {
+            if (MsnOrder == 1)
+            {
+                PrecursorID = null;
+                return false;
+            }
+            PrecursorID = precursorID;
+            return true;
+        }
+
+        public bool TryGetSelectedIonChargeState(out int SelectedIonGuessChargeStateGuess)
+        {
+            if (MsnOrder == 1)
+            {
+                SelectedIonGuessChargeStateGuess = 0;
+                return false;
+            }
+            SelectedIonGuessChargeStateGuess = selectedIonGuessChargeStateGuess;
+            return true;
+        }
+
+        public bool TryGetSelectedIonIsolationIntensity(out double SelectedIonGuessIsolationIntensity)
+        {
+            if (MsnOrder == 1)
+            {
+                SelectedIonGuessIsolationIntensity = double.NaN;
+                return false;
+            }
+            SelectedIonGuessIsolationIntensity = selectedIonGuessIsolationIntensity;
+            return true;
+        }
+
+        public bool TryGetSelectedIonMZ(out double SelectedIonGuessMZ)
+        {
+            if (MsnOrder == 1)
+            {
+                SelectedIonGuessMZ = double.NaN;
+                return false;
+            }
+            SelectedIonGuessMZ = selectedIonGuessMZ;
+            return true;
+        }
+
+        public bool TryGetDissociationType(out DissociationType DissociationType)
+        {
+            if (MsnOrder == 1)
+            {
+                DissociationType = DissociationType.None;
+                return false;
+            }
+            DissociationType = dissociationType;
+            return true;
+        }
+
+        public bool TryGetIsolationWidth(out double IsolationWidth)
+        {
+            if (MsnOrder == 1)
+            {
+                IsolationWidth = double.NaN;
+                return false;
+            }
+            IsolationWidth = isolationWidth;
+            return true;
+        }
+        public bool TryGetIsolationMZ(out double IsolationMZ)
+        {
+            if (MsnOrder == 1)
+            {
+                IsolationMZ = double.NaN;
+                return false;
+            }
+            IsolationMZ = isolationMZ;
+            return true;
+        }
+
+        public bool TryGetIsolationRange(out MzRange IsolationRange)
+        {
+            IsolationRange = null;
+            if (MsnOrder == 1)
+                return false;
+
+            double isolationMz;
+            TryGetIsolationMZ(out isolationMz);
+            double isolationWidth;
+            TryGetIsolationWidth(out isolationWidth);
+            IsolationRange = new MzRange(isolationMz - isolationWidth / 2, isolationMz + isolationWidth / 2);
+
+            return true;
+
+        }
+
+        public bool TryGetPrecursorScanNumber(out int PrecursorScanNumber)
+        {
+            if (MsnOrder == 1)
+            {
+                PrecursorScanNumber = -1;
+                return false;
+            }
+            PrecursorScanNumber = precursorScanNumber;
+            return true;
         }
     }
 }
