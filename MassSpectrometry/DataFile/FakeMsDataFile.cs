@@ -23,106 +23,12 @@ namespace MassSpectrometry
 {
     public class FakeMsDataFile : MsDataFile<DefaultMzSpectrum>
     {
-        public FakeMsDataFile(string filePath, MsDataFileType filetype = MsDataFileType.UnKnown) : base(filePath, true, filetype)
-        {
-        }
-
-        public void Add(MsDataScan<DefaultMzSpectrum>[] Scans)
+        public FakeMsDataFile(string filePath, MsDataScan<DefaultMzSpectrum>[] Scans) : base(filePath, true, MsDataFileType.UnKnown)
         {
             this.Scans = Scans;
         }
 
-        public override DissociationType GetDissociationType(int spectrumNumber, int msnOrder = 2)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override double GetInjectionTime(int spectrumNumber)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override bool GetIsCentroid(int spectrumNumber)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override MzRange GetIsolationRange(int spectrumNumber)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override double GetIsolationWidth(int spectrumNumber)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override int GetMsnOrder(int spectrumNumber)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override MZAnalyzerType GetMzAnalyzer(int spectrumNumber)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override MzRange GetMzRange(int spectrumNumber)
-        {
-            throw new NotImplementedException();
-        }
-
         public override int GetParentSpectrumNumber(int spectrumNumber)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override Polarity GetPolarity(int spectrumNumber)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override string GetPrecursorID(int spectrumNumber)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override double GetPrecursorIsolationIntensity(int spectrumNumber)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override double GetPrecursorIsolationMz(int spectrumNumber)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override double GetPrecursorMonoisotopicMz(int spectrumNumber)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override int GetPrecusorCharge(int spectrumNumber, int msnOrder = 2)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override double GetResolution(int spectrumNumber)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override double GetRetentionTime(int spectrumNumber)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override string GetScanFilter(int spectrumNumber)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override string GetSpectrumID(int spectrumNumber)
         {
             throw new NotImplementedException();
         }

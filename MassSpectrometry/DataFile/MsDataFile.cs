@@ -62,8 +62,6 @@ namespace MassSpectrometry
 
         public MsDataFileType FileType { get; private set; }
 
-        public abstract string GetSpectrumID(int spectrumNumber);
-
         bool _firstSpectrumNumberSet = false;
         int _firstSpectrumNumber;
         public virtual int FirstSpectrumNumber
@@ -118,10 +116,6 @@ namespace MassSpectrometry
             return FilePath.GetHashCode();
         }
 
-        public abstract DissociationType GetDissociationType(int spectrumNumber, int msnOrder = 2);
-
-        public abstract int GetMsnOrder(int spectrumNumber);
-
         /// <summary>
         /// Get the spectrum number of the parent scan that caused this scan to be executed.
         /// Typically MS1s will return 0 and MS2s will return the preceding MS1 scan (if in DDA mode)
@@ -129,8 +123,6 @@ namespace MassSpectrometry
         /// <param name="spectrumNumber">The spectrum number to get the parent scan number of</param>
         /// <returns>The spectrum number of the parent scan. 0 if no parent</returns>
         public abstract int GetParentSpectrumNumber(int spectrumNumber);
-
-        public abstract string GetScanFilter(int spectrumNumber);
 
         /// <summary>
         /// Get the MS Scan at the specific spectrum number.
@@ -151,13 +143,6 @@ namespace MassSpectrometry
             return Scans[scanNumber - FirstSpectrumNumber];
         }
 
-        public TSpectrum GetSpectrum(int spectrumNumber)
-        {
-            return GetScan(spectrumNumber).MassSpectrum;
-        }
-
-        public abstract bool GetIsCentroid(int spectrumNumber);
-
         public virtual void LoadAllScansInMemory()
         {
             if (Scans == null)
@@ -174,8 +159,6 @@ namespace MassSpectrometry
             }
         }
 
-        public abstract string GetPrecursorID(int spectrumNumber);
-
         public virtual void ClearCachedScans()
         {
             if (Scans == null)
@@ -184,25 +167,6 @@ namespace MassSpectrometry
         }
 
         protected abstract MsDataScan<TSpectrum> GetMsDataScanFromFile(int spectrumNumber);
-
-        public abstract int GetPrecusorCharge(int spectrumNumber, int msnOrder = 2);
-
-        public abstract MzRange GetMzRange(int spectrumNumber);
-
-        public abstract double GetPrecursorMonoisotopicMz(int spectrumNumber);
-
-        public abstract double GetPrecursorIsolationMz(int spectrumNumber);
-
-        public abstract double GetIsolationWidth(int spectrumNumber);
-
-        public virtual MzRange GetIsolationRange(int spectrumNumber)
-        {
-            double precursormz = GetPrecursorIsolationMz(spectrumNumber);
-            double halfWidth = GetIsolationWidth(spectrumNumber) / 2;
-            return new MzRange(precursormz - halfWidth, precursormz + halfWidth);
-        }
-
-        public abstract double GetPrecursorIsolationIntensity(int spectrumNumber);
 
         public virtual IEnumerable<IMsDataScan<TSpectrum>> GetMsScans()
         {
@@ -236,16 +200,6 @@ namespace MassSpectrometry
         {
             return GetMsScansInIndexRange(range.Minimum, range.Maximum);
         }
-
-        public abstract MZAnalyzerType GetMzAnalyzer(int spectrumNumber);
-
-        public abstract Polarity GetPolarity(int spectrumNumber);
-
-        public abstract double GetRetentionTime(int spectrumNumber);
-
-        public abstract double GetInjectionTime(int spectrumNumber);
-
-        public abstract double GetResolution(int spectrumNumber);
 
         public abstract int GetSpectrumNumber(double retentionTime);
 

@@ -25,17 +25,10 @@ namespace MassSpectrometry
     public interface IMsDataFile<out TSpectrum> : IEnumerable<IMsDataScan<TSpectrum>>
         where TSpectrum : IMzSpectrum<MzPeak>
     {
-        TSpectrum GetSpectrum(int spectrumNumber);
         IMsDataScan<TSpectrum> GetScan(int scanNumber);
         string Name { get; }
         int FirstSpectrumNumber { get; }
         int LastSpectrumNumber { get; }
-        int GetMsnOrder(int spectrumNumber);
-        double GetInjectionTime(int spectrumNumber);
-        double GetPrecursorMonoisotopicMz(int spectrumNumber);
-        double GetRetentionTime(int spectrumNumber);
-        DissociationType GetDissociationType(int spectrumNumber, int msnOrder = 2);
-        Polarity GetPolarity(int spectrumNumber);
         string FilePath { get; }
         void Open();
     }

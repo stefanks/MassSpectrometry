@@ -24,19 +24,25 @@ namespace MassSpectrometry
     public interface IMsDataScan<out TSpectrum>
         where TSpectrum : IMzSpectrum<MzPeak>
     {
-        int SpectrumNumber { get; }
+        TSpectrum MassSpectrum { get; }
+        int ScanNumber { get; }
         int MsnOrder { get; }
         double RetentionTime { get; }
-        Polarity Polarity { get; }
-        MZAnalyzerType MzAnalyzer { get; }
         MzRange MzRange { get; }
         string ScanFilter { get; }
         string id { get; }
         bool isCentroid { get; }
-        string PrecursorID { get; }
-        int SelectedIonChargeState { get; }
-        double SelectedIonIsolationIntensity { get; }
-        double SelectedIonMonoisotopicMZ { get; }
-        TSpectrum MassSpectrum { get; }
+        double InjectionTime { get; }
+        Polarity Polarity { get; }
+        MZAnalyzerType MzAnalyzer { get; }
+        bool TryGetPrecursorScanNumber(out int precursorScanNumber);
+        bool TryGetPrecursorID(out string PrecursorID);
+        bool TryGetSelectedIonGuessChargeStateGuess(out int SelectedIonGuessChargeStateGuess);
+        bool TryGetSelectedIonGuessIsolationIntensity(out double SelectedIonGuessIsolationIntensity);
+        bool TryGetSelectedIonGuessMZ(out double SelectedIonGuessMZ);
+        bool TryGetDissociationType(out DissociationType DissociationType);
+        bool TryGetIsolationWidth(out double IsolationWidth);
+        bool TryGetIsolationMZ(out double IsolationMZ);
+        bool TryGetIsolationRange(out MzRange IsolationRange);
     }
 }
