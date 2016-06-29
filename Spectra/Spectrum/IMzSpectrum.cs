@@ -25,14 +25,15 @@ namespace Spectra
     public interface IMzSpectrum<out TPeak> : ISpectrum<TPeak>
         where TPeak : MzPeak
     {
+        new MzRange GetRange();
         new IMzSpectrum<TPeak> newSpectrumFilterByNumberOfMostIntense(int topNPeaks);
-        new IMzSpectrum<TPeak> newSpectrumExtract(IRange<double> xRange);
+        new IMzSpectrum<TPeak> newSpectrumExtract(DoubleRange xRange);
         new IMzSpectrum<TPeak> newSpectrumExtract(double minX, double maxX);
         new IMzSpectrum<TPeak> newSpectrumWithRangesRemoved(IEnumerable<DoubleRange> xRanges);
-        new IMzSpectrum<TPeak> newSpectrumWithRangeRemoved(IRange<double> xRange);
+        new IMzSpectrum<TPeak> newSpectrumWithRangeRemoved(DoubleRange xRange);
         new IMzSpectrum<TPeak> newSpectrumWithRangeRemoved(double minX, double maxX);
         new IMzSpectrum<TPeak> newSpectrumFilterByY(double minY, double maxY);
-        new IMzSpectrum<TPeak> newSpectrumFilterByY(IRange<double> yRange);
+        new IMzSpectrum<TPeak> newSpectrumFilterByY(DoubleRange yRange);
         new IMzSpectrum<TPeak> newSpectrumApplyFunctionToX(Func<double, double> convertor);
     }
 
@@ -41,13 +42,13 @@ namespace Spectra
         where TSpectrum : IMzSpectrum<TPeak, TSpectrum>
     {
         new TSpectrum newSpectrumFilterByNumberOfMostIntense(int topNPeaks);
-        new TSpectrum newSpectrumExtract(IRange<double> xRange);
+        new TSpectrum newSpectrumExtract(DoubleRange xRange);
         new TSpectrum newSpectrumExtract(double minX, double maxX);
         new TSpectrum newSpectrumWithRangesRemoved(IEnumerable<DoubleRange> xRanges);
-        new TSpectrum newSpectrumWithRangeRemoved(IRange<double> xRange);
+        new TSpectrum newSpectrumWithRangeRemoved(DoubleRange xRange);
         new TSpectrum newSpectrumWithRangeRemoved(double minX, double maxX);
         new TSpectrum newSpectrumFilterByY(double minY, double maxY);
-        new TSpectrum newSpectrumFilterByY(IRange<double> yRange);
+        new TSpectrum newSpectrumFilterByY(DoubleRange yRange);
         new TSpectrum newSpectrumApplyFunctionToX(Func<double, double> convertor);
     }
 }

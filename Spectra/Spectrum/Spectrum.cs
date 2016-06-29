@@ -334,22 +334,22 @@ namespace Spectra
             return yArray.Max();
         }
 
-        public TSpectrum newSpectrumFilterByY(IRange<double> yRange)
+        public TSpectrum newSpectrumFilterByY(DoubleRange yRange)
         {
             return newSpectrumFilterByY(yRange.Minimum, yRange.Maximum);
         }
 
-        public TSpectrum newSpectrumWithRangeRemoved(IRange<double> xRange)
+        public TSpectrum newSpectrumWithRangeRemoved(DoubleRange xRange)
         {
             return newSpectrumWithRangeRemoved(xRange.Minimum, xRange.Maximum);
         }
 
-        public TSpectrum newSpectrumExtract(IRange<double> xRange)
+        public TSpectrum newSpectrumExtract(DoubleRange xRange)
         {
             return newSpectrumExtract(xRange.Minimum, xRange.Maximum);
         }
 
-        public TPeak GetClosestPeak(IRange<double> rangeX)
+        public TPeak GetClosestPeak(DoubleRange rangeX)
         {
             double mean = (rangeX.Maximum + rangeX.Minimum) / 2.0;
             return GetClosestPeak(mean);
@@ -451,7 +451,7 @@ namespace Spectra
             return newSpectrumFilterByNumberOfMostIntense(topNPeaks);
         }
 
-        ISpectrum<TPeak> ISpectrum<TPeak>.newSpectrumExtract(IRange<double> xRange)
+        ISpectrum<TPeak> ISpectrum<TPeak>.newSpectrumExtract(DoubleRange xRange)
         {
             return newSpectrumExtract(xRange);
         }
@@ -466,7 +466,7 @@ namespace Spectra
             return newSpectrumWithRangesRemoved(xRanges);
         }
 
-        ISpectrum<TPeak> ISpectrum<TPeak>.newSpectrumWithRangeRemoved(IRange<double> xRange)
+        ISpectrum<TPeak> ISpectrum<TPeak>.newSpectrumWithRangeRemoved(DoubleRange xRange)
         {
             return newSpectrumWithRangeRemoved(xRange);
         }
@@ -481,7 +481,7 @@ namespace Spectra
             return newSpectrumFilterByY(minY, maxY);
         }
 
-        ISpectrum<TPeak> ISpectrum<TPeak>.newSpectrumFilterByY(IRange<double> yRange)
+        ISpectrum<TPeak> ISpectrum<TPeak>.newSpectrumFilterByY(DoubleRange yRange)
         {
             return newSpectrumFilterByY(yRange);
         }

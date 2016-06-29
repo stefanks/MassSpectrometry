@@ -57,16 +57,16 @@ namespace Spectra
 
         TPeak GetPeakWithHighestY();
 
-        TPeak GetClosestPeak(IRange<double> rangeX);
+        TPeak GetClosestPeak(DoubleRange rangeX);
 
         ISpectrum<TPeak> newSpectrumFilterByNumberOfMostIntense(int topNPeaks);
-        ISpectrum<TPeak> newSpectrumExtract(IRange<double> xRange);
+        ISpectrum<TPeak> newSpectrumExtract(DoubleRange xRange);
         ISpectrum<TPeak> newSpectrumExtract(double minX, double maxX);
         ISpectrum<TPeak> newSpectrumWithRangesRemoved(IEnumerable<DoubleRange> xRanges);
-        ISpectrum<TPeak> newSpectrumWithRangeRemoved(IRange<double> xRange);
+        ISpectrum<TPeak> newSpectrumWithRangeRemoved(DoubleRange xRange);
         ISpectrum<TPeak> newSpectrumWithRangeRemoved(double minX, double maxX);
         ISpectrum<TPeak> newSpectrumFilterByY(double minY, double maxY);
-        ISpectrum<TPeak> newSpectrumFilterByY(IRange<double> yRange);
+        ISpectrum<TPeak> newSpectrumFilterByY(DoubleRange yRange);
         ISpectrum<TPeak> newSpectrumApplyFunctionToX(Func<double, double> convertor);
     }
 
@@ -75,13 +75,13 @@ namespace Spectra
         where TSpectrum : ISpectrum<TPeak, TSpectrum>
     {
         new TSpectrum newSpectrumFilterByNumberOfMostIntense(int topNPeaks);
-        new TSpectrum newSpectrumExtract(IRange<double> xRange);
+        new TSpectrum newSpectrumExtract(DoubleRange xRange);
         new TSpectrum newSpectrumExtract(double minX, double maxX);
         new TSpectrum newSpectrumWithRangesRemoved(IEnumerable<DoubleRange> xRanges);
-        new TSpectrum newSpectrumWithRangeRemoved(IRange<double> xRange);
+        new TSpectrum newSpectrumWithRangeRemoved(DoubleRange xRange);
         new TSpectrum newSpectrumWithRangeRemoved(double minX, double maxX);
         new TSpectrum newSpectrumFilterByY(double minY, double maxY);
-        new TSpectrum newSpectrumFilterByY(IRange<double> yRange);
+        new TSpectrum newSpectrumFilterByY(DoubleRange yRange);
         new TSpectrum newSpectrumApplyFunctionToX(Func<double, double> convertor);
     }
 }

@@ -44,13 +44,20 @@ namespace Spectra
             return new MzRange(FirstX, LastX);
         }
 
+
         #region implementing IMzSpectrum<TPeak>
+
+        MzRange IMzSpectrum<TPeak>.GetRange()
+        {
+            return new MzRange(FirstX, LastX);
+        }
+
         IMzSpectrum<TPeak> IMzSpectrum<TPeak>.newSpectrumApplyFunctionToX(Func<double, double> convertor)
         {
             return newSpectrumApplyFunctionToX(convertor);
         }
 
-        IMzSpectrum<TPeak> IMzSpectrum<TPeak>.newSpectrumExtract(IRange<double> xRange)
+        IMzSpectrum<TPeak> IMzSpectrum<TPeak>.newSpectrumExtract(DoubleRange xRange)
         {
             return newSpectrumExtract(xRange);
         }
@@ -65,7 +72,7 @@ namespace Spectra
             return newSpectrumFilterByNumberOfMostIntense(topNPeaks);
         }
 
-        IMzSpectrum<TPeak> IMzSpectrum<TPeak>.newSpectrumFilterByY(IRange<double> yRange)
+        IMzSpectrum<TPeak> IMzSpectrum<TPeak>.newSpectrumFilterByY(DoubleRange yRange)
         {
             return newSpectrumFilterByY(yRange);
         }
@@ -75,7 +82,7 @@ namespace Spectra
             return newSpectrumFilterByY(minY, maxY);
         }
 
-        IMzSpectrum<TPeak> IMzSpectrum<TPeak>.newSpectrumWithRangeRemoved(IRange<double> xRange)
+        IMzSpectrum<TPeak> IMzSpectrum<TPeak>.newSpectrumWithRangeRemoved(DoubleRange xRange)
         {
             return newSpectrumWithRangeRemoved(xRange);
         }
