@@ -41,15 +41,12 @@ namespace MassSpectrometry
 
         private string _filePath;
 
-        private bool _isOpen;
-
         private string _name;
 
         protected MsDataFile(string filePath, bool cacheScans, MsDataFileType filetype = MsDataFileType.UnKnown)
         {
             FilePath = filePath;
             FileType = filetype;
-            _isOpen = false;
             CacheScans = cacheScans;
         }
 
@@ -79,12 +76,6 @@ namespace MassSpectrometry
                 _firstSpectrumNumber = GetFirstSpectrumNumber();
                 return _firstSpectrumNumber;
             }
-        }
-
-        public bool IsOpen
-        {
-            get { return _isOpen; }
-            protected set { _isOpen = value; }
         }
 
         bool _lastSpectrumNumberSet = false;
