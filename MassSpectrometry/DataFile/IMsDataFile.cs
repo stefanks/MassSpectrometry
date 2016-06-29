@@ -27,9 +27,7 @@ namespace MassSpectrometry
     {
         TSpectrum GetSpectrum(int spectrumNumber);
         IMsDataScan<TSpectrum> GetScan(int scanNumber);
-        void Open();
         string Name { get; }
-        bool IsOpen { get; }
         int FirstSpectrumNumber { get; }
         int LastSpectrumNumber { get; }
         int GetMsnOrder(int spectrumNumber);
