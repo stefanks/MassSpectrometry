@@ -253,11 +253,6 @@ namespace MassSpectrometry
 
         public abstract int GetSpectrumNumber(double retentionTime);
 
-        /// <summary>
-        /// Open up a connection to the underlying MS data stream
-        /// </summary>
-        public abstract void Open();
-
         public override string ToString()
         {
             return string.Format("{0} ({1})", Name, Enum.GetName(typeof(MsDataFileType), FileType));

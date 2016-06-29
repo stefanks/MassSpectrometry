@@ -132,11 +132,6 @@ namespace MassSpectrometry
             throw new NotImplementedException();
         }
 
-        public override void Open()
-        {
-            throw new NotImplementedException();
-        }
-
         protected override int GetFirstSpectrumNumber()
         {
             return 1;
