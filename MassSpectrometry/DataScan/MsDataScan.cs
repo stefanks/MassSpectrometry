@@ -113,7 +113,7 @@ namespace MassSpectrometry
             return true;
         }
 
-        public bool TryGetSelectedIonChargeState(out int SelectedIonGuessChargeStateGuess)
+        public bool TryGetSelectedIonGuessChargeStateGuess(out int SelectedIonGuessChargeStateGuess)
         {
             if (MsnOrder == 1)
             {
@@ -124,7 +124,7 @@ namespace MassSpectrometry
             return true;
         }
 
-        public bool TryGetSelectedIonIsolationIntensity(out double SelectedIonGuessIsolationIntensity)
+        public bool TryGetSelectedIonGuessIsolationIntensity(out double SelectedIonGuessIsolationIntensity)
         {
             if (MsnOrder == 1)
             {
@@ -135,7 +135,7 @@ namespace MassSpectrometry
             return true;
         }
 
-        public bool TryGetSelectedIonMZ(out double SelectedIonGuessMZ)
+        public bool TryGetSelectedIonGuessMZ(out double SelectedIonGuessMZ)
         {
             if (MsnOrder == 1)
             {

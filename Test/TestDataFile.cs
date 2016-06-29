@@ -54,7 +54,7 @@ namespace Test
             MsDataScan<DefaultMzSpectrum>[] Scans = new MsDataScan<DefaultMzSpectrum>[2];
             Scans[0] = new MsDataScan<DefaultMzSpectrum>(1, MS1.newSpectrumApplyFunctionToX(b => b + 0.00001 * b + 0.00001), "spectrum 1", 1, false, Polarity.Positive, 1.0, new MzRange(300, 2000), "first spectrum");
 
-            Scans[1] = new MsDataScan<DefaultMzSpectrum>(2, MS2.newSpectrumApplyFunctionToX(b => b + 0.00001 * b + 0.00002), "spectrum 2", 2, false, Polarity.Positive, 2.0, new MzRange(100, 1500), "second spectrum", "first spectrum", 693.9892, 3, .3872, 693.99, 1, DissociationType.Unknown, 1);
+            Scans[1] = new MsDataScan<DefaultMzSpectrum>(2, MS2.newSpectrumApplyFunctionToX(b => b + 0.00001 * b + 0.00002), "spectrum 2", 2, false, Polarity.Positive, 2.0, new MzRange(100, 1500), "second spectrum", "spectrum 1", 693.9892, 3, .3872, 693.99, 1, DissociationType.Unknown, 1);
 
             myMsDataFile = new FakeMsDataFile("myFakeFile", Scans);
 
@@ -176,9 +176,19 @@ namespace Test
                 ok2 += 1;
 
             MzRange yah;
+            DissociationType d;
+            double yahh;
+            string s;
+            int ja;
             Assert.IsFalse(thefile.GetScan(1).TryGetIsolationRange(out yah));
-
-            Assert.AreEqual(0, ok2);
+            Assert.IsFalse(thefile.GetScan(1).TryGetDissociationType(out d));
+            Assert.IsFalse(thefile.GetScan(1).TryGetIsolationMZ(out yahh));
+            Assert.IsFalse(thefile.GetScan(1).TryGetIsolationWidth(out yahh));
+            Assert.IsFalse(thefile.GetScan(1).TryGetPrecursorID(out s));
+            Assert.IsFalse(thefile.GetScan(1).TryGetPrecursorScanNumber(out ja));
+            Assert.IsFalse(thefile.GetScan(1).TryGetSelectedIonGuessChargeStateGuess(out ja));
+            Assert.IsFalse(thefile.GetScan(1).TryGetSelectedIonGuessIsolationIntensity(out yahh));
+            Assert.IsFalse(thefile.GetScan(1).TryGetSelectedIonGuessMZ(out yahh));
 
         }
 
@@ -186,8 +196,28 @@ namespace Test
         public void TestAMoreRealFile()
         {
             MzRange yah;
+            DissociationType d;
+            double yahh;
+            string s;
+            int ja;
             Assert.IsTrue(myMsDataFile.GetScan(2).TryGetIsolationRange(out yah));
             Assert.AreEqual(1, yah.Width);
+            Assert.IsTrue(myMsDataFile.GetScan(2).TryGetDissociationType(out d));
+            Assert.AreEqual(DissociationType.Unknown, d);
+            Assert.IsTrue(myMsDataFile.GetScan(2).TryGetIsolationMZ(out yahh));
+            Assert.AreEqual(693.99, yahh);
+            Assert.IsTrue(myMsDataFile.GetScan(2).TryGetIsolationWidth(out yahh));
+            Assert.AreEqual(1, yahh);
+            Assert.IsTrue(myMsDataFile.GetScan(2).TryGetPrecursorID(out s));
+            Assert.AreEqual("spectrum 1", s);
+            Assert.IsTrue(myMsDataFile.GetScan(2).TryGetPrecursorScanNumber(out ja));
+            Assert.AreEqual(1, ja);
+            Assert.IsTrue(myMsDataFile.GetScan(2).TryGetSelectedIonGuessChargeStateGuess(out ja));
+            Assert.AreEqual(3, ja);
+            Assert.IsTrue(myMsDataFile.GetScan(2).TryGetSelectedIonGuessIsolationIntensity(out yahh));
+            Assert.AreEqual(.3872, yahh);
+            Assert.IsTrue(myMsDataFile.GetScan(2).TryGetSelectedIonGuessMZ(out yahh));
+            Assert.AreEqual(693.9892, yahh);
         }
     }
 }

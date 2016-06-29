@@ -37,9 +37,9 @@ namespace MassSpectrometry
         MZAnalyzerType MzAnalyzer { get; }
         bool TryGetPrecursorScanNumber(out int precursorScanNumber);
         bool TryGetPrecursorID(out string PrecursorID);
-        bool TryGetSelectedIonChargeState(out int SelectedIonChargeState);
-        bool TryGetSelectedIonIsolationIntensity(out double SelectedIonIsolationIntensity);
-        bool TryGetSelectedIonMZ(out double SelectedIonMZ);
+        bool TryGetSelectedIonGuessChargeStateGuess(out int SelectedIonGuessChargeStateGuess);
+        bool TryGetSelectedIonGuessIsolationIntensity(out double SelectedIonGuessIsolationIntensity);
+        bool TryGetSelectedIonGuessMZ(out double SelectedIonGuessMZ);
         bool TryGetDissociationType(out DissociationType DissociationType);
         bool TryGetIsolationWidth(out double IsolationWidth);
         bool TryGetIsolationMZ(out double IsolationMZ);
