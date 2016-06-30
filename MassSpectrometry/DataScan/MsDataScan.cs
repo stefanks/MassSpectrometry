@@ -40,8 +40,6 @@ namespace MassSpectrometry
 
         public int ScanNumber { get; private set; }
 
-        public double Resolution { get; private set; }
-
         public int MsnOrder { get; private set; }
 
         public double RetentionTime { get; private set; }
@@ -58,15 +56,9 @@ namespace MassSpectrometry
 
         public string id { get; private set; }
 
-        public double InjectionTime
-        {
-            get
-            {
-                throw new NotImplementedException();
-            }
-        }
+        public double InjectionTime { get; private set; }
 
-        public MsDataScan(int ScanNumber, TSpectrum MassSpectrum, string id, int MsnOrder, bool isCentroid, Polarity Polarity, double RetentionTime, MzRange MzRange, string ScanFilter)
+        public MsDataScan(int ScanNumber, TSpectrum MassSpectrum, string id, int MsnOrder, bool isCentroid, Polarity Polarity, double RetentionTime, MzRange MzRange, string ScanFilter, MZAnalyzerType MzAnalyzer, double InjectionTime)
         {
             this.ScanNumber = ScanNumber;
             this.MassSpectrum = MassSpectrum;
@@ -77,9 +69,11 @@ namespace MassSpectrometry
             this.RetentionTime = RetentionTime;
             this.MzRange = MzRange;
             this.ScanFilter = ScanFilter;
+            this.MzAnalyzer = MzAnalyzer;
+            this.InjectionTime = InjectionTime;
         }
-        public MsDataScan(int ScanNumber, TSpectrum MassSpectrum, string id, int MsnOrder, bool isCentroid, Polarity Polarity, double RetentionTime, MzRange MzRange, string ScanFilter, string precursorID, double selectedIonGuessMZ, int selectedIonGuessChargeStateGuess, double selectedIonGuessIsolationIntensity, double isolationMZ, double isolationWidth, DissociationType dissociationType, int precursorScanNumber)
-            : this(ScanNumber, MassSpectrum, id, MsnOrder, isCentroid, Polarity, RetentionTime, MzRange, ScanFilter)
+        public MsDataScan(int ScanNumber, TSpectrum MassSpectrum, string id, int MsnOrder, bool isCentroid, Polarity Polarity, double RetentionTime, MzRange MzRange, string ScanFilter, MZAnalyzerType MzAnalyzer, double InjectionTime, string precursorID, double selectedIonGuessMZ, int selectedIonGuessChargeStateGuess, double selectedIonGuessIsolationIntensity, double isolationMZ, double isolationWidth, DissociationType dissociationType, int precursorScanNumber)
+            : this(ScanNumber, MassSpectrum, id, MsnOrder, isCentroid, Polarity, RetentionTime, MzRange, ScanFilter, MzAnalyzer, InjectionTime)
         {
             this.isolationMZ = isolationMZ;
             this.precursorID = precursorID;
