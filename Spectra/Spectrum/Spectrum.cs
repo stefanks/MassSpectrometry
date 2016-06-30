@@ -241,8 +241,9 @@ namespace Spectra
 
         public virtual TSpectrum newSpectrumExtract(double minX, double maxX)
         {
-
             int index = GetClosestPeakIndex(minX);
+            if (this[index].X < minX)
+                index++;
 
             int count = Count;
             double[] newXarray = new double[count];

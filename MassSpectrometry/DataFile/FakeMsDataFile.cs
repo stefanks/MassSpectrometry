@@ -28,11 +28,6 @@ namespace MassSpectrometry
             this.Scans = Scans;
         }
 
-        public override int GetParentSpectrumNumber(int spectrumNumber)
-        {
-            throw new NotImplementedException();
-        }
-
         public override int GetSpectrumNumber(double retentionTime)
         {
             int ok = Array.BinarySearch(Scans.Select(b => b.RetentionTime).ToArray(), retentionTime);

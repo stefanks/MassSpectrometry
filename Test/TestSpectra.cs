@@ -295,5 +295,42 @@ namespace Test
             Assert.Throws<IndexOutOfRangeException>(() => { new DefaultMzSpectrum(new double[0], new double[0], false).GetClosestPeakXvalue(1); }, "No peaks in spectrum!");
         }
 
+        [Test]
+        public void IMzSpectrumTpeakTest()
+        {
+
+            //double[] mz = { 328.73795, 329.23935, 447.73849, 448.23987, 482.23792, 482.57089, 482.90393, 500.95358, 501.28732, 501.62131, 611.99377, 612.32806, 612.66187, 722.85217, 723.35345 };
+            //double[] intensities = { 81007096.0, 28604418.0, 78353512.0, 39291696.0, 122781408.0, 94147520.0, 44238040.0, 71198680.0, 54184096.0, 21975364.0, 44514172.0, 43061628.0, 23599424.0, 56022696.0, 41019144.0 };
+
+            IMzSpectrum<MzPeak> ok = _mzSpectrumA;
+            IMzSpectrum<MzPeak> ok2 = new DefaultMzSpectrum(ok);
+
+            ok2.GetRange();
+
+            Assert.Greater(100, ok2.newSpectrumApplyFunctionToX(b => b / 10).LastX);
+
+            Console.WriteLine(string.Join(",", ok2.newSpectrumExtract(new DoubleRange(723, 1000))));
+
+            Assert.AreEqual(1, ok2.newSpectrumExtract(new DoubleRange(723, 1000)).Count);
+
+            Assert.AreEqual(15, ok2.newSpectrumExtract(double.MinValue, double.MaxValue).Count);
+
+            Assert.AreEqual(0, ok2.newSpectrumFilterByNumberOfMostIntense(0).Count);
+            Assert.AreEqual(5, ok2.newSpectrumFilterByNumberOfMostIntense(5).Count);
+            Assert.AreEqual(15, ok2.newSpectrumFilterByNumberOfMostIntense(15).Count);
+
+            Assert.AreEqual(15, ok2.newSpectrumFilterByY(new DoubleRange(double.MinValue, double.MaxValue)).Count);
+
+            Assert.AreEqual(1, ok2.newSpectrumFilterByY(39291695, 39291697).Count);
+
+            Assert.AreEqual(2, ok2.newSpectrumWithRangeRemoved(new DoubleRange(329, 723)).Count);
+
+            Assert.AreEqual(15, ok2.newSpectrumWithRangeRemoved(0, 1).Count);
+
+
+            Assert.AreEqual(2, ok2.newSpectrumWithRangesRemoved(new List<DoubleRange>() { new DoubleRange(329, 400), new DoubleRange(400, 723) }).Count);
+
+        }
+
     }
 }
