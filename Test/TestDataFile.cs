@@ -52,9 +52,9 @@ namespace Test
             DefaultMzSpectrum MS2 = createMS2spectrum(peptide.Fragment(FragmentTypes.b | FragmentTypes.y, true), 100, 1500);
 
             MsDataScan<DefaultMzSpectrum>[] Scans = new MsDataScan<DefaultMzSpectrum>[2];
-            Scans[0] = new MsDataScan<DefaultMzSpectrum>(1, MS1.newSpectrumApplyFunctionToX(b => b + 0.00001 * b + 0.00001), "spectrum 1", 1, false, Polarity.Positive, 1.0, new MzRange(300, 2000), "first spectrum");
+            Scans[0] = new MsDataScan<DefaultMzSpectrum>(1, MS1.newSpectrumApplyFunctionToX(b => b + 0.00001 * b + 0.00001), "spectrum 1", 1, false, Polarity.Positive, 1.0, new MzRange(300, 2000), "first spectrum", MZAnalyzerType.Unknown, 1);
 
-            Scans[1] = new MsDataScan<DefaultMzSpectrum>(2, MS2.newSpectrumApplyFunctionToX(b => b + 0.00001 * b + 0.00002), "spectrum 2", 2, false, Polarity.Positive, 2.0, new MzRange(100, 1500), "second spectrum", "spectrum 1", 693.9892, 3, .3872, 693.99, 1, DissociationType.Unknown, 1);
+            Scans[1] = new MsDataScan<DefaultMzSpectrum>(2, MS2.newSpectrumApplyFunctionToX(b => b + 0.00001 * b + 0.00002), "spectrum 2", 2, false, Polarity.Positive, 2.0, new MzRange(100, 1500), "second spectrum", MZAnalyzerType.Unknown, 1, "spectrum 1", 693.9892, 3, .3872, 693.99, 1, DissociationType.Unknown, 1);
 
             myMsDataFile = new FakeMsDataFile("myFakeFile", Scans);
 
@@ -137,7 +137,7 @@ namespace Test
         public void DataFileTest()
         {
 
-            MsDataScan<DefaultMzSpectrum> theSpectrum = new MsDataScan<DefaultMzSpectrum>(1, _mzSpectrumA, "first spectrum", 1, true, Polarity.Positive, 1, new MzRange(300, 1000), "fake scan filter");
+            MsDataScan<DefaultMzSpectrum> theSpectrum = new MsDataScan<DefaultMzSpectrum>(1, _mzSpectrumA, "first spectrum", 1, true, Polarity.Positive, 1, new MzRange(300, 1000), "fake scan filter", MZAnalyzerType.Unknown, 1);
 
             MsDataScan<DefaultMzSpectrum>[] theList = new MsDataScan<DefaultMzSpectrum>[1];
 
@@ -174,6 +174,15 @@ namespace Test
             int ok2 = 0;
             foreach (var i in thefile.GetMsScansInTimeRange(2, 4))
                 ok2 += 1;
+
+            Assert.AreEqual(0, ok2);
+
+
+            int ok3 = 0;
+            foreach (var i in thefile.GetMsScansInTimeRange(-4, -2))
+                ok3 += 1;
+
+            Assert.AreEqual(0, ok3);
 
             MzRange yah;
             DissociationType d;
