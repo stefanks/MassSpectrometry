@@ -125,7 +125,7 @@ namespace Test
         {
             double value = Tolerance.GetTolerance(5, 10, ToleranceUnit.Absolute);
 
-            Assert.AreEqual(-5, value);
+            Assert.AreEqual(5, value);
         }
 
         [Test]
@@ -159,5 +159,14 @@ namespace Test
 
             Assert.IsFalse(tol.Within(500, 500.005));
         }
+
+
+        [Test]
+        public void ToleranceNewTest()
+        {
+            var tol = new Tolerance(ToleranceUnit.Absolute, 9, 10);
+            Assert.AreEqual(new DoubleRange(4, 6), tol.GetRange(5));
+        }
+
     }
 }
