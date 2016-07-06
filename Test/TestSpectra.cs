@@ -225,16 +225,12 @@ namespace Test
         [Test]
         public void FilterByMZ()
         {
-            Console.WriteLine("In test!");
             List<DoubleRange> ok = new List<DoubleRange>();
             ok.Add(new DoubleRange(300, 400));
             ok.Add(new DoubleRange(700, 800));
-            Console.WriteLine("In test before first FilterByMZ");
             Assert.AreEqual(11, _mzSpectrumA.newSpectrumWithRangesRemoved(ok).Count);
 
-            Console.WriteLine("In test before second FilterByMZ");
             Assert.AreEqual(10, _mzSpectrumA.newSpectrumWithRangeRemoved(new DoubleRange(400, 500)).Count);
-            Console.WriteLine("In test after second FilterByMZ");
             Assert.AreEqual(10, _mzSpectrumA.newSpectrumWithRangeRemoved(400, 500).Count);
         }
 
@@ -308,8 +304,6 @@ namespace Test
             ok2.GetRange();
 
             Assert.Greater(100, ok2.newSpectrumApplyFunctionToX(b => b / 10).LastX);
-
-            Console.WriteLine(string.Join(",", ok2.newSpectrumExtract(new DoubleRange(723, 1000))));
 
             Assert.AreEqual(1, ok2.newSpectrumExtract(new DoubleRange(723, 1000)).Count);
 
