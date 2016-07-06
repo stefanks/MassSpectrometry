@@ -113,7 +113,6 @@ namespace Spectra
 
         #endregion
 
-
         #region public methods
 
         public override string ToString()
@@ -148,8 +147,6 @@ namespace Spectra
 
         public virtual TSpectrum newSpectrumWithRangeRemoved(double minX, double maxX)
         {
-
-            Console.WriteLine("minX " + minX + " maxX " + maxX);
             int count = Count;
 
             // Peaks to remove
@@ -165,11 +162,8 @@ namespace Spectra
                 index++;
             }
 
-            Console.WriteLine("index " + index);
-
             // The size of the cleaned spectrum
             int cleanCount = count - indiciesToRemove.Count;
-            Console.WriteLine("The size of the cleaned spectrum " + cleanCount);
 
             // Create the storage for the cleaned spectrum
             double[] newXarray = new double[cleanCount];
@@ -217,7 +211,6 @@ namespace Spectra
 
             // The size of the cleaned spectrum
             int cleanCount = count - indiciesToRemove.Count;
-            Console.WriteLine("The size of the cleaned spectrum " + cleanCount);
 
 
             // Create the storage for the cleaned spectrum

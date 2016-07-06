@@ -33,7 +33,6 @@ namespace MassSpectrometry
             int ok = Array.BinarySearch(Scans.Select(b => b.RetentionTime).ToArray(), retentionTime);
             if (ok < 0)
                 ok = ~ok;
-            Console.WriteLine("Returning spectrum number " + (ok + FirstSpectrumNumber));
             return ok + FirstSpectrumNumber;
         }
 

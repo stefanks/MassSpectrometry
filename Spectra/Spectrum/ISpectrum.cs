@@ -24,41 +24,23 @@ namespace Spectra
     public interface ISpectrum<out TPeak> : IEnumerable<TPeak>
         where TPeak : Peak
     {
-
         double[] xArray { get; }
-
         double[] yArray { get; }
-
         double FirstX { get; }
-
         double LastX { get; }
-
         double GetX(int index);
-
         double GetY(int index);
-
         int Count { get; }
-
         double GetYofPeakWithHighestY();
-
         double GetSumOfAllY();
-
         double[,] CopyTo2DArray();
-
         bool ContainsAnyPeaksWithinRange(double minX, double maxX);
-
         DoubleRange GetRange();
-
         TPeak this[int index] { get; }
-
         TPeak GetClosestPeak(double x);
-
         double GetClosestPeakXvalue(double x);
-
         TPeak GetPeakWithHighestY();
-
         TPeak GetClosestPeak(DoubleRange rangeX);
-
         ISpectrum<TPeak> newSpectrumFilterByNumberOfMostIntense(int topNPeaks);
         ISpectrum<TPeak> newSpectrumExtract(DoubleRange xRange);
         ISpectrum<TPeak> newSpectrumExtract(double minX, double maxX);

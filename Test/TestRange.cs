@@ -292,5 +292,13 @@ namespace Test
             var range2 = new DoubleRange(10, new Tolerance(ToleranceUnit.Absolute, 3));
             Assert.IsTrue(range1.IsSuperRange(range2));
         }
+
+        [Test]
+        public void MzRangeTest()
+        {
+            var range1 = MzRange.FromPPM(1e6, 1);
+            Assert.AreEqual(1e6-1, range1.Minimum);
+        }
+
     }
 }

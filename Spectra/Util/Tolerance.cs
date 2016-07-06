@@ -43,7 +43,7 @@ namespace Spectra
         public Tolerance(ToleranceUnit unit, double value, ToleranceType type = ToleranceType.PlusAndMinus)
         {
             Unit = unit;
-            Value = value;
+            Value = Math.Abs(value);
             ThisToleranceType = type;
         }
 
@@ -69,10 +69,8 @@ namespace Spectra
         public Tolerance(string s)
         {
             Match m = StringRegex.Match(s);
-            if (!m.Success)
-                throw new ArgumentException("Input string is not in the correct format: " + s);
             ThisToleranceType = m.Groups[1].Success ? ToleranceType.PlusAndMinus : ToleranceType.FullWidth;
-            Value = double.Parse(m.Groups[2].Value);
+            Value = Math.Abs(double.Parse(m.Groups[2].Value));
             ToleranceUnit type;
             Enum.TryParse(m.Groups[3].Value, true, out type);
             Unit = type;
@@ -180,10 +178,10 @@ namespace Spectra
             {
 
                 case ToleranceUnit.PPM:
-                    return (experimental - theoretical) / theoretical * 1e6;
+                    return Math.Abs((experimental - theoretical) / theoretical * 1e6);
 
                 default:
-                    return experimental - theoretical;
+                    return Math.Abs(experimental - theoretical);
             }
         }
 
