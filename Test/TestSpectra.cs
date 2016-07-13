@@ -338,6 +338,10 @@ namespace Test
             DefaultMzSpectrum ok = new DefaultMzSpectrum(mzIntensities);
 
             Assert.AreEqual(6, ok.YofPeakWithHighestY);
+
+            DefaultSpectrum ok2 = new DefaultSpectrum(mzIntensities);
+
+            Assert.AreEqual(12, ok2.SumOfAllY);
         }
 
     }
