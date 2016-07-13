@@ -21,9 +21,9 @@ using System.Linq;
 
 namespace MassSpectrometry
 {
-    public class FakeMsDataFile : MsDataFile<DefaultMzSpectrum>
+    public class FakeMsDataFile : MsDataFile<IMzSpectrum<MzPeak>>
     {
-        public FakeMsDataFile(string filePath, MsDataScan<DefaultMzSpectrum>[] Scans) : base(filePath, true, MsDataFileType.UnKnown)
+        public FakeMsDataFile(string filePath, MsDataScan<IMzSpectrum<MzPeak>>[] Scans) : base(filePath, true, MsDataFileType.UnKnown)
         {
             this.Scans = Scans;
         }
@@ -51,7 +51,7 @@ namespace MassSpectrometry
             return Scans.Count();
         }
 
-        protected override MsDataScan<DefaultMzSpectrum> GetMsDataScanFromFile(int spectrumNumber)
+        protected override MsDataScan<IMzSpectrum<MzPeak>> GetMsDataScanFromFile(int spectrumNumber)
         {
             throw new NotImplementedException();
         }

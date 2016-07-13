@@ -175,7 +175,7 @@ namespace Test
         [Test]
         public void SpectrumSelect()
         {
-            MzSpectrum<MzPeak, DefaultMzSpectrum> v2 = _mzSpectrumA;
+            MzSpectrum<MzPeak> v2 = _mzSpectrumA;
             ISpectrum<Peak> v3 = v2;
 
             v3.Take(4);
