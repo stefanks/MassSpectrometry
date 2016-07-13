@@ -64,7 +64,7 @@ namespace Test
         [Test]
         public void SpectrumBasePeakIntensity()
         {
-            double basePeakIntensity = _mzSpectrumA.GetYofPeakWithHighestY();
+            double basePeakIntensity = _mzSpectrumA.YofPeakWithHighestY;
 
             Assert.AreEqual(122781408.0, basePeakIntensity);
         }
@@ -72,7 +72,7 @@ namespace Test
         [Test]
         public void SpectrumTIC()
         {
-            double tic = _mzSpectrumA.GetSumOfAllY();
+            double tic = _mzSpectrumA.SumOfAllY;
 
             Assert.AreEqual(843998894.0, tic);
         }
@@ -80,7 +80,7 @@ namespace Test
         [Test]
         public void SpectrumGetIntensityFirst()
         {
-            double intensity = _mzSpectrumA.GetY(0);
+            double intensity = _mzSpectrumA.yArray[0];
 
             Assert.AreEqual(81007096.0, intensity);
         }
@@ -88,7 +88,7 @@ namespace Test
         [Test]
         public void SpectrumGetIntensityRandom()
         {
-            double intensity = _mzSpectrumA.GetY(6);
+            double intensity = _mzSpectrumA.yArray[6];
 
             Assert.AreEqual(44238040.0, intensity);
         }
@@ -96,7 +96,7 @@ namespace Test
         [Test]
         public void SpectrumGetMassFirst()
         {
-            double intensity = _mzSpectrumA.GetX(0);
+            double intensity = _mzSpectrumA.xArray[0];
 
             Assert.AreEqual(328.73795, intensity);
         }
@@ -104,7 +104,7 @@ namespace Test
         [Test]
         public void SpectrumGetMassRandom()
         {
-            double intensity = _mzSpectrumA.GetX(6);
+            double intensity = _mzSpectrumA.xArray[6];
 
             Assert.AreEqual(482.90393, intensity);
         }
@@ -160,7 +160,7 @@ namespace Test
         {
             MzRange range = new MzRange(328.73795, 723.35345);
 
-            Assert.AreEqual(range, _mzSpectrumA.GetRange());
+            Assert.AreEqual(range, _mzSpectrumA.Range);
         }
 
 
@@ -198,7 +198,7 @@ namespace Test
         [Test]
         public void GetBasePeak()
         {
-            Assert.AreEqual(122781408.0, _mzSpectrumA.GetPeakWithHighestY().Intensity);
+            Assert.AreEqual(122781408.0, _mzSpectrumA.PeakWithHighestY.Intensity);
         }
 
         [Test]
@@ -300,8 +300,6 @@ namespace Test
 
             IMzSpectrum<MzPeak> ok = _mzSpectrumA;
             IMzSpectrum<MzPeak> ok2 = new DefaultMzSpectrum(ok);
-
-            ok2.GetRange();
 
             Assert.Greater(100, ok2.newSpectrumApplyFunctionToX(b => b / 10).LastX);
 

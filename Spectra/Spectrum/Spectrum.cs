@@ -26,15 +26,9 @@ namespace Spectra
     public abstract class Spectrum<TPeak> : ISpectrum<TPeak>
         where TPeak : Peak
     {
-
-        #region fields
-
-        // Populated on demand
-        protected TPeak[] peakList;
-
-        #endregion
-
         #region properties
+
+        protected TPeak[] peakList;
         public virtual TPeak this[int index]
         {
             get
@@ -52,6 +46,47 @@ namespace Spectra
 
         public double[] xArray { get; private set; }
         public double[] yArray { get; private set; }
+
+        private double yofPeakWithHighestY = double.NaN;
+        public double YofPeakWithHighestY
+        {
+            get
+            {
+                if (double.IsNaN(yofPeakWithHighestY))
+                    yofPeakWithHighestY = yArray.Max();
+                return yofPeakWithHighestY;
+            }
+        }
+
+        private double sumOfAllY = double.NaN;
+        public double SumOfAllY
+        {
+            get
+            {
+                if (double.IsNaN(sumOfAllY))
+                    sumOfAllY = yArray.Sum();
+                return sumOfAllY;
+            }
+        }
+
+        public DoubleRange Range
+        {
+            get
+            {
+                return new DoubleRange(FirstX, LastX);
+            }
+        }
+
+        private TPeak peakWithHighestY = null;
+        public TPeak PeakWithHighestY
+        {
+            get
+            {
+                if (peakWithHighestY == null)
+                    peakWithHighestY = this[Array.IndexOf(yArray, yArray.Max())];
+                return peakWithHighestY;
+            }
+        }
 
         #endregion
 
@@ -116,7 +151,7 @@ namespace Spectra
 
         public override string ToString()
         {
-            return string.Format("{0} (Peaks {1})", GetRange(), Count);
+            return string.Format("{0} (Peaks {1})", Range, Count);
         }
 
         #endregion
@@ -171,30 +206,6 @@ namespace Spectra
             return data;
         }
 
-        public virtual DoubleRange GetRange()
-        {
-            return new DoubleRange(FirstX, LastX);
-        }
-
-        public double GetX(int index)
-        {
-            return xArray[index];
-        }
-
-        public double GetY(int index)
-        {
-            return yArray[index];
-        }
-
-        public double GetSumOfAllY()
-        {
-            return yArray.Sum();
-        }
-
-        public double GetYofPeakWithHighestY()
-        {
-            return yArray.Max();
-        }
 
         public ISpectrum<Peak> newSpectrumFilterByY(DoubleRange yRange)
         {
@@ -228,14 +239,6 @@ namespace Spectra
             return xArray[GetClosestPeakIndex(x)];
         }
 
-        private TPeak _peakWithHighestY;
-
-        public TPeak GetPeakWithHighestY()
-        {
-            if (_peakWithHighestY == null)
-                _peakWithHighestY = this[Array.IndexOf(yArray, yArray.Max())];
-            return _peakWithHighestY;
-        }
 
         #endregion
 
@@ -463,6 +466,22 @@ namespace Spectra
             index = ~index;
 
             return index < Count && xArray[index] <= maxX;
+        }
+
+        public void tranformByApplyingFunctionToX(Func<double, double> convertor)
+        {
+            resetSpectrum();
+            for (int i = 0; i < Count; i++)
+                xArray[i] = convertor(xArray[i]);
+
+        }
+
+        private void resetSpectrum()
+        {
+            peakList = new TPeak[Count];
+            yofPeakWithHighestY = double.NaN;
+            sumOfAllY = double.NaN;
+            peakWithHighestY = null;
         }
 
         #endregion

@@ -38,18 +38,21 @@ namespace Spectra
         {
         }
 
-        public override DoubleRange GetRange()
+        new public MzRange Range
         {
-            return new MzRange(FirstX, LastX);
+            get
+            {
+                return new MzRange(FirstX, LastX);
+            }
         }
 
+        public override string ToString()
+        {
+            return string.Format("{0} (Peaks {1})", Range, Count);
+        }
 
         #region implementing IMzSpectrum<TPeak>
 
-        MzRange IMzSpectrum<TPeak>.GetRange()
-        {
-            return new MzRange(FirstX, LastX);
-        }
 
         public new IMzSpectrum<MzPeak> newSpectrumFilterByNumberOfMostIntense(int topNPeaks)
         {

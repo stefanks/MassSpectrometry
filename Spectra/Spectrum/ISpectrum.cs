@@ -28,18 +28,21 @@ namespace Spectra
         double[] yArray { get; }
         double FirstX { get; }
         double LastX { get; }
-        double GetX(int index);
-        double GetY(int index);
         int Count { get; }
-        double GetYofPeakWithHighestY();
-        double GetSumOfAllY();
-        double[,] CopyTo2DArray();
-        bool ContainsAnyPeaksWithinRange(double minX, double maxX);
-        DoubleRange GetRange();
+        double YofPeakWithHighestY { get; }
+        double SumOfAllY { get; }
+        DoubleRange Range { get; }
+        TPeak PeakWithHighestY { get; }
         TPeak this[int index] { get; }
+        double[,] CopyTo2DArray();
+
+
+        void tranformByApplyingFunctionToX(Func<double, double> convertor);
+
+
+        bool ContainsAnyPeaksWithinRange(double minX, double maxX);
         TPeak GetClosestPeak(double x);
         double GetClosestPeakXvalue(double x);
-        TPeak GetPeakWithHighestY();
         TPeak GetClosestPeak(DoubleRange rangeX);
         ISpectrum<Peak> newSpectrumFilterByNumberOfMostIntense(int topNPeaks);
         ISpectrum<Peak> newSpectrumExtract(DoubleRange xRange);

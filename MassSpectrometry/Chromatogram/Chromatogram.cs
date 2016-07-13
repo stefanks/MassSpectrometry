@@ -166,7 +166,7 @@ namespace MassSpectrometry
 
         public virtual TPeak GetApex()
         {
-            return GetPeakWithHighestY();
+            return PeakWithHighestY;
         }
 
         public TPeak FindNearestApex(double rt, int skipablePts = 1)

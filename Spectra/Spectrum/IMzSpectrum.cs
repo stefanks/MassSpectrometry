@@ -25,7 +25,7 @@ namespace Spectra
     public interface IMzSpectrum<out TPeak> : ISpectrum<TPeak>
         where TPeak : MzPeak
     {
-        new MzRange GetRange();
+        new MzRange Range { get; }
         new IMzSpectrum<MzPeak> newSpectrumFilterByNumberOfMostIntense(int topNPeaks);
         new IMzSpectrum<MzPeak> newSpectrumExtract(DoubleRange xRange);
         new IMzSpectrum<MzPeak> newSpectrumExtract(double minX, double maxX);
