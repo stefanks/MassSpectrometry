@@ -168,5 +168,20 @@ namespace Test
             Assert.AreEqual(new DoubleRange(4, 6), tol.GetRange(5));
         }
 
+        [Test]
+        public void ToleranceMinMaxTest()
+        {
+            var tol = new Tolerance(ToleranceUnit.Absolute, 9, 10);
+            Assert.AreEqual(2, tol.GetMaximumValue(1));
+            Assert.AreEqual(0, tol.GetMinimumValue(1));
+        }
+
+        [Test]
+        public void TolerancePPMGetRange()
+        {
+            var tol = new Tolerance(ToleranceUnit.PPM, 1e6 - 1, 1e6);
+            Assert.AreEqual(20, tol.GetRange(1e7).Width);
+        }
+
     }
 }
