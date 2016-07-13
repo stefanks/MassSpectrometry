@@ -39,14 +39,5 @@ namespace Spectra
         {
             return string.Format("{0} - {1} m/z", Minimum.ToString(format), Maximum.ToString(format));
         }
-
-        #region Static
-
-        public new static MzRange FromPPM(double mean, double ppmTolerance)
-        {
-            return new MzRange(mean, new Tolerance(ToleranceUnit.PPM, ppmTolerance));
-        }
-
-        #endregion Static
     }
 }
