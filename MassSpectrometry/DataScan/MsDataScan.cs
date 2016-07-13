@@ -198,5 +198,11 @@ namespace MassSpectrometry
             PrecursorScanNumber = precursorScanNumber;
             return true;
         }
+
+        public void tranformByApplyingFunctionToX(Func<double, double> convertor)
+        {
+            MassSpectrum.tranformByApplyingFunctionToX(convertor);
+            selectedIonGuessMZ = convertor(selectedIonGuessMZ);
+        }
     }
 }

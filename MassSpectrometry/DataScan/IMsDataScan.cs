@@ -17,6 +17,7 @@
 // License along with MassSpectrometry. If not, see <http://www.gnu.org/licenses/>.
 
 using Spectra;
+using System;
 
 namespace MassSpectrometry
 {
@@ -44,5 +45,6 @@ namespace MassSpectrometry
         bool TryGetIsolationWidth(out double IsolationWidth);
         bool TryGetIsolationMZ(out double IsolationMZ);
         bool TryGetIsolationRange(out MzRange IsolationRange);
+        void tranformByApplyingFunctionToX(Func<double, double> convertor);
     }
 }
