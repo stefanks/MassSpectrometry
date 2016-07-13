@@ -25,11 +25,6 @@ namespace Spectra
         {
         }
 
-        internal MzRange(double meanMZ, Tolerance toleranceWidth)
-            : base(meanMZ, toleranceWidth)
-        {
-        }
-
         public override string ToString()
         {
             return ToString("G9");
