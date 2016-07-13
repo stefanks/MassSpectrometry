@@ -23,19 +23,12 @@ using System.Linq;
 
 namespace Spectra
 {
-    public abstract class Spectrum<TPeak, TSpectrum> : ISpectrum<TPeak, TSpectrum>
+    public abstract class Spectrum<TPeak> : ISpectrum<TPeak>
         where TPeak : Peak
-        where TSpectrum : Spectrum<TPeak, TSpectrum>
     {
-
-        #region fields
-
-        // Populated on demand
-        protected TPeak[] peakList;
-
-        #endregion
-
         #region properties
+
+        protected TPeak[] peakList;
         public virtual TPeak this[int index]
         {
             get
@@ -53,6 +46,47 @@ namespace Spectra
 
         public double[] xArray { get; private set; }
         public double[] yArray { get; private set; }
+
+        private double yofPeakWithHighestY = double.NaN;
+        public double YofPeakWithHighestY
+        {
+            get
+            {
+                if (double.IsNaN(yofPeakWithHighestY))
+                    yofPeakWithHighestY = yArray.Max();
+                return yofPeakWithHighestY;
+            }
+        }
+
+        private double sumOfAllY = double.NaN;
+        public double SumOfAllY
+        {
+            get
+            {
+                if (double.IsNaN(sumOfAllY))
+                    sumOfAllY = yArray.Sum();
+                return sumOfAllY;
+            }
+        }
+
+        public DoubleRange Range
+        {
+            get
+            {
+                return new DoubleRange(FirstX, LastX);
+            }
+        }
+
+        private TPeak peakWithHighestY = null;
+        public TPeak PeakWithHighestY
+        {
+            get
+            {
+                if (peakWithHighestY == null)
+                    peakWithHighestY = this[Array.IndexOf(yArray, yArray.Max())];
+                return peakWithHighestY;
+            }
+        }
 
         #endregion
 
@@ -117,36 +151,112 @@ namespace Spectra
 
         public override string ToString()
         {
-            return string.Format("{0} (Peaks {1})", GetRange(), Count);
+            return string.Format("{0} (Peaks {1})", Range, Count);
         }
 
         #endregion
 
         #region implementing ISpectrum
 
-        public virtual TSpectrum newSpectrumFilterByNumberOfMostIntense(int topNPeaks)
+        public ISpectrum<Peak> newSpectrumFilterByNumberOfMostIntense(int topNPeaks)
         {
+            var ok = filterByNumberOfMostIntense(topNPeaks);
+            return new DefaultSpectrum(ok.Item1, ok.Item2, false);
+        }
 
-            double[] newXarray = new double[xArray.Length];
-            double[] newYarray = new double[yArray.Length];
-            Array.Copy(xArray, newXarray, xArray.Length);
-            Array.Copy(yArray, newYarray, yArray.Length);
+        public ISpectrum<Peak> newSpectrumWithRangeRemoved(double minX, double maxX)
+        {
+            var ok = withRangeRemoved(minX, maxX);
+            return new DefaultSpectrum(ok.Item1, ok.Item2, false);
+        }
 
-            Array.Sort(newYarray, newXarray, Comparer<double>.Create((i1, i2) => i2.CompareTo(i1)));
-
-            double[] newXarray2 = new double[topNPeaks];
-            double[] newYarray2 = new double[topNPeaks];
-            Array.Copy(newXarray, newXarray2, topNPeaks);
-            Array.Copy(newYarray, newYarray2, topNPeaks);
-
-            Array.Sort(newXarray2, newYarray2);
-
-            return (TSpectrum)Activator.CreateInstance(typeof(TSpectrum), new object[] { newXarray2, newYarray2, false });
+        public ISpectrum<Peak> newSpectrumWithRangesRemoved(IEnumerable<DoubleRange> xRanges)
+        {
+            var ok = withRangesRemoved(xRanges);
+            return new DefaultSpectrum(ok.Item1, ok.Item2, false);
 
         }
 
-        public virtual TSpectrum newSpectrumWithRangeRemoved(double minX, double maxX)
+        public ISpectrum<Peak> newSpectrumExtract(double minX, double maxX)
         {
+            var ok = extract(minX, maxX);
+            return new DefaultSpectrum(ok.Item1, ok.Item2, false);
+
+        }
+
+        public ISpectrum<Peak> newSpectrumFilterByY(double minY, double maxY)
+        {
+            var ok = filterByY(minY, maxY);
+            return new DefaultSpectrum(ok.Item1, ok.Item2, false);
+
+        }
+
+        public ISpectrum<Peak> newSpectrumApplyFunctionToX(Func<double, double> convertor)
+        {
+            var ok = applyFunctionToX(convertor);
+            return new DefaultSpectrum(ok.Item1, ok.Item2, false);
+        }
+
+        public virtual double[,] CopyTo2DArray()
+        {
+            double[,] data = new double[2, Count];
+            const int size = sizeof(double);
+            Buffer.BlockCopy(xArray, 0, data, 0, size * Count);
+            Buffer.BlockCopy(yArray, 0, data, size * Count, size * Count);
+            return data;
+        }
+
+
+        public ISpectrum<Peak> newSpectrumFilterByY(DoubleRange yRange)
+        {
+            return newSpectrumFilterByY(yRange.Minimum, yRange.Maximum);
+        }
+
+        public ISpectrum<Peak> newSpectrumWithRangeRemoved(DoubleRange xRange)
+        {
+            return newSpectrumWithRangeRemoved(xRange.Minimum, xRange.Maximum);
+        }
+
+        public ISpectrum<Peak> newSpectrumExtract(DoubleRange xRange)
+        {
+            return newSpectrumExtract(xRange.Minimum, xRange.Maximum);
+        }
+
+        public TPeak GetClosestPeak(DoubleRange rangeX)
+        {
+            double mean = (rangeX.Maximum + rangeX.Minimum) / 2.0;
+            return GetClosestPeak(mean);
+        }
+
+        public TPeak GetClosestPeak(double x)
+        {
+            return this[GetClosestPeakIndex(x)];
+        }
+
+
+        public double GetClosestPeakXvalue(double x)
+        {
+            return xArray[GetClosestPeakIndex(x)];
+        }
+
+
+        #endregion
+
+        #region protected methods
+
+        protected Tuple<double[], double[]> applyFunctionToX(Func<double, double> convertor)
+        {
+
+            double[] modifiedXarray = new double[Count];
+            for (int i = 0; i < Count; i++)
+                modifiedXarray[i] = convertor(xArray[i]);
+            double[] newYarray = new double[yArray.Length];
+            Array.Copy(yArray, newYarray, yArray.Length);
+            return new Tuple<double[], double[]>(modifiedXarray, newYarray);
+        }
+        protected Tuple<double[], double[]> withRangeRemoved(double minX, double maxX)
+        {
+
             int count = Count;
 
             // Peaks to remove
@@ -179,14 +289,10 @@ namespace Spectra
                 newYarray[j] = yArray[i];
                 j++;
             }
-
-            return (TSpectrum)Activator.CreateInstance(typeof(TSpectrum), new object[] { newXarray, newYarray, false });
-
+            return new Tuple<double[], double[]>(newXarray, newYarray);
         }
-
-        public virtual TSpectrum newSpectrumWithRangesRemoved(IEnumerable<DoubleRange> xRanges)
+        protected Tuple<double[], double[]> withRangesRemoved(IEnumerable<DoubleRange> xRanges)
         {
-
             int count = Count;
 
             // Peaks to remove
@@ -228,11 +334,35 @@ namespace Spectra
                 j++;
             }
 
-            return (TSpectrum)Activator.CreateInstance(typeof(TSpectrum), new object[] { newXarray, newYarray, false });
-
+            return new Tuple<double[], double[]>(newXarray, newYarray);
         }
+        protected Tuple<double[], double[]> filterByY(double minY, double maxY)
+        {
 
-        public virtual TSpectrum newSpectrumExtract(double minX, double maxX)
+            int count = Count;
+            double[] newXarray = new double[count];
+            double[] newYarray = new double[count];
+            int j = 0;
+            for (int i = 0; i < count; i++)
+            {
+                double intensity = yArray[i];
+                if (intensity >= minY && intensity < maxY)
+                {
+                    newXarray[j] = xArray[i];
+                    newYarray[j] = intensity;
+                    j++;
+                }
+            }
+
+            if (j != count)
+            {
+                Array.Resize(ref newXarray, j);
+                Array.Resize(ref newYarray, j);
+            }
+
+            return new Tuple<double[], double[]>(newXarray, newYarray);
+        }
+        protected Tuple<double[], double[]> extract(double minX, double maxX)
         {
             int index = GetClosestPeakIndex(minX);
             if (this[index].X < minX)
@@ -254,124 +384,25 @@ namespace Spectra
             Array.Resize(ref newXarray, j);
             Array.Resize(ref newYarray, j);
 
-            return (TSpectrum)Activator.CreateInstance(typeof(TSpectrum), new object[] { newXarray, newYarray, false });
-
+            return new Tuple<double[], double[]>(newXarray, newYarray);
         }
-
-        public virtual TSpectrum newSpectrumFilterByY(double minY, double maxY)
+        protected Tuple<double[], double[]> filterByNumberOfMostIntense(int topNPeaks)
         {
-            int count = Count;
-            double[] newXarray = new double[count];
-            double[] newYarray = new double[count];
-            int j = 0;
-            for (int i = 0; i < count; i++)
-            {
-                double intensity = yArray[i];
-                if (intensity >= minY && intensity < maxY)
-                {
-                    newXarray[j] = xArray[i];
-                    newYarray[j] = intensity;
-                    j++;
-                }
-            }
-
-            if (j != count)
-            {
-                Array.Resize(ref newXarray, j);
-                Array.Resize(ref newYarray, j);
-            }
-            return (TSpectrum)Activator.CreateInstance(typeof(TSpectrum), new object[] { newXarray, newYarray, false });
-
-        }
-
-        public virtual TSpectrum newSpectrumApplyFunctionToX(Func<double, double> convertor)
-        {
-            double[] modifiedXarray = new double[Count];
-            for (int i = 0; i < Count; i++)
-                modifiedXarray[i] = convertor(xArray[i]);
+            double[] newXarray = new double[xArray.Length];
             double[] newYarray = new double[yArray.Length];
+            Array.Copy(xArray, newXarray, xArray.Length);
             Array.Copy(yArray, newYarray, yArray.Length);
-            return (TSpectrum)Activator.CreateInstance(typeof(TSpectrum), new object[] { modifiedXarray, newYarray, false });
+
+            Array.Sort(newYarray, newXarray, Comparer<double>.Create((i1, i2) => i2.CompareTo(i1)));
+
+            double[] newXarray2 = new double[topNPeaks];
+            double[] newYarray2 = new double[topNPeaks];
+            Array.Copy(newXarray, newXarray2, topNPeaks);
+            Array.Copy(newYarray, newYarray2, topNPeaks);
+
+            Array.Sort(newXarray2, newYarray2);
+            return new Tuple<double[], double[]>(newXarray2, newYarray2);
         }
-
-        public virtual double[,] CopyTo2DArray()
-        {
-            double[,] data = new double[2, Count];
-            const int size = sizeof(double);
-            Buffer.BlockCopy(xArray, 0, data, 0, size * Count);
-            Buffer.BlockCopy(yArray, 0, data, size * Count, size * Count);
-            return data;
-        }
-
-        public virtual DoubleRange GetRange()
-        {
-            return new DoubleRange(FirstX, LastX);
-        }
-
-        public double GetX(int index)
-        {
-            return xArray[index];
-        }
-
-        public double GetY(int index)
-        {
-            return yArray[index];
-        }
-
-        public double GetSumOfAllY()
-        {
-            return yArray.Sum();
-        }
-
-        public double GetYofPeakWithHighestY()
-        {
-            return yArray.Max();
-        }
-
-        public TSpectrum newSpectrumFilterByY(DoubleRange yRange)
-        {
-            return newSpectrumFilterByY(yRange.Minimum, yRange.Maximum);
-        }
-
-        public TSpectrum newSpectrumWithRangeRemoved(DoubleRange xRange)
-        {
-            return newSpectrumWithRangeRemoved(xRange.Minimum, xRange.Maximum);
-        }
-
-        public TSpectrum newSpectrumExtract(DoubleRange xRange)
-        {
-            return newSpectrumExtract(xRange.Minimum, xRange.Maximum);
-        }
-
-        public TPeak GetClosestPeak(DoubleRange rangeX)
-        {
-            double mean = (rangeX.Maximum + rangeX.Minimum) / 2.0;
-            return GetClosestPeak(mean);
-        }
-
-        public TPeak GetClosestPeak(double x)
-        {
-            return this[GetClosestPeakIndex(x)];
-        }
-
-
-        public double GetClosestPeakXvalue(double x)
-        {
-            return xArray[GetClosestPeakIndex(x)];
-        }
-
-        private TPeak _peakWithHighestY;
-
-        public TPeak GetPeakWithHighestY()
-        {
-            if (_peakWithHighestY == null)
-                _peakWithHighestY = this[Array.IndexOf(yArray, yArray.Max())];
-            return _peakWithHighestY;
-        }
-
-        #endregion
-
-        #region protected methods
 
         protected int GetClosestPeakIndex(double targetX)
         {
@@ -437,52 +468,20 @@ namespace Spectra
             return index < Count && xArray[index] <= maxX;
         }
 
-        #endregion
-
-        #region ISpectrum<TPeak> methods
-        ISpectrum<TPeak> ISpectrum<TPeak>.newSpectrumFilterByNumberOfMostIntense(int topNPeaks)
+        public void tranformByApplyingFunctionToX(Func<double, double> convertor)
         {
-            return newSpectrumFilterByNumberOfMostIntense(topNPeaks);
+            resetSpectrum();
+            for (int i = 0; i < Count; i++)
+                xArray[i] = convertor(xArray[i]);
+
         }
 
-        ISpectrum<TPeak> ISpectrum<TPeak>.newSpectrumExtract(DoubleRange xRange)
+        private void resetSpectrum()
         {
-            return newSpectrumExtract(xRange);
-        }
-
-        ISpectrum<TPeak> ISpectrum<TPeak>.newSpectrumExtract(double minX, double maxX)
-        {
-            return newSpectrumExtract(minX, maxX);
-        }
-
-        ISpectrum<TPeak> ISpectrum<TPeak>.newSpectrumWithRangesRemoved(IEnumerable<DoubleRange> xRanges)
-        {
-            return newSpectrumWithRangesRemoved(xRanges);
-        }
-
-        ISpectrum<TPeak> ISpectrum<TPeak>.newSpectrumWithRangeRemoved(DoubleRange xRange)
-        {
-            return newSpectrumWithRangeRemoved(xRange);
-        }
-
-        ISpectrum<TPeak> ISpectrum<TPeak>.newSpectrumWithRangeRemoved(double minX, double maxX)
-        {
-            return newSpectrumWithRangeRemoved(minX, maxX);
-        }
-
-        ISpectrum<TPeak> ISpectrum<TPeak>.newSpectrumFilterByY(double minY, double maxY)
-        {
-            return newSpectrumFilterByY(minY, maxY);
-        }
-
-        ISpectrum<TPeak> ISpectrum<TPeak>.newSpectrumFilterByY(DoubleRange yRange)
-        {
-            return newSpectrumFilterByY(yRange);
-        }
-
-        ISpectrum<TPeak> ISpectrum<TPeak>.newSpectrumApplyFunctionToX(Func<double, double> convertor)
-        {
-            return newSpectrumApplyFunctionToX(convertor);
+            peakList = new TPeak[Count];
+            yofPeakWithHighestY = double.NaN;
+            sumOfAllY = double.NaN;
+            peakWithHighestY = null;
         }
 
         #endregion

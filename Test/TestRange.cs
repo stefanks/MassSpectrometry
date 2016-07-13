@@ -293,12 +293,5 @@ namespace Test
             Assert.IsTrue(range1.IsSuperRange(range2));
         }
 
-        [Test]
-        public void MzRangeTest()
-        {
-            var range1 = MzRange.FromPPM(1e6, 1);
-            Assert.AreEqual(1e6-1, range1.Minimum);
-        }
-
     }
 }

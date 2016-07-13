@@ -25,30 +25,15 @@ namespace Spectra
     public interface IMzSpectrum<out TPeak> : ISpectrum<TPeak>
         where TPeak : MzPeak
     {
-        new MzRange GetRange();
-        new IMzSpectrum<TPeak> newSpectrumFilterByNumberOfMostIntense(int topNPeaks);
-        new IMzSpectrum<TPeak> newSpectrumExtract(DoubleRange xRange);
-        new IMzSpectrum<TPeak> newSpectrumExtract(double minX, double maxX);
-        new IMzSpectrum<TPeak> newSpectrumWithRangesRemoved(IEnumerable<DoubleRange> xRanges);
-        new IMzSpectrum<TPeak> newSpectrumWithRangeRemoved(DoubleRange xRange);
-        new IMzSpectrum<TPeak> newSpectrumWithRangeRemoved(double minX, double maxX);
-        new IMzSpectrum<TPeak> newSpectrumFilterByY(double minY, double maxY);
-        new IMzSpectrum<TPeak> newSpectrumFilterByY(DoubleRange yRange);
-        new IMzSpectrum<TPeak> newSpectrumApplyFunctionToX(Func<double, double> convertor);
-    }
-
-    public interface IMzSpectrum<out TPeak, out TSpectrum> : IMzSpectrum<TPeak>, ISpectrum<TPeak, TSpectrum>
-        where TPeak : MzPeak
-        where TSpectrum : IMzSpectrum<TPeak, TSpectrum>
-    {
-        new TSpectrum newSpectrumFilterByNumberOfMostIntense(int topNPeaks);
-        new TSpectrum newSpectrumExtract(DoubleRange xRange);
-        new TSpectrum newSpectrumExtract(double minX, double maxX);
-        new TSpectrum newSpectrumWithRangesRemoved(IEnumerable<DoubleRange> xRanges);
-        new TSpectrum newSpectrumWithRangeRemoved(DoubleRange xRange);
-        new TSpectrum newSpectrumWithRangeRemoved(double minX, double maxX);
-        new TSpectrum newSpectrumFilterByY(double minY, double maxY);
-        new TSpectrum newSpectrumFilterByY(DoubleRange yRange);
-        new TSpectrum newSpectrumApplyFunctionToX(Func<double, double> convertor);
+        new MzRange Range { get; }
+        new IMzSpectrum<MzPeak> newSpectrumFilterByNumberOfMostIntense(int topNPeaks);
+        new IMzSpectrum<MzPeak> newSpectrumExtract(DoubleRange xRange);
+        new IMzSpectrum<MzPeak> newSpectrumExtract(double minX, double maxX);
+        new IMzSpectrum<MzPeak> newSpectrumWithRangesRemoved(IEnumerable<DoubleRange> xRanges);
+        new IMzSpectrum<MzPeak> newSpectrumWithRangeRemoved(DoubleRange xRange);
+        new IMzSpectrum<MzPeak> newSpectrumWithRangeRemoved(double minX, double maxX);
+        new IMzSpectrum<MzPeak> newSpectrumFilterByY(double minY, double maxY);
+        new IMzSpectrum<MzPeak> newSpectrumFilterByY(DoubleRange yRange);
+        new IMzSpectrum<MzPeak> newSpectrumApplyFunctionToX(Func<double, double> convertor);
     }
 }

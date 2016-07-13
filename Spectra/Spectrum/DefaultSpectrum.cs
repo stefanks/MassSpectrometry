@@ -17,7 +17,7 @@
 
 namespace Spectra
 {
-    public class DefaultSpectrum : Spectrum<DefaultPeak, DefaultSpectrum>
+    public class DefaultSpectrum : Spectrum<DefaultPeak>
     {
         public DefaultSpectrum(ISpectrum<Peak> spectrum) : base(spectrum)
         {

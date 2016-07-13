@@ -100,20 +100,9 @@ namespace MassSpectrometry
             return GetEnumerator();
         }
 
-        public bool Equals(MsDataFile<TSpectrum> other)
-        {
-            if (ReferenceEquals(this, other)) return true;
-            return FilePath.Equals(other.FilePath);
-        }
-
         public IEnumerator<IMsDataScan<TSpectrum>> GetEnumerator()
         {
             return GetMsScans().GetEnumerator();
-        }
-
-        public override int GetHashCode()
-        {
-            return FilePath.GetHashCode();
         }
 
         /// <summary>

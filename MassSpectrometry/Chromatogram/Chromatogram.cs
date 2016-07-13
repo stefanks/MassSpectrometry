@@ -60,7 +60,7 @@ namespace MassSpectrometry
 
     }
 
-    public abstract class Chromatogram<TPeak> : Spectrum<TPeak, Chromatogram<TPeak>>
+    public abstract class Chromatogram<TPeak> : Spectrum<TPeak>
         where TPeak : Peak
     {
 
@@ -166,7 +166,7 @@ namespace MassSpectrometry
 
         public virtual TPeak GetApex()
         {
-            return GetPeakWithHighestY();
+            return PeakWithHighestY;
         }
 
         public TPeak FindNearestApex(double rt, int skipablePts = 1)
