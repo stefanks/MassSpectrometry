@@ -227,6 +227,21 @@ namespace Test
             Assert.AreEqual(.3872, yahh);
             Assert.IsTrue(myMsDataFile.GetScan(2).TryGetSelectedIonGuessMZ(out yahh));
             Assert.AreEqual(693.9892, yahh);
+
+            Assert.AreNotEqual(0, myMsDataFile.GetScan(2).MassSpectrum.FirstX);
+            Assert.AreNotEqual(0, myMsDataFile.GetScan(2).MassSpectrum.LastX);
+            double hehehe1;
+            myMsDataFile.GetScan(2).TryGetSelectedIonGuessMZ(out hehehe1);
+            Assert.AreNotEqual(0, hehehe1);
+
+            myMsDataFile.GetScan(2).tranformByApplyingFunctionToX(b => 0);
+
+            Assert.AreEqual(0, myMsDataFile.GetScan(2).MassSpectrum.FirstX);
+            Assert.AreEqual(0, myMsDataFile.GetScan(2).MassSpectrum.LastX);
+            double hehehe;
+            myMsDataFile.GetScan(2).TryGetSelectedIonGuessMZ(out hehehe);
+            Assert.AreEqual(0, hehehe);
+
         }
     }
 }
