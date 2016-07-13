@@ -324,5 +324,21 @@ namespace Test
 
         }
 
+        [Test]
+        public void TestDefaultSpectrum()
+        {
+            double[,] mzIntensities = new double[2, 3];
+            mzIntensities[0, 0] = 1;
+            mzIntensities[1, 0] = 2;
+            mzIntensities[0, 1] = 3;
+            mzIntensities[1, 1] = 4;
+            mzIntensities[0, 2] = 5;
+            mzIntensities[1, 2] = 6;
+
+            DefaultMzSpectrum ok = new DefaultMzSpectrum(mzIntensities);
+
+            Assert.AreEqual(6, ok.YofPeakWithHighestY);
+        }
+
     }
 }
