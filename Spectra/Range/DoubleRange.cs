@@ -125,19 +125,5 @@ namespace Spectra
         {
             return string.Format("[{0} - {1}]", Minimum.ToString(format), Maximum.ToString(format));
         }
-
-        #region Static
-
-        public static DoubleRange FromPPM(double mean, double ppmTolerance)
-        {
-            return new DoubleRange(mean, new Tolerance(ToleranceUnit.PPM, ppmTolerance));
-        }
-
-        public static DoubleRange FromDa(double mean, double daTolerance)
-        {
-            return new DoubleRange(mean, new Tolerance(ToleranceUnit.Absolute, daTolerance));
-        }
-
-        #endregion Static
     }
 }

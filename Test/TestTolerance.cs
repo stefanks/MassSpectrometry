@@ -181,6 +181,8 @@ namespace Test
         {
             var tol = new Tolerance(ToleranceUnit.PPM, 1e6 - 1, 1e6);
             Assert.AreEqual(20, tol.GetRange(1e7).Width);
+
+            Assert.AreEqual("±1.0000 PPM", tol.ToString());
         }
 
     }
