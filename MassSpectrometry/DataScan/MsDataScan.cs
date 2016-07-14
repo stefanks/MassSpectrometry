@@ -199,10 +199,10 @@ namespace MassSpectrometry
             return true;
         }
 
-        public void tranformByApplyingFunctionToX(Func<double, double> convertor)
+        public void tranformByApplyingFunctionToX(Func<double, double> convertorForSpectrum, Func<double, double> convertorForPrecursor)
         {
-            MassSpectrum.tranformByApplyingFunctionToX(convertor);
-            selectedIonGuessMZ = convertor(selectedIonGuessMZ);
+            MassSpectrum.tranformByApplyingFunctionToX(convertorForSpectrum);
+            selectedIonGuessMZ = convertorForPrecursor(selectedIonGuessMZ);
         }
     }
 }
