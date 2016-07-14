@@ -45,6 +45,6 @@ namespace MassSpectrometry
         bool TryGetIsolationWidth(out double IsolationWidth);
         bool TryGetIsolationMZ(out double IsolationMZ);
         bool TryGetIsolationRange(out MzRange IsolationRange);
-        void tranformByApplyingFunctionToX(Func<double, double> convertor);
+        void tranformByApplyingFunctionToX(Func<double, double> convertorForSpectrum, Func<double, double> convertorForPrecursor);
     }
 }
