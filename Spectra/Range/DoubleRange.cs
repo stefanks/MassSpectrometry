@@ -20,7 +20,7 @@ using System;
 
 namespace Spectra
 {
-    public class DoubleRange : Range<double>
+    public class DoubleRange
     {
         /// <summary>
         /// Creates a range from the minimum to maximum values
@@ -28,8 +28,11 @@ namespace Spectra
         /// <param name="minimum">The minimum value of the range</param>
         /// <param name="maximum">The maximum value of the range</param>
         public DoubleRange(double minimum, double maximum)
-            : base(minimum, maximum)
         {
+            if (maximum.CompareTo(minimum) < 0)
+                throw new ArgumentException(minimum + " > " + maximum + ", unable to create negative ranges.");
+            Minimum = minimum;
+            Maximum = maximum;
         }
 
         /// <summary>
@@ -37,10 +40,20 @@ namespace Spectra
         /// clone constructor.
         /// </summary>
         /// <param name="range">The other range to copy</param>
-        public DoubleRange(IRange<double> range)
-            : base(range.Minimum, range.Maximum)
+        public DoubleRange(DoubleRange range)
+            : this(range.Minimum, range.Maximum)
         {
         }
+
+        /// <summary>
+        /// The maximum value of the range
+        /// </summary>
+        public double Maximum { get; protected set; }
+
+        /// <summary>
+        /// The minimum value of the range
+        /// </summary>
+        public double Minimum { get; protected set; }
 
         /// <summary>
         /// Creates a range around some mean value with a specified tolerance.
@@ -82,8 +95,8 @@ namespace Spectra
                     break;
 
                 case ToleranceUnit.PPM:
-                    Minimum = mean * (1 - (value / 2e6));
-                    Maximum = mean * (1 + (value / 2e6));
+                    Minimum = mean - mean * value / 2e6;
+                    Maximum = mean + mean * value / 2e6;
                     break;
             }
         }
@@ -106,24 +119,85 @@ namespace Spectra
             get { return Maximum - Minimum; }
         }
 
-        /// <summary>
-        /// Calculates the ppm tolerance value for this range:
-        /// 1e6 * Width / Mean;
-        /// </summary>
-        /// <returns>The ppm</returns>
-        public double ToPPM()
-        {
-            return 1e6 * Width / Mean;
-        }
 
         /// <summary>
         /// Returns a string representation of this range at the given numerical format
         /// </summary>
         /// <param name="format">The format to display the double values</param>
         /// <returns></returns>
+        public override string ToString()
+        {
+            return ToString("G9");
+        }
         public virtual string ToString(string format)
         {
             return string.Format("[{0} - {1}]", Minimum.ToString(format), Maximum.ToString(format));
+        }
+
+        public int CompareTo(double item)
+        {
+            if (Minimum.CompareTo(item) > 0)
+                return -1;
+            if (Maximum.CompareTo(item) < 0)
+                return 1;
+            return 0;
+        }
+
+        /// <summary>
+        /// Checks to see if this range is a proper super range of another range (inclusive)
+        /// </summary>
+        /// <param name="other">The other range to compare to</param>
+        /// <returns>True if this range is fully encloses the other range, false otherwise</returns>
+        public bool IsSuperRange(DoubleRange other)
+        {
+            return Maximum.CompareTo(other.Maximum) >= 0 && Minimum.CompareTo(other.Minimum) <= 0;
+        }
+
+        /// <summary>
+        /// Checks to see if this range is a proper sub range of another range (inclusive)
+        /// </summary>
+        /// <param name="other">The other range to compare to</param>
+        /// <returns>True if this range is fully enclosed by the other range, false otherwise</returns>
+        public bool IsSubRange(DoubleRange other)
+        {
+            return Maximum.CompareTo(other.Maximum) <= 0 && Minimum.CompareTo(other.Minimum) >= 0;
+        }
+
+        /// <summary>
+        /// Checks to see if this range overlaps another range (inclusive)
+        /// </summary>
+        /// <param name="other">The other range to compare to</param>
+        /// <returns>True if the other range in any way overlaps this range, false otherwise</returns>
+        public bool IsOverlapping(DoubleRange other)
+        {
+            return Maximum.CompareTo(other.Minimum) >= 0 && Minimum.CompareTo(other.Maximum) <= 0;
+        }
+
+        /// <summary>
+        /// Determines if the item is contained within a range of values
+        /// </summary>
+        /// <param name="item">The item to compare against the range</param>
+        /// <returns>True if the item is within the range (inclusive), false otherwise</returns>
+        public bool Contains(double item)
+        {
+            return CompareTo(item).Equals(0);
+        }
+
+        public bool Equals(DoubleRange other)
+        {
+            return Maximum == other.Maximum && Minimum == other.Minimum;
+        }
+
+        public override int GetHashCode()
+        {
+            return Minimum.GetHashCode() + (Maximum.GetHashCode() << 3);
+        }
+
+        public override bool Equals(object obj)
+        {
+            DoubleRange other = obj as DoubleRange;
+
+            return other != null && Equals(other);
         }
     }
 }

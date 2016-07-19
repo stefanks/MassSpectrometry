@@ -177,11 +177,6 @@ namespace MassSpectrometry
             }
         }
 
-        public virtual IEnumerable<IMsDataScan<TSpectrum>> GetMsScans(IRange<int> range)
-        {
-            return GetMsScansInIndexRange(range.Minimum, range.Maximum);
-        }
-
         public abstract int GetSpectrumNumber(double retentionTime);
 
         public override string ToString()

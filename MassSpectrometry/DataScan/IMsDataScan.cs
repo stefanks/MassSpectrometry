@@ -29,11 +29,12 @@ namespace MassSpectrometry
         int ScanNumber { get; }
         int MsnOrder { get; }
         double RetentionTime { get; }
-        MzRange MzRange { get; }
+        MzRange ScanWindowRange { get; }
         string ScanFilter { get; }
         string id { get; }
         bool isCentroid { get; }
         double InjectionTime { get; }
+        double TotalIonCurrent { get; }
         Polarity Polarity { get; }
         MZAnalyzerType MzAnalyzer { get; }
         bool TryGetPrecursorScanNumber(out int precursorScanNumber);

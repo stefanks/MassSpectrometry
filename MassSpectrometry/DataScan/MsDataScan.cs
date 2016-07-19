@@ -48,7 +48,7 @@ namespace MassSpectrometry
 
         public MZAnalyzerType MzAnalyzer { get; private set; }
 
-        public MzRange MzRange { get; private set; }
+        public MzRange ScanWindowRange { get; private set; }
 
         public string ScanFilter { get; private set; }
 
@@ -58,7 +58,9 @@ namespace MassSpectrometry
 
         public double InjectionTime { get; private set; }
 
-        public MsDataScan(int ScanNumber, TSpectrum MassSpectrum, string id, int MsnOrder, bool isCentroid, Polarity Polarity, double RetentionTime, MzRange MzRange, string ScanFilter, MZAnalyzerType MzAnalyzer, double InjectionTime)
+        public double TotalIonCurrent { get; private set; }
+
+        public MsDataScan(int ScanNumber, TSpectrum MassSpectrum, string id, int MsnOrder, bool isCentroid, Polarity Polarity, double RetentionTime, MzRange ScanWindowRange, string ScanFilter, MZAnalyzerType MzAnalyzer, double InjectionTime)
         {
             this.ScanNumber = ScanNumber;
             this.MassSpectrum = MassSpectrum;
@@ -67,10 +69,11 @@ namespace MassSpectrometry
             this.isCentroid = isCentroid;
             this.Polarity = Polarity;
             this.RetentionTime = RetentionTime;
-            this.MzRange = MzRange;
+            this.ScanWindowRange = ScanWindowRange;
             this.ScanFilter = ScanFilter;
             this.MzAnalyzer = MzAnalyzer;
             this.InjectionTime = InjectionTime;
+            this.TotalIonCurrent = TotalIonCurrent;
         }
         public MsDataScan(int ScanNumber, TSpectrum MassSpectrum, string id, int MsnOrder, bool isCentroid, Polarity Polarity, double RetentionTime, MzRange MzRange, string ScanFilter, MZAnalyzerType MzAnalyzer, double InjectionTime, string precursorID, double selectedIonGuessMZ, int selectedIonGuessChargeStateGuess, double selectedIonGuessIsolationIntensity, double isolationMZ, double isolationWidth, DissociationType dissociationType, int precursorScanNumber)
             : this(ScanNumber, MassSpectrum, id, MsnOrder, isCentroid, Polarity, RetentionTime, MzRange, ScanFilter, MzAnalyzer, InjectionTime)
