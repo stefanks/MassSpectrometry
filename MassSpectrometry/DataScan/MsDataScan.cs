@@ -60,7 +60,7 @@ namespace MassSpectrometry
 
         public double TotalIonCurrent { get; private set; }
 
-        public MsDataScan(int ScanNumber, TSpectrum MassSpectrum, string id, int MsnOrder, bool isCentroid, Polarity Polarity, double RetentionTime, MzRange ScanWindowRange, string ScanFilter, MZAnalyzerType MzAnalyzer, double InjectionTime)
+        public MsDataScan(int ScanNumber, TSpectrum MassSpectrum, string id, int MsnOrder, bool isCentroid, Polarity Polarity, double RetentionTime, MzRange ScanWindowRange, string ScanFilter, MZAnalyzerType MzAnalyzer, double InjectionTime, double TotalIonCurrent)
         {
             this.ScanNumber = ScanNumber;
             this.MassSpectrum = MassSpectrum;
@@ -75,8 +75,8 @@ namespace MassSpectrometry
             this.InjectionTime = InjectionTime;
             this.TotalIonCurrent = TotalIonCurrent;
         }
-        public MsDataScan(int ScanNumber, TSpectrum MassSpectrum, string id, int MsnOrder, bool isCentroid, Polarity Polarity, double RetentionTime, MzRange MzRange, string ScanFilter, MZAnalyzerType MzAnalyzer, double InjectionTime, string precursorID, double selectedIonGuessMZ, int selectedIonGuessChargeStateGuess, double selectedIonGuessIsolationIntensity, double isolationMZ, double isolationWidth, DissociationType dissociationType, int precursorScanNumber)
-            : this(ScanNumber, MassSpectrum, id, MsnOrder, isCentroid, Polarity, RetentionTime, MzRange, ScanFilter, MzAnalyzer, InjectionTime)
+        public MsDataScan(int ScanNumber, TSpectrum MassSpectrum, string id, int MsnOrder, bool isCentroid, Polarity Polarity, double RetentionTime, MzRange MzRange, string ScanFilter, MZAnalyzerType MzAnalyzer, double InjectionTime, double TotalIonCurrent, string precursorID, double selectedIonGuessMZ, int selectedIonGuessChargeStateGuess, double selectedIonGuessIsolationIntensity, double isolationMZ, double isolationWidth, DissociationType dissociationType, int precursorScanNumber)
+            : this(ScanNumber, MassSpectrum, id, MsnOrder, isCentroid, Polarity, RetentionTime, MzRange, ScanFilter, MzAnalyzer, InjectionTime, TotalIonCurrent)
         {
             this.isolationMZ = isolationMZ;
             this.precursorID = precursorID;
