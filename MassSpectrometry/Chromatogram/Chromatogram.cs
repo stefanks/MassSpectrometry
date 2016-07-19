@@ -113,7 +113,7 @@ namespace MassSpectrometry
             return yArray[index];
         }
 
-        public virtual TPeak GetApex(IRange<double> timeRange)
+        public virtual TPeak GetApex(DoubleRange timeRange)
         {
             return GetApex(timeRange.Minimum, timeRange.Maximum);
         }
@@ -144,7 +144,7 @@ namespace MassSpectrometry
             return GetPeak(apexIndex);
         }
 
-        public virtual ChromatographicElutionProfile<TPeak> GetElutionProfile(IRange<double> timeRange)
+        public virtual ChromatographicElutionProfile<TPeak> GetElutionProfile(DoubleRange timeRange)
         {
             return GetElutionProfile(timeRange.Minimum, timeRange.Maximum);
         }
@@ -300,7 +300,7 @@ namespace MassSpectrometry
         }
 
 
-        public bool ContainsAnyPeaksWithinRange(IRange<double> range)
+        public bool ContainsAnyPeaksWithinRange(DoubleRange range)
         {
             throw new NotImplementedException();
         }

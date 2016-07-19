@@ -299,7 +299,7 @@ namespace Spectra
             HashSet<int> indiciesToRemove = new HashSet<int>();
 
             // Loop over each range to remove
-            foreach (IRange<double> range in xRanges)
+            foreach (DoubleRange range in xRanges)
             {
                 double min = range.Minimum;
                 double max = range.Maximum;

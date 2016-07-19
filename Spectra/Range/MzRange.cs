@@ -25,11 +25,6 @@ namespace Spectra
         {
         }
 
-        public override string ToString()
-        {
-            return ToString("G9");
-        }
-
         public override string ToString(string format)
         {
             return string.Format("{0} - {1} m/z", Minimum.ToString(format), Maximum.ToString(format));
