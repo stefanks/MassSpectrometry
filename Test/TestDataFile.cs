@@ -52,9 +52,9 @@ namespace Test
             DefaultMzSpectrum MS2 = createMS2spectrum(peptide.Fragment(FragmentTypes.b | FragmentTypes.y, true), 100, 1500);
 
             MsDataScan<IMzSpectrum<MzPeak>>[] Scans = new MsDataScan<IMzSpectrum<MzPeak>>[2];
-            Scans[0] = new MsDataScan<IMzSpectrum<MzPeak>>(1, MS1.newSpectrumApplyFunctionToX(b => b + 0.00001 * b + 0.00001), "spectrum 1", 1, false, Polarity.Positive, 1.0, new MzRange(300, 2000), "first spectrum", MZAnalyzerType.Unknown, 1);
+            Scans[0] = new MsDataScan<IMzSpectrum<MzPeak>>(1, MS1.newSpectrumApplyFunctionToX(b => b + 0.00001 * b + 0.00001), "spectrum 1", 1, false, Polarity.Positive, 1.0, new MzRange(300, 2000), "first spectrum", MZAnalyzerType.Unknown, 1, MS1.SumOfAllY);
 
-            Scans[1] = new MsDataScan<IMzSpectrum<MzPeak>>(2, MS2.newSpectrumApplyFunctionToX(b => b + 0.00001 * b + 0.00002), "spectrum 2", 2, false, Polarity.Positive, 2.0, new MzRange(100, 1500), "second spectrum", MZAnalyzerType.Unknown, 1, "spectrum 1", 693.9892, 3, .3872, 693.99, 1, DissociationType.Unknown, 1);
+            Scans[1] = new MsDataScan<IMzSpectrum<MzPeak>>(2, MS2.newSpectrumApplyFunctionToX(b => b + 0.00001 * b + 0.00002), "spectrum 2", 2, false, Polarity.Positive, 2.0, new MzRange(100, 1500), "second spectrum", MZAnalyzerType.Unknown, 1, MS2.SumOfAllY, "spectrum 1", 693.9892, 3, .3872, 693.99, 1, DissociationType.Unknown, 1);
 
             myMsDataFile = new FakeMsDataFile("myFakeFile", Scans);
 
@@ -137,7 +137,7 @@ namespace Test
         public void DataFileTest()
         {
 
-            MsDataScan<IMzSpectrum<MzPeak>> theSpectrum = new MsDataScan<IMzSpectrum<MzPeak>>(1, _mzSpectrumA, "first spectrum", 1, true, Polarity.Positive, 1, new MzRange(300, 1000), "fake scan filter", MZAnalyzerType.Unknown, 1);
+            MsDataScan<IMzSpectrum<MzPeak>> theSpectrum = new MsDataScan<IMzSpectrum<MzPeak>>(1, _mzSpectrumA, "first spectrum", 1, true, Polarity.Positive, 1, new MzRange(300, 1000), "fake scan filter", MZAnalyzerType.Unknown, 1, _mzSpectrumA.SumOfAllY);
 
             MsDataScan<IMzSpectrum<MzPeak>>[] theList = new MsDataScan<IMzSpectrum<MzPeak>>[1];
 
