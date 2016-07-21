@@ -31,5 +31,6 @@ namespace MassSpectrometry
         int LastSpectrumNumber { get; }
         string FilePath { get; }
         void Open();
+        void LoadAllScansInMemory();
     }
 }
