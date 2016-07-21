@@ -65,8 +65,8 @@
       <HintPath>..\packages\NUnit3TestAdapter.3.4.0\lib\NUnit3.TestAdapter.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Proteomics, Version=1.0.33.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\Proteomics.1.0.33\lib\net451\Proteomics.dll</HintPath>
+    <Reference Include="Proteomics, Version=1.0.35.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\Proteomics.1.0.35\lib\net451\Proteomics.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
@@ -78,8 +78,8 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Xml" />
-    <Reference Include="UsefulProteomicsDatabases, Version=1.0.22.0, Culture=neutral, processorArchitecture=AMD64">
-      <HintPath>..\packages\UsefulProteomicsDatabases.1.0.22\lib\net451\UsefulProteomicsDatabases.dll</HintPath>
+    <Reference Include="UsefulProteomicsDatabases, Version=1.0.23.0, Culture=neutral, processorArchitecture=AMD64">
+      <HintPath>..\packages\UsefulProteomicsDatabases.1.0.23\lib\net451\UsefulProteomicsDatabases.dll</HintPath>
       <Private>True</Private>
     </Reference>
   </ItemGroup>
