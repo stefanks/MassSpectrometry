@@ -22,6 +22,7 @@ using NUnit.Framework;
 using Proteomics;
 using Spectra;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -57,6 +58,8 @@ namespace Test
             Scans[1] = new MsDataScan<IMzSpectrum<MzPeak>>(2, MS2.newSpectrumApplyFunctionToX(b => b + 0.00001 * b + 0.00002), "spectrum 2", 2, false, Polarity.Positive, 2.0, new MzRange(100, 1500), "second spectrum", MZAnalyzerType.Unknown, 1, MS2.SumOfAllY, "spectrum 1", 693.9892, 3, .3872, 693.99, 1, DissociationType.Unknown, 1);
 
             myMsDataFile = new FakeMsDataFile("myFakeFile", Scans);
+
+            myMsDataFile.LoadAllScansInMemory();
 
         }
 
@@ -241,6 +244,12 @@ namespace Test
             double hehehe;
             myMsDataFile.GetScan(2).TryGetSelectedIonGuessMZ(out hehehe);
             Assert.AreEqual(0, hehehe);
+
+            IEnumerable a = myMsDataFile;
+            foreach (var b in a)
+                Assert.IsFalse((b as IMsDataScan<IMzSpectrum<MzPeak>>).isCentroid);
+            foreach (var b in myMsDataFile)
+                Assert.AreEqual(Polarity.Positive, b.Polarity);
 
         }
     }
