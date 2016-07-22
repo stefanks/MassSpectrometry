@@ -23,9 +23,10 @@ namespace MassSpectrometry
 {
     public class FakeMsDataFile : MsDataFile<IMzSpectrum<MzPeak>>
     {
-        public FakeMsDataFile(string filePath, MsDataScan<IMzSpectrum<MzPeak>>[] Scans) : base(filePath, true, MsDataFileType.UnKnown)
+        private MsDataScan<IMzSpectrum<MzPeak>>[] FakeScans;
+        public FakeMsDataFile(string filePath, MsDataScan<IMzSpectrum<MzPeak>>[] FakeScans) : base(filePath, true, MsDataFileType.UnKnown)
         {
-            this.Scans = Scans;
+            this.FakeScans = FakeScans;
         }
 
         public override int GetSpectrumNumber(double retentionTime)
@@ -38,7 +39,6 @@ namespace MassSpectrometry
 
         public override void Open()
         {
-            throw new NotImplementedException();
         }
 
         protected override int GetFirstSpectrumNumber()
@@ -48,12 +48,12 @@ namespace MassSpectrometry
 
         protected override int GetLastSpectrumNumber()
         {
-            return Scans.Count();
+            return FakeScans.Count();
         }
 
         protected override MsDataScan<IMzSpectrum<MzPeak>> GetMsDataScanFromFile(int spectrumNumber)
         {
-            throw new NotImplementedException();
+            return FakeScans[spectrumNumber - 1];
         }
     }
 }

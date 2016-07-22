@@ -35,7 +35,7 @@ namespace Spectra
         TPeak PeakWithHighestY { get; }
         TPeak this[int index] { get; }
         double[,] CopyTo2DArray();
-        void tranformByApplyingFunctionToX(Func<double, double> convertor);
+        void replaceXbyApplyingFunction(Func<TPeak, double> convertor);
         bool ContainsAnyPeaksWithinRange(double minX, double maxX);
         TPeak GetClosestPeak(double x);
         double GetClosestPeakXvalue(double x);

@@ -468,11 +468,11 @@ namespace Spectra
             return index < Count && xArray[index] <= maxX;
         }
 
-        public void tranformByApplyingFunctionToX(Func<double, double> convertor)
+        public void replaceXbyApplyingFunction(Func<TPeak, double> convertor)
         {
             resetSpectrum();
             for (int i = 0; i < Count; i++)
-                xArray[i] = convertor(xArray[i]);
+                xArray[i] = convertor(this[i]);
 
         }
 
