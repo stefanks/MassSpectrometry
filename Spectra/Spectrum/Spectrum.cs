@@ -470,10 +470,9 @@ namespace Spectra
 
         public void replaceXbyApplyingFunction(Func<TPeak, double> convertor)
         {
-            resetSpectrum();
             for (int i = 0; i < Count; i++)
                 xArray[i] = convertor(this[i]);
-
+            resetSpectrum();
         }
 
         private void resetSpectrum()

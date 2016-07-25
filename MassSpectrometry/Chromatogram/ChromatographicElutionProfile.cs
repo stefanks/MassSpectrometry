@@ -17,7 +17,6 @@
 // License along with MassSpectrometry. If not, see <http://www.gnu.org/licenses/>.
 
 using Spectra;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -33,12 +32,6 @@ namespace MassSpectrometry
         public T EndPeak
         {
             get { return _peaks[Count - 1]; }
-        }
-
-        private readonly int _maxPeakIndex = 0;
-        public T MaxPeak
-        {
-            get { return _peaks[_maxPeakIndex]; }
         }
 
         public DoubleRange TimeRange { get; private set; }
@@ -58,8 +51,6 @@ namespace MassSpectrometry
             }
 
             _peaks = peaks.ToArray();
-
-            _maxPeakIndex = Array.IndexOf(_peaks, _peaks.Max(p => p.Y));
             SummedArea = _peaks.Sum(p => p.Y);
             TimeRange = new DoubleRange(_peaks[0].X, _peaks[Count - 1].X);
         }
