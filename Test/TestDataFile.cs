@@ -202,6 +202,8 @@ namespace Test
             Assert.IsFalse(thefile.GetScan(1).TryGetSelectedIonGuessChargeStateGuess(out ja));
             Assert.IsFalse(thefile.GetScan(1).TryGetSelectedIonGuessIntensity(out yahh));
             Assert.IsFalse(thefile.GetScan(1).TryGetSelectedIonGuessMZ(out yahh));
+            Assert.IsFalse(thefile.GetScan(1).TryGetSelectedIonGuessMonoisotopicIntensity(out yahh));
+            Assert.IsFalse(thefile.GetScan(1).TryGetSelectedIonGuessMonoisotopicMZ(out yahh));
 
         }
 
@@ -214,7 +216,7 @@ namespace Test
             string s;
             int ja;
 
-            foreach(var aa in myMsDataFile.GetScan(1).MassSpectrum)
+            foreach (var aa in myMsDataFile.GetScan(1).MassSpectrum)
                 Console.WriteLine(aa);
 
             Assert.IsTrue(myMsDataFile.GetScan(2).TryGetIsolationRange(out yah));
