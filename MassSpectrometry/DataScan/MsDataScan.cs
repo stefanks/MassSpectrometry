@@ -21,7 +21,7 @@ using System;
 
 namespace MassSpectrometry
 {
-    public sealed class MsDataScan<TSpectrum> : IMsDataScan<TSpectrum>, IEquatable<MsDataScan<TSpectrum>>
+    public sealed class MsDataScan<TSpectrum> : IMsDataScan<TSpectrum>
         where TSpectrum : IMzSpectrum<MzPeak>
     {
         private double isolationMZ;
@@ -98,11 +98,6 @@ namespace MassSpectrometry
             return string.Format("Scan #{0}", ScanNumber);
         }
 
-        public bool Equals(MsDataScan<TSpectrum> other)
-        {
-            if (ReferenceEquals(this, other)) return true;
-            return false;
-        }
 
         public bool TryGetPrecursorID(out string PrecursorID)
         {
@@ -207,10 +202,11 @@ namespace MassSpectrometry
             return true;
         }
 
-        public void tranformByApplyingFunctionsToSpectraAndReplacingPrecursorMZ(Func<MzPeak, double> convertorForSpectrum, double selectedIonGuessMZ)
+        public void tranformByApplyingFunctionsToSpectraAndReplacingPrecursorMZs(Func<MzPeak, double> convertorForSpectrum, double selectedIonGuessMZ, double selectedIonGuessMonoisotopicMZ)
         {
             MassSpectrum.replaceXbyApplyingFunction(convertorForSpectrum);
             this.selectedIonGuessMZ = selectedIonGuessMZ;
+            this.selectedIonGuessMonoisotopicMZ = selectedIonGuessMonoisotopicMZ;
         }
 
         public bool TryGetSelectedIonGuessMonoisotopicIntensity(out double SelectedIonGuessMonoisotopicIntensity)

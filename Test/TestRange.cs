@@ -19,6 +19,7 @@
 using NUnit.Framework;
 using Spectra;
 using System;
+using System.Collections.Generic;
 
 namespace Test
 {
@@ -301,6 +302,16 @@ namespace Test
 
             Assert.IsTrue(range1.Equals(range2));
             Assert.AreEqual("[999999 - 1000001]", range1.ToString());
+        }
+
+        [Test]
+        public void TestHashSet()
+        {
+            HashSet<DoubleRange> ok = new HashSet<DoubleRange>();
+            ok.Add(new DoubleRange(1, 2));
+            ok.Add(new DoubleRange(2, 3));
+            ok.Add(new DoubleRange(1, 2));
+            Assert.AreEqual(2, ok.Count);
         }
 
     }

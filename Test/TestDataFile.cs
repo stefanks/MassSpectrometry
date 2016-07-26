@@ -248,7 +248,9 @@ namespace Test
             myMsDataFile.GetScan(2).TryGetSelectedIonGuessMZ(out hehehe1);
             Assert.AreNotEqual(0, hehehe1);
 
-            myMsDataFile.GetScan(2).tranformByApplyingFunctionsToSpectraAndReplacingPrecursorMZ(b => 0, 0);
+            myMsDataFile.GetScan(2).tranformByApplyingFunctionsToSpectraAndReplacingPrecursorMZs(b => 0, 0, 0);
+
+            Assert.AreEqual("Scan #2", myMsDataFile.GetScan(2).ToString());
 
             Assert.AreEqual(0, myMsDataFile.GetScan(2).MassSpectrum.FirstX);
             Assert.AreEqual(0, myMsDataFile.GetScan(2).MassSpectrum.LastX);
