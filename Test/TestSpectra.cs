@@ -342,6 +342,8 @@ namespace Test
             DefaultSpectrum ok2 = new DefaultSpectrum(mzIntensities);
 
             Assert.AreEqual(12, ok2.SumOfAllY);
+            Assert.AreEqual(1, ok2.Range.Minimum);
+            Assert.AreEqual(5, ok2.Range.Maximum);
         }
 
     }
