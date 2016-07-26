@@ -239,7 +239,7 @@ namespace Test
             Assert.AreNotEqual(0, hehehe1);
 
             myMsDataFile.GetScan(2).tranformByApplyingFunctionsToSpectraAndReplacingPrecursorMZ(b => 0, 0);
-
+            
             Assert.AreEqual(0, myMsDataFile.GetScan(2).MassSpectrum.FirstX);
             Assert.AreEqual(0, myMsDataFile.GetScan(2).MassSpectrum.LastX);
             double hehehe;

@@ -71,7 +71,7 @@ namespace MassSpectrometry
 
         public double LastTime
         {
-            get { return yArray[Count - 1]; }
+            get { return xArray[Count - 1]; }
         }
 
         protected Chromatogram(double[] times, double[] intensities, bool shouldCopy = true) : base(times, intensities, shouldCopy)

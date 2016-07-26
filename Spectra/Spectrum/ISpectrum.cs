@@ -39,7 +39,6 @@ namespace Spectra
         bool ContainsAnyPeaksWithinRange(double minX, double maxX);
         TPeak GetClosestPeak(double x);
         double GetClosestPeakXvalue(double x);
-        TPeak GetClosestPeak(DoubleRange rangeX);
         ISpectrum<Peak> newSpectrumFilterByNumberOfMostIntense(int topNPeaks);
         ISpectrum<Peak> newSpectrumExtract(DoubleRange xRange);
         ISpectrum<Peak> newSpectrumExtract(double minX, double maxX);
