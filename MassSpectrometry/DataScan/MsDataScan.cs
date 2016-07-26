@@ -207,10 +207,11 @@ namespace MassSpectrometry
             return true;
         }
 
-        public void tranformByApplyingFunctionsToSpectraAndReplacingPrecursorMZ(Func<MzPeak, double> convertorForSpectrum, double selectedIonGuessMZ)
+        public void tranformByApplyingFunctionsToSpectraAndReplacingPrecursorMZs(Func<MzPeak, double> convertorForSpectrum, double selectedIonGuessMZ, double selectedIonGuessMonoisotopicMZ)
         {
             MassSpectrum.replaceXbyApplyingFunction(convertorForSpectrum);
             this.selectedIonGuessMZ = selectedIonGuessMZ;
+            this.selectedIonGuessMonoisotopicMZ = selectedIonGuessMonoisotopicMZ;
         }
 
         public bool TryGetSelectedIonGuessMonoisotopicIntensity(out double SelectedIonGuessMonoisotopicIntensity)
