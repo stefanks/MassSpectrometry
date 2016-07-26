@@ -40,7 +40,9 @@ namespace MassSpectrometry
         bool TryGetPrecursorScanNumber(out int precursorScanNumber);
         bool TryGetPrecursorID(out string PrecursorID);
         bool TryGetSelectedIonGuessChargeStateGuess(out int SelectedIonGuessChargeStateGuess);
-        bool TryGetSelectedIonGuessIsolationIntensity(out double SelectedIonGuessIsolationIntensity);
+        bool TryGetSelectedIonGuessMonoisotopicIntensity(out double SelectedIonGuessMonoisotopicIntensity);
+        bool TryGetSelectedIonGuessMonoisotopicMZ(out double SelectedIonGuessMonoisotopicMZ);
+        bool TryGetSelectedIonGuessIntensity(out double SelectedIonGuessIntensity);
         bool TryGetSelectedIonGuessMZ(out double SelectedIonGuessMZ);
         bool TryGetDissociationType(out DissociationType DissociationType);
         bool TryGetIsolationWidth(out double IsolationWidth);

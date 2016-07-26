@@ -299,16 +299,5 @@ namespace MassSpectrometry
             return string.Format("Count = {0:N0} TIC = {1:G4}", Count, yArray.Sum());
         }
 
-
-        public bool ContainsAnyPeaksWithinRange(DoubleRange range)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool ContainsAnyPeaks()
-        {
-            throw new NotImplementedException();
-        }
-
     }
 }

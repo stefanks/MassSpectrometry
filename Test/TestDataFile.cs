@@ -55,7 +55,7 @@ namespace Test
             MsDataScan<IMzSpectrum<MzPeak>>[] Scans = new MsDataScan<IMzSpectrum<MzPeak>>[2];
             Scans[0] = new MsDataScan<IMzSpectrum<MzPeak>>(1, MS1.newSpectrumApplyFunctionToX(b => b + 0.00001 * b + 0.00001), "spectrum 1", 1, false, Polarity.Positive, 1.0, new MzRange(300, 2000), "first spectrum", MZAnalyzerType.Unknown, 1, MS1.SumOfAllY);
 
-            Scans[1] = new MsDataScan<IMzSpectrum<MzPeak>>(2, MS2.newSpectrumApplyFunctionToX(b => b + 0.00001 * b + 0.00002), "spectrum 2", 2, false, Polarity.Positive, 2.0, new MzRange(100, 1500), "second spectrum", MZAnalyzerType.Unknown, 1, MS2.SumOfAllY, "spectrum 1", 693.9892, 3, .3872, 693.99, 1, DissociationType.Unknown, 1);
+            Scans[1] = new MsDataScan<IMzSpectrum<MzPeak>>(2, MS2.newSpectrumApplyFunctionToX(b => b + 0.00001 * b + 0.00002), "spectrum 2", 2, false, Polarity.Positive, 2.0, new MzRange(100, 1500), "second spectrum", MZAnalyzerType.Unknown, 1, MS2.SumOfAllY, "spectrum 1", 693.9892, 3, .3872, 693.99, 1, DissociationType.Unknown, 1, 0.32374, 693.6550);
 
             myMsDataFile = new FakeMsDataFile("myFakeFile", Scans);
 
@@ -200,8 +200,10 @@ namespace Test
             Assert.IsFalse(thefile.GetScan(1).TryGetPrecursorID(out s));
             Assert.IsFalse(thefile.GetScan(1).TryGetPrecursorScanNumber(out ja));
             Assert.IsFalse(thefile.GetScan(1).TryGetSelectedIonGuessChargeStateGuess(out ja));
-            Assert.IsFalse(thefile.GetScan(1).TryGetSelectedIonGuessIsolationIntensity(out yahh));
+            Assert.IsFalse(thefile.GetScan(1).TryGetSelectedIonGuessIntensity(out yahh));
             Assert.IsFalse(thefile.GetScan(1).TryGetSelectedIonGuessMZ(out yahh));
+            Assert.IsFalse(thefile.GetScan(1).TryGetSelectedIonGuessMonoisotopicIntensity(out yahh));
+            Assert.IsFalse(thefile.GetScan(1).TryGetSelectedIonGuessMonoisotopicMZ(out yahh));
 
         }
 
@@ -213,6 +215,10 @@ namespace Test
             double yahh;
             string s;
             int ja;
+
+            foreach (var aa in myMsDataFile.GetScan(1).MassSpectrum)
+                Console.WriteLine(aa);
+
             Assert.IsTrue(myMsDataFile.GetScan(2).TryGetIsolationRange(out yah));
             Assert.AreEqual(1, yah.Width);
             Assert.IsTrue(myMsDataFile.GetScan(2).TryGetDissociationType(out d));
@@ -227,10 +233,14 @@ namespace Test
             Assert.AreEqual(1, ja);
             Assert.IsTrue(myMsDataFile.GetScan(2).TryGetSelectedIonGuessChargeStateGuess(out ja));
             Assert.AreEqual(3, ja);
-            Assert.IsTrue(myMsDataFile.GetScan(2).TryGetSelectedIonGuessIsolationIntensity(out yahh));
+            Assert.IsTrue(myMsDataFile.GetScan(2).TryGetSelectedIonGuessIntensity(out yahh));
             Assert.AreEqual(.3872, yahh);
             Assert.IsTrue(myMsDataFile.GetScan(2).TryGetSelectedIonGuessMZ(out yahh));
             Assert.AreEqual(693.9892, yahh);
+            Assert.IsTrue(myMsDataFile.GetScan(2).TryGetSelectedIonGuessMonoisotopicIntensity(out yahh));
+            Assert.AreEqual(0.32374, yahh);
+            Assert.IsTrue(myMsDataFile.GetScan(2).TryGetSelectedIonGuessMonoisotopicMZ(out yahh));
+            Assert.AreEqual(693.6550, yahh);
 
             Assert.AreNotEqual(0, myMsDataFile.GetScan(2).MassSpectrum.FirstX);
             Assert.AreNotEqual(0, myMsDataFile.GetScan(2).MassSpectrum.LastX);
@@ -239,7 +249,7 @@ namespace Test
             Assert.AreNotEqual(0, hehehe1);
 
             myMsDataFile.GetScan(2).tranformByApplyingFunctionsToSpectraAndReplacingPrecursorMZ(b => 0, 0);
-            
+
             Assert.AreEqual(0, myMsDataFile.GetScan(2).MassSpectrum.FirstX);
             Assert.AreEqual(0, myMsDataFile.GetScan(2).MassSpectrum.LastX);
             double hehehe;
