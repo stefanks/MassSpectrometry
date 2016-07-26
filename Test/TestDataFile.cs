@@ -250,6 +250,8 @@ namespace Test
 
             myMsDataFile.GetScan(2).tranformByApplyingFunctionsToSpectraAndReplacingPrecursorMZs(b => 0, 0, 0);
 
+            Assert.AreEqual("Scan #2", myMsDataFile.GetScan(2).ToString());
+
             Assert.AreEqual(0, myMsDataFile.GetScan(2).MassSpectrum.FirstX);
             Assert.AreEqual(0, myMsDataFile.GetScan(2).MassSpectrum.LastX);
             double hehehe;
