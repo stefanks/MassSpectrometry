@@ -280,7 +280,7 @@ namespace Test
         [Test]
         public void TestFilterAndExtract()
         {
-            Assert.AreEqual(447.73849, _mzSpectrumA.newSpectrumFilterByY(new DoubleRange(78353510, 81007097)).newSpectrumExtract(new DoubleRange(400, 500)).GetClosestPeak(new DoubleRange(327, 328)).X);
+            Assert.AreEqual(447.73849, _mzSpectrumA.newSpectrumFilterByY(new DoubleRange(78353510, 81007097)).newSpectrumExtract(new DoubleRange(400, 500)).GetClosestPeak(327.5).X);
         }
 
         [Test]

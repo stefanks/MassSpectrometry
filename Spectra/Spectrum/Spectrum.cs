@@ -134,14 +134,14 @@ namespace Spectra
         {
         }
 
-        protected Spectrum(double[,] mzintensities, int count)
+        protected Spectrum(double[,] xy, int count)
         {
-            int length = mzintensities.GetLength(1);
+            int length = xy.GetLength(1);
 
             xArray = new double[count];
             yArray = new double[count];
-            Buffer.BlockCopy(mzintensities, 0, xArray, 0, sizeof(double) * count);
-            Buffer.BlockCopy(mzintensities, sizeof(double) * length, yArray, 0, sizeof(double) * count);
+            Buffer.BlockCopy(xy, 0, xArray, 0, sizeof(double) * count);
+            Buffer.BlockCopy(xy, sizeof(double) * length, yArray, 0, sizeof(double) * count);
             peakList = new TPeak[Count];
         }
 
@@ -220,12 +220,6 @@ namespace Spectra
         public ISpectrum<Peak> newSpectrumExtract(DoubleRange xRange)
         {
             return newSpectrumExtract(xRange.Minimum, xRange.Maximum);
-        }
-
-        public TPeak GetClosestPeak(DoubleRange rangeX)
-        {
-            double mean = (rangeX.Maximum + rangeX.Minimum) / 2.0;
-            return GetClosestPeak(mean);
         }
 
         public TPeak GetClosestPeak(double x)

@@ -81,5 +81,14 @@ namespace Test
             Chromatogram d = new Chromatogram(new double[9] { 1, 2, 3, 4, 5, 6, 7, 8, 9 }, new double[9] { 10, 0, 2, 6, 2, 0, 1, 10, 1 }, false);
             Assert.AreEqual(6, d.GetApex(new DoubleRange(2, 6)).Y);
         }
+
+        [Test]
+        public void AnotherChromatogramTest()
+        {
+            double[,] timeintensities = new double[,] { { 1, 2, 3, 4 }, { 5, 6, 7, 8 } };
+            Chromatogram a = new Chromatogram(timeintensities);
+            Assert.AreEqual(1, a.FirstTime);
+            Assert.AreEqual(4, a.LastTime);
+        }
     }
 }
