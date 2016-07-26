@@ -27,11 +27,13 @@ namespace MassSpectrometry
         private double isolationMZ;
         private string precursorID;
         private int selectedIonGuessChargeStateGuess;
-        private double selectedIonGuessIsolationIntensity;
+        private double selectedIonGuessIntensity;
         private double selectedIonGuessMZ;
         private DissociationType dissociationType;
         private double isolationWidth;
         private int precursorScanNumber;
+        private double selectedIonGuessMonoisotopicIntensity;
+        private double selectedIonGuessMonoisotopicMZ;
 
         /// <summary>
         /// The mass spectrum associated with the scan
@@ -75,17 +77,20 @@ namespace MassSpectrometry
             this.InjectionTime = InjectionTime;
             this.TotalIonCurrent = TotalIonCurrent;
         }
-        public MsDataScan(int ScanNumber, TSpectrum MassSpectrum, string id, int MsnOrder, bool isCentroid, Polarity Polarity, double RetentionTime, MzRange MzRange, string ScanFilter, MZAnalyzerType MzAnalyzer, double InjectionTime, double TotalIonCurrent, string precursorID, double selectedIonGuessMZ, int selectedIonGuessChargeStateGuess, double selectedIonGuessIsolationIntensity, double isolationMZ, double isolationWidth, DissociationType dissociationType, int precursorScanNumber)
+        public MsDataScan(int ScanNumber, TSpectrum MassSpectrum, string id, int MsnOrder, bool isCentroid, Polarity Polarity, double RetentionTime, MzRange MzRange, string ScanFilter, MZAnalyzerType MzAnalyzer, double InjectionTime, double TotalIonCurrent, string precursorID, double selectedIonGuessMZ, int selectedIonGuessChargeStateGuess, double selectedIonGuessIntensity, double isolationMZ, double isolationWidth, DissociationType dissociationType, int precursorScanNumber, double selectedIonGuessMonoisotopicIntensity, double selectedIonGuessMonoisotopicMZ)
             : this(ScanNumber, MassSpectrum, id, MsnOrder, isCentroid, Polarity, RetentionTime, MzRange, ScanFilter, MzAnalyzer, InjectionTime, TotalIonCurrent)
         {
             this.isolationMZ = isolationMZ;
             this.precursorID = precursorID;
             this.selectedIonGuessChargeStateGuess = selectedIonGuessChargeStateGuess;
-            this.selectedIonGuessIsolationIntensity = selectedIonGuessIsolationIntensity;
+            this.selectedIonGuessIntensity = selectedIonGuessIntensity;
             this.selectedIonGuessMZ = selectedIonGuessMZ;
             this.dissociationType = dissociationType;
             this.isolationWidth = isolationWidth;
             this.precursorScanNumber = precursorScanNumber;
+            this.selectedIonGuessMonoisotopicIntensity = selectedIonGuessMonoisotopicIntensity;
+            this.selectedIonGuessMonoisotopicMZ = selectedIonGuessMonoisotopicMZ;
+
         }
 
         public override string ToString()
@@ -121,14 +126,14 @@ namespace MassSpectrometry
             return true;
         }
 
-        public bool TryGetSelectedIonGuessIsolationIntensity(out double SelectedIonGuessIsolationIntensity)
+        public bool TryGetSelectedIonGuessIntensity(out double SelectedIonGuessIntensity)
         {
             if (MsnOrder == 1)
             {
-                SelectedIonGuessIsolationIntensity = double.NaN;
+                SelectedIonGuessIntensity = double.NaN;
                 return false;
             }
-            SelectedIonGuessIsolationIntensity = selectedIonGuessIsolationIntensity;
+            SelectedIonGuessIntensity = selectedIonGuessIntensity;
             return true;
         }
 
@@ -206,6 +211,28 @@ namespace MassSpectrometry
         {
             MassSpectrum.replaceXbyApplyingFunction(convertorForSpectrum);
             this.selectedIonGuessMZ = selectedIonGuessMZ;
+        }
+
+        public bool TryGetSelectedIonGuessMonoisotopicIntensity(out double SelectedIonGuessMonoisotopicIntensity)
+        {
+            if (MsnOrder == 1)
+            {
+                SelectedIonGuessMonoisotopicIntensity = -1;
+                return false;
+            }
+            SelectedIonGuessMonoisotopicIntensity = selectedIonGuessMonoisotopicIntensity;
+            return true;
+        }
+
+        public bool TryGetSelectedIonGuessMonoisotopicMZ(out double SelectedIonGuessMonoisotopicMZ)
+        {
+            if (MsnOrder == 1)
+            {
+                SelectedIonGuessMonoisotopicMZ = -1;
+                return false;
+            }
+            SelectedIonGuessMonoisotopicMZ = selectedIonGuessMonoisotopicMZ;
+            return true;
         }
     }
 }

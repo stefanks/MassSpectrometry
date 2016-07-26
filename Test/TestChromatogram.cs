@@ -89,6 +89,11 @@ namespace Test
             Chromatogram a = new Chromatogram(timeintensities);
             Assert.AreEqual(1, a.FirstTime);
             Assert.AreEqual(4, a.LastTime);
+            Assert.AreEqual(3, a.GetTime(2));
+            Assert.AreEqual(8, a.GetIntensity(3));
+            Assert.AreEqual(6, a.GetApex(1.5, 2.5).Intensity);
+            Assert.AreEqual(6, a.GetApex(1.5, 2.5).Intensity);
+            Assert.AreEqual(4, a.GetApex(4,5).X);
         }
     }
 }
