@@ -253,7 +253,7 @@ namespace MassSpectrometry
                 var a2 = Math.Abs(peak.MZ - checkPeak2);
                 var b = peak.Intensity;
                 // HACK
-                if (a < worstA * factorOfErrorAllowed && a2 < worstA2 * factorOfErrorAllowed && b >= checkIntensity * intensityDecreaseAllowed / 5)
+                if (a < worstA * factorOfErrorAllowed && a2 < worstA2 * factorOfErrorAllowed && b >= checkIntensity * intensityDecreaseAllowed)
                 {
                     goodPeak = peak;
                     checkIntensity = b;
