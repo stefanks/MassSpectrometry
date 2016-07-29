@@ -49,5 +49,6 @@ namespace MassSpectrometry
         bool TryGetIsolationMZ(out double IsolationMZ);
         bool TryGetIsolationRange(out MzRange IsolationRange);
         void tranformByApplyingFunctionsToSpectraAndReplacingPrecursorMZs(Func<MzPeak, double> convertorForSpectrum, double newPrecursorMZ, double selectedIonGuessMonoisotopicMZ);
+        void attemptToRefinePrecursorMonoisotopicPeak();
     }
 }
