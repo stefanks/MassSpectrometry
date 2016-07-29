@@ -21,7 +21,7 @@ using System;
 
 namespace MassSpectrometry
 {
-    public sealed class MsDataScan<TSpectrum> : IMsDataScan<TSpectrum>
+    public class MsDataScan<TSpectrum> : IMsDataScan<TSpectrum>
         where TSpectrum : IMzSpectrum<MzPeak>
     {
         private double isolationMZ;
@@ -229,6 +229,53 @@ namespace MassSpectrometry
             }
             SelectedIonGuessMonoisotopicMZ = selectedIonGuessMonoisotopicMZ;
             return true;
+        }
+
+        public void attemptToRefinePrecursorMonoisotopicPeak()
+        {
+            double startMZ = selectedIonGuessMonoisotopicMZ;
+
+            MzPeak goodPeak = MassSpectrum.GetClosestPeak(startMZ);
+
+            double checkPeak = goodPeak.MZ;
+            double checkPeak2 = goodPeak.MZ;
+
+            double checkIntensity = goodPeak.Intensity;
+            double worstA = 0.0005;
+            double worstA2 = 0.0005;
+
+            int i = 0;
+            while (true)
+            {
+                i++;
+                checkPeak = checkPeak - 1.003 / selectedIonGuessChargeStateGuess;
+                checkPeak2 = goodPeak.MZ - 1.003 / selectedIonGuessChargeStateGuess;
+                var peak = MassSpectrum.GetClosestPeak(checkPeak);
+                var a = Math.Abs(peak.MZ - checkPeak);
+                var a2 = Math.Abs(peak.MZ - checkPeak2);
+                var b = peak.Intensity;
+                // HACK
+                if (a < worstA * 3 && a2 < worstA2 * 3 && b >= checkIntensity / 5)
+                {
+                    goodPeak = peak;
+                    checkIntensity = b;
+                    if (i == 1)
+                    {
+                        worstA = a;
+                        worstA2 = a2;
+                    }
+                    else
+                    {
+                        worstA = Math.Max(a, worstA);
+                        worstA2 = Math.Max(a2, worstA2);
+                    }
+                }
+                else
+                    break;
+            }
+
+            selectedIonGuessMonoisotopicMZ = goodPeak.MZ;
+            selectedIonGuessMonoisotopicIntensity = goodPeak.Intensity;
         }
     }
 }
