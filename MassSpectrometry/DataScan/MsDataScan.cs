@@ -231,31 +231,29 @@ namespace MassSpectrometry
             return true;
         }
 
-        public void attemptToRefinePrecursorMonoisotopicPeak()
+        public void attemptToRefinePrecursorMonoisotopicPeak(ISpectrum<MzPeak> ms1Spectrum, double worstA = 0.0005, double worstA2 = 0.0005, double distBetweenPeaks = 1.003, double factorOfErrorAllowed = 3, double intensityDecreaseAllowed = 0.2)
         {
             double startMZ = selectedIonGuessMonoisotopicMZ;
 
-            MzPeak goodPeak = MassSpectrum.GetClosestPeak(startMZ);
+            MzPeak goodPeak = ms1Spectrum.GetClosestPeak(startMZ);
 
             double checkPeak = goodPeak.MZ;
             double checkPeak2 = goodPeak.MZ;
 
             double checkIntensity = goodPeak.Intensity;
-            double worstA = 0.0005;
-            double worstA2 = 0.0005;
 
             int i = 0;
             while (true)
             {
                 i++;
-                checkPeak = checkPeak - 1.003 / selectedIonGuessChargeStateGuess;
-                checkPeak2 = goodPeak.MZ - 1.003 / selectedIonGuessChargeStateGuess;
-                var peak = MassSpectrum.GetClosestPeak(checkPeak);
+                checkPeak = checkPeak - distBetweenPeaks / selectedIonGuessChargeStateGuess;
+                checkPeak2 = goodPeak.MZ - distBetweenPeaks / selectedIonGuessChargeStateGuess;
+                var peak = ms1Spectrum.GetClosestPeak(checkPeak);
                 var a = Math.Abs(peak.MZ - checkPeak);
                 var a2 = Math.Abs(peak.MZ - checkPeak2);
                 var b = peak.Intensity;
                 // HACK
-                if (a < worstA * 3 && a2 < worstA2 * 3 && b >= checkIntensity / 5)
+                if (a < worstA * factorOfErrorAllowed && a2 < worstA2 * factorOfErrorAllowed && b >= checkIntensity * intensityDecreaseAllowed)
                 {
                     goodPeak = peak;
                     checkIntensity = b;
