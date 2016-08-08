@@ -120,37 +120,31 @@ namespace Test
         [Test]
         public void SpectrumContainsPeakInRange()
         {
-            Assert.IsTrue(_mzSpectrumA.ContainsAnyPeaksWithinRange(448.23987 - 0.001, 448.23987 + 0.001));
+            Assert.AreEqual(1, _mzSpectrumA.NumPeaksWithinRange(448.23987 - 0.001, 448.23987 + 0.001));
         }
 
         [Test]
         public void SpectrumContainsPeakInRangeEnd()
         {
-            Assert.IsTrue(_mzSpectrumA.ContainsAnyPeaksWithinRange(448.23987 - 0.001, 448.23987));
+            Assert.AreEqual(1, _mzSpectrumA.NumPeaksWithinRange(448.23987 - 0.001, 448.23987));
         }
 
         [Test]
         public void SpectrumContainsPeakInRangeStart()
         {
-            Assert.IsTrue(_mzSpectrumA.ContainsAnyPeaksWithinRange(448.23987, 448.23987 + 0.001));
+            Assert.AreEqual(1, _mzSpectrumA.NumPeaksWithinRange(448.23987, 448.23987 + 0.001));
         }
 
         [Test]
         public void SpectrumContainsPeakInRangeStartEnd()
         {
-            Assert.IsTrue(_mzSpectrumA.ContainsAnyPeaksWithinRange(448.23987, 448.23987));
-        }
-
-        [Test]
-        public void SpectrumContainsPeakInRangeBackwards()
-        {
-            Assert.IsFalse(_mzSpectrumA.ContainsAnyPeaksWithinRange(448.23987 + 0.001, 448.23987 - 0.001));
+            Assert.AreEqual(1, _mzSpectrumA.NumPeaksWithinRange(448.23987, 448.23987));
         }
 
         [Test]
         public void SpectrumDoesntContainPeakInRange()
         {
-            Assert.IsFalse(_mzSpectrumA.ContainsAnyPeaksWithinRange(603.4243 - 0.001, 603.4243 + 0.001));
+            Assert.AreEqual(0, _mzSpectrumA.NumPeaksWithinRange(603.4243 - 0.001, 603.4243 + 0.001));
         }
 
         #endregion Contains Peak
@@ -344,6 +338,34 @@ namespace Test
             Assert.AreEqual(12, ok2.SumOfAllY);
             Assert.AreEqual(1, ok2.Range.Minimum);
             Assert.AreEqual(5, ok2.Range.Maximum);
+        }
+
+
+        [Test]
+        public void TestNumPeaksWithinRange()
+        {
+            double[] mz = { 1, 2, 3, 4, 5, 6, 7 };
+            double[] intensities = { 1, 1, 1, 1, 1, 1, 1 };
+
+            var thisSpectrum = new DefaultMzSpectrum(mz, intensities, false);
+
+            Assert.AreEqual(7, thisSpectrum.NumPeaksWithinRange(double.MinValue, double.MaxValue));
+
+            Assert.AreEqual(7, thisSpectrum.NumPeaksWithinRange(1, 7));
+
+            Assert.AreEqual(1, thisSpectrum.NumPeaksWithinRange(1, 1));
+
+            Assert.AreEqual(2, thisSpectrum.NumPeaksWithinRange(1, 2));
+
+            Assert.AreEqual(2, thisSpectrum.NumPeaksWithinRange(0.001, 2.999));
+
+            Assert.AreEqual(1, thisSpectrum.NumPeaksWithinRange(0, 1.5));
+
+            Assert.AreEqual(1, thisSpectrum.NumPeaksWithinRange(6.5, 8));
+
+            Assert.AreEqual(3, thisSpectrum.NumPeaksWithinRange(3, 5));
+
+            Assert.AreEqual(2, thisSpectrum.NumPeaksWithinRange(3.5, 5.5));
         }
 
     }

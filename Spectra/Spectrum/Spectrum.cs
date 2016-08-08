@@ -448,18 +448,26 @@ namespace Spectra
             return GetEnumerator();
         }
 
-        public bool ContainsAnyPeaksWithinRange(double minX, double maxX)
+        public int NumPeaksWithinRange(double minX, double maxX)
         {
             if (Count == 0)
-                return false;
+                return 0;
 
             int index = Array.BinarySearch(xArray, minX);
-            if (index >= 0)
-                return true;
 
-            index = ~index;
+            if (index < 0)
+                index = ~index;
 
-            return index < Count && xArray[index] <= maxX;
+            if (index >= Count)
+                return 0;
+
+            int startingIndex = index;
+
+            // TODO: replace by binary search here as well
+            while (index < Count && xArray[index] <= maxX)
+                index++;
+
+            return index - startingIndex;
         }
 
         public void replaceXbyApplyingFunction(Func<TPeak, double> convertor)

@@ -36,7 +36,7 @@ namespace Spectra
         TPeak this[int index] { get; }
         double[,] CopyTo2DArray();
         void replaceXbyApplyingFunction(Func<TPeak, double> convertor);
-        bool ContainsAnyPeaksWithinRange(double minX, double maxX);
+        int NumPeaksWithinRange(double minX, double maxX);
         TPeak GetClosestPeak(double x);
         double GetClosestPeakXvalue(double x);
         ISpectrum<Peak> newSpectrumFilterByNumberOfMostIntense(int topNPeaks);
