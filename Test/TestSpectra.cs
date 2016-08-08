@@ -344,10 +344,10 @@ namespace Test
         [Test]
         public void TestNumPeaksWithinRange()
         {
-            double[] mz = { 1, 2, 3, 4, 5, 6, 7 };
-            double[] intensities = { 1, 1, 1, 1, 1, 1, 1 };
+            double[] xArray = { 1, 2, 3, 4, 5, 6, 7 };
+            double[] yArray = { 1, 2, 1, 5, 1, 2, 1 };
 
-            var thisSpectrum = new DefaultMzSpectrum(mz, intensities, false);
+            var thisSpectrum = new DefaultSpectrum(xArray, yArray, false);
 
             Assert.AreEqual(7, thisSpectrum.NumPeaksWithinRange(double.MinValue, double.MaxValue));
 
@@ -372,6 +372,41 @@ namespace Test
             Assert.AreEqual(0, thisSpectrum.NumPeaksWithinRange(8, 9));
 
             Assert.AreEqual(0, thisSpectrum.NumPeaksWithinRange(-2, -1));
+
+
+            Assert.AreEqual("[1 - 7] (Peaks 7)", thisSpectrum.ToString());
+
+            Assert.AreEqual(7, thisSpectrum.newSpectrumFilterByNumberOfMostIntense(7).Count);
+            Assert.AreEqual(1, thisSpectrum.newSpectrumFilterByNumberOfMostIntense(1).Count);
+            Assert.AreEqual(4, thisSpectrum.newSpectrumFilterByNumberOfMostIntense(1).FirstX);
+
+            Assert.AreEqual(2, thisSpectrum.newSpectrumFilterByNumberOfMostIntense(3).FirstX);
+
+            Assert.AreEqual(0, thisSpectrum.newSpectrumFilterByNumberOfMostIntense(0).Count);
+
+
+            Assert.AreEqual(2, thisSpectrum.newSpectrumWithRangeRemoved(2, 6).Count);
+            Assert.AreEqual(0, thisSpectrum.newSpectrumWithRangeRemoved(0, 100).Count);
+
+            Assert.AreEqual(6, thisSpectrum.newSpectrumWithRangeRemoved(7, 100).Count);
+
+            Assert.AreEqual(1, thisSpectrum.newSpectrumWithRangeRemoved(double.MinValue, 6).Count);
+
+            List<DoubleRange> xRanges = new List<DoubleRange>();
+            xRanges.Add(new DoubleRange(2, 5));
+            xRanges.Add(new DoubleRange(3, 6));
+            Assert.AreEqual(2, thisSpectrum.newSpectrumWithRangesRemoved(xRanges).Count);
+
+
+            Assert.AreEqual(3, thisSpectrum.newSpectrumExtract(4.5, 10).Count);
+
+            Assert.AreEqual(2, thisSpectrum.newSpectrumFilterByY(1.5, 2.5).Count);
+
+            Assert.AreEqual(3, thisSpectrum.newSpectrumFilterByY(1.5, double.MaxValue).Count);
+
+            Assert.AreEqual(2, thisSpectrum.newSpectrumApplyFunctionToX(b => b * 2).FirstX);
+
+
         }
 
     }
