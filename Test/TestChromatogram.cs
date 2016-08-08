@@ -93,7 +93,9 @@ namespace Test
             Assert.AreEqual(8, a.GetIntensity(3));
             Assert.AreEqual(6, a.GetApex(1.5, 2.5).Intensity);
             Assert.AreEqual(6, a.GetApex(1.5, 2.5).Intensity);
-            Assert.AreEqual(4, a.GetApex(4,5).X);
+            Assert.AreEqual(4, a.GetApex(4, 5).X);
+
+            Assert.AreEqual(6, a.CreateSmoothChromatogram(SmoothingType.None, -10).GetApex(1.5, 2.5).Intensity);
         }
     }
 }
