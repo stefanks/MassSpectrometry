@@ -450,9 +450,6 @@ namespace Spectra
 
         public int NumPeaksWithinRange(double minX, double maxX)
         {
-            if (Count == 0)
-                return 0;
-
             int index = Array.BinarySearch(xArray, minX);
 
             if (index < 0)

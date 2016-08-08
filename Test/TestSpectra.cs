@@ -366,6 +366,12 @@ namespace Test
             Assert.AreEqual(3, thisSpectrum.NumPeaksWithinRange(3, 5));
 
             Assert.AreEqual(2, thisSpectrum.NumPeaksWithinRange(3.5, 5.5));
+
+            Assert.AreEqual(1, thisSpectrum.NumPeaksWithinRange(7, 8));
+
+            Assert.AreEqual(0, thisSpectrum.NumPeaksWithinRange(8, 9));
+
+            Assert.AreEqual(0, thisSpectrum.NumPeaksWithinRange(-2, -1));
         }
 
     }
