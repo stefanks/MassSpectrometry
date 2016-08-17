@@ -19,6 +19,7 @@
 using NUnit.Framework;
 using Spectra;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -396,7 +397,7 @@ namespace Test
             xRanges.Add(new DoubleRange(2, 5));
             xRanges.Add(new DoubleRange(3, 6));
             Assert.AreEqual(2, thisSpectrum.newSpectrumWithRangesRemoved(xRanges).Count);
-            
+
             Assert.AreEqual(3, thisSpectrum.newSpectrumExtract(new DoubleRange(4.5, 10)).Count);
 
             Assert.AreEqual(2, thisSpectrum.newSpectrumFilterByY(new DoubleRange(1.5, 2.5)).Count);
@@ -411,6 +412,15 @@ namespace Test
             Assert.AreEqual(7, thisSpectrum.GetClosestPeak(7).X);
 
             Assert.AreEqual(7, thisSpectrum.GetClosestPeak(8).X);
+
+            IEnumerable hnm = thisSpectrum;
+
+            double dudu = 0;
+            foreach (var ikik in hnm)
+            {
+                dudu += ((Peak)ikik).X;
+            }
+            Assert.AreEqual(1 + 2 + 3 + 4 + 5 + 6 + 7, dudu);
         }
 
     }
