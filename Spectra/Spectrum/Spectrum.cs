@@ -418,7 +418,6 @@ namespace Spectra
                 {
                     return indexm1;
                 }
-                return -1;
             }
             if (index == 0)
             {

@@ -73,6 +73,11 @@ namespace Test
             var elutionProfileEmpty = d.GetElutionProfile(new DoubleRange(6.5, 6.5));
             Assert.AreEqual(0, elutionProfileEmpty.TrapezoidalArea());
             Assert.AreEqual(0, elutionProfileEmpty.SummedArea);
+
+            Assert.AreEqual("Count = 9 TIC = 32", d.ToString());
+            Assert.AreEqual(10, d.GetApex().Intensity);
+            Assert.AreEqual(1, d.GetApex().Time);
+
         }
 
         [Test]
@@ -96,6 +101,9 @@ namespace Test
             Assert.AreEqual(4, a.GetApex(4, 5).X);
 
             Assert.AreEqual(6, a.CreateSmoothChromatogram(SmoothingType.None, -10).GetApex(1.5, 2.5).Intensity);
+
+
+
         }
     }
 }
