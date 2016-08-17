@@ -147,7 +147,7 @@ namespace MassSpectrometry
         {
             if (MsnOrder == 1)
             {
-                DissociationType = DissociationType.None;
+                DissociationType = DissociationType.Unknown;
                 return false;
             }
             DissociationType = dissociationType;
