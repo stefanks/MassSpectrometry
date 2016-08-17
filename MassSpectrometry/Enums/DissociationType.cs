@@ -21,17 +21,23 @@ namespace MassSpectrometry
     public enum DissociationType
     {
         Unknown = -1,
-        None = 6,
+
+        // The values below are identical to thermo names
         CID = 0,
-        HCD = 5,
-        ETD = 4,
         MPD = 1,
         ECD = 2,
         PQD = 3,
+        ETD = 4,
+        HCD = 5,
+
+        AnyActivationType = 6,
+
         SA = 7,
         PTR = 8,
         NETD = 9,
         NPTR = 10,
+        // The values above are identical to thermo names
+
         ISCID = 11
     }
 }
