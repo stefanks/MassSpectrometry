@@ -32,6 +32,6 @@ namespace MassSpectrometry
         PTR = 8,
         NETD = 9,
         NPTR = 10,
-        CI = 11
+        ISCID = 11
     }
 }

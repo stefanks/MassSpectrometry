@@ -390,17 +390,16 @@ namespace Test
 
             Assert.AreEqual(6, thisSpectrum.newSpectrumWithRangeRemoved(7, 100).Count);
 
-            Assert.AreEqual(1, thisSpectrum.newSpectrumWithRangeRemoved(double.MinValue, 6).Count);
+            Assert.AreEqual(1, thisSpectrum.newSpectrumWithRangeRemoved(new DoubleRange(double.MinValue, 6)).Count);
 
             List<DoubleRange> xRanges = new List<DoubleRange>();
             xRanges.Add(new DoubleRange(2, 5));
             xRanges.Add(new DoubleRange(3, 6));
             Assert.AreEqual(2, thisSpectrum.newSpectrumWithRangesRemoved(xRanges).Count);
+            
+            Assert.AreEqual(3, thisSpectrum.newSpectrumExtract(new DoubleRange(4.5, 10)).Count);
 
-
-            Assert.AreEqual(3, thisSpectrum.newSpectrumExtract(4.5, 10).Count);
-
-            Assert.AreEqual(2, thisSpectrum.newSpectrumFilterByY(1.5, 2.5).Count);
+            Assert.AreEqual(2, thisSpectrum.newSpectrumFilterByY(new DoubleRange(1.5, 2.5)).Count);
 
             Assert.AreEqual(3, thisSpectrum.newSpectrumFilterByY(1.5, double.MaxValue).Count);
 
