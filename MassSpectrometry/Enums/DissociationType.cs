@@ -23,12 +23,12 @@ namespace MassSpectrometry
         Unknown = -1,
 
         // The values below are identical to thermo names
-        CID = 0,
-        MPD = 1,
-        ECD = 2,
-        PQD = 3,
-        ETD = 4,
-        HCD = 5,
+        CID = 0, // MS:1000133 collision-induced dissociation
+        MPD = 1, // MS:1000435 photodissociation
+        ECD = 2, // MS:1000250 electron capture dissociation
+        PQD = 3, // MS:1000599 pulsed q dissociation
+        ETD = 4, // MS:1000598 electron transfer dissociation
+        HCD = 5, // MS:1000422 beam-type collision-induced dissociation (Higher-energy CID)
 
         AnyActivationType = 6,
 
