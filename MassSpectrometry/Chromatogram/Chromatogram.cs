@@ -171,9 +171,6 @@ namespace MassSpectrometry
 
         public TPeak FindNearestApex(double rt, int skipablePts = 1)
         {
-            if (Count == 1)
-                return GetPeak(0);
-
             int index = Array.BinarySearch(xArray, rt);
             if (index < 0)
                 index = ~index;
