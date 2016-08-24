@@ -1,8 +1,14 @@
-﻿namespace MassSpectrometry
+﻿using Spectra;
+
+namespace MassSpectrometry
 {
     public interface Identifications
     {
-        int Count();
+        int Count { get; }
+
+        Tolerance parentTolerance { get; }
+
+        Tolerance fragmentTolerance { get; }
 
         bool isDecoy(int matchIndex);
 
